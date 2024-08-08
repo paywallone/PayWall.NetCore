@@ -62,17 +62,17 @@ dotnet add package PayWall.AspNetCore
 
 ### appsettings.json
 
-Paketi yükledikten sonra `appsettings.json` içinde `PayWall` kısmının olduğu yerde `PublicClient`, `PublicKey`, `PrivateClient` ve `PrivateKey` bilgileri karşınıza çıkıcak. Bilgileri edinmek için `dev-panel.itspaywall.com/developer/integration/integration` adresine giderek bilgilerinizi edinebilirsiniz.
+Paketi yükledikten sonra `appsettings.json` içinde `PayWall` kısmının olduğu yerde `PublicClient`, `PublicKey`, `PrivateClient` ve `PrivateKey` bilgileri karşınıza çıkıcak. Bilgileri edinmek için PayWall panelini kullanabilirsiniz. İlgili sayfa: `Geliştirici > Entegrasyon`
 
-### Yapılandırma json
+### Yapılandırma Json
 ```json
 "PayWall" : {
-    "Prod": false,
-    "PublicClient": "********************",
-    "PublicKey": "***********************",
-    "PrivateClient": "***********************",
-    "PrivateKey": "****************************"
-  }
+  "Prod": false,
+  "PublicClient": "********************",
+  "PublicKey": "***********************",
+  "PrivateClient": "***********************",
+  "PrivateKey": "****************************"
+}
 ```
 
 - **Prod:** Test ortamında işlem yapmak istediğiniz zaman `Prod:` `false` olmalı. Prod ortamda yapmak isterseniz `Prod:` `true` olmalı.
