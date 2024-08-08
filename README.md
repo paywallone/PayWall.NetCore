@@ -1,20 +1,22 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# PayWall.AspNetCore
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+`PayWall.AspNetCore`, ASP.NET Core 5 ve üzeri sürümler için geliştirilmiş bir NuGet paketidir. Bu paket, PayWall API'sine kolay ve etkili bir şekilde entegrasyon sağlar ve uygulamanızda ödeme duvarı (paywall) işlevselliğini basit bir şekilde uygulamanıza eklemenizi sağlar.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Özellikler
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+- **Basit Entegrasyon:** PayWall API'sine hızlı ve kolay erişim.
+- **Esnek Yapılandırma:** Yapılandırma seçenekleri ile özelleştirilebilir.
+- **Kapsamlı Dokümantasyon:** Kullanım kılavuzları ve API referansları.
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## Kurulum
+
+### NuGet Paket Yöneticisi Kullanarak
+
+Visual Studio'da NuGet Paket Yöneticisi'ni açın, `PayWall.AspNetCore` paketini arayın ve yükleyin.
+
+### .NET CLI Kullanarak
+
+Aşağıdaki komutu kullanarak NuGet paketini yükleyebilirsiniz:
+
+```bash
+dotnet add package PayWall.AspNetCore
