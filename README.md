@@ -83,8 +83,8 @@ Paketi yükledikten sonra `appsettings.json` içinde `PayWall` kısmının oldu�
 
 ## Adresler 
 
-- **PayWall Entegrasyon Dökümanı:** `https://developer.paywall.one/`
-- **Website:** `https://paywall.one/`
-- **Test Paneli:** `https://dev-panel.itspaywall.com/`
-- **Canlı Panel:** `https://panel.itspaywall.com/`
+- **PayWall Entegrasyon Dökümanı:** [https://developer.paywall.one/](https://developer.paywall.one/)
+- **Website:** [https://paywall.one/](https://paywall.one/)
+- **Test Paneli:** [https://dev-panel.itspaywall.com/](https://dev-panel.itspaywall.com/)
+- **Canlı Panel:** [https://panel.itspaywall.com/](https://panel.itspaywall.com/)
 
