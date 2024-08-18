@@ -41,32 +41,60 @@ namespace PayWall.AspNetCore.Implementations
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public Task<Response<NonSecureResult>> StartDirectAsync(PaymentRequest request) => 
-            PostRequestAsync<PaymentRequest, NonSecureResult>("payment/startdirect",request);
-        
+        public async Task<Response<NonSecureResult>> StartDirectAsync(PaymentRequest request)
+        {
+            var response = await PostRequestAsync<PaymentRequest, NonSecureResult>("payment/startdirect", request);
+
+            if (!response.Result && response.Body?.Error != null)
+            {
+                var error = response.Body.Error;
+
+                response.Body.Error.BankErrorCode = error.BankErrorCode.Base64Decode();
+                response.Body.Error.BankErrorMessage = error.BankErrorMessage.Base64Decode();
+                response.Body.Error.ProviderErrorCode = error.ProviderErrorCode.Base64Decode();
+                response.Body.Error.ProviderErrorMessage = error.ProviderErrorMessage.Base64Decode();
+            }
+
+            return response;
+        }
+
         /// <summary>
         /// PayWall 3D ödeme servisine istek gönderdiğinizde, ilgili isteğin cevabında istek başarılıysa PayWall ödeme agent linki dönülmektedir. Bu linki uygulamanızda açmalısınız. Link 3D ekranına yönlendirir
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public Task<Response<Payment3DResponse>> StartThreeDAsync(Payment3DRequest request) => 
-            PostRequestAsync<Payment3DRequest, Payment3DResponse>("payment/start3d",request);
-        
+        public async Task<Response<Payment3DResponse>> StartThreeDAsync(Payment3DRequest request)
+        {
+            var response = await PostRequestAsync<Payment3DRequest, Payment3DResponse>("payment/start3d", request);
+
+            if (!response.Result && response.Body?.Error != null)
+            {
+                var error = response.Body.Error;
+
+                response.Body.Error.BankErrorCode = error.BankErrorCode.Base64Decode();
+                response.Body.Error.BankErrorMessage = error.BankErrorMessage.Base64Decode();
+                response.Body.Error.ProviderErrorCode = error.ProviderErrorCode.Base64Decode();
+                response.Body.Error.ProviderErrorMessage = error.ProviderErrorMessage.Base64Decode();
+            }
+
+            return response;
+        }
+
         /// <summary>
         /// Provizyon Kapatma
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public Task<Response<PaymentEmptyResult>> ProvisionAsync(PaymentProvisionRequest request) => 
-            PostRequestAsync<PaymentProvisionRequest, PaymentEmptyResult>("payment/provision",request);
-        
+        public Task<Response<PaymentEmptyResult>> ProvisionAsync(PaymentProvisionRequest request) =>
+            PostRequestAsync<PaymentProvisionRequest, PaymentEmptyResult>("payment/provision", request);
+
         /// <summary>
         /// Provizyon İptal
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public Task<Response<PaymentEmptyResult>> ProvisionCancelAsync(PaymentProvisionCancelRequest request) => 
-            PostRequestAsync<PaymentProvisionCancelRequest, PaymentEmptyResult>("payment/provision/cancel",request);
+        public Task<Response<PaymentEmptyResult>> ProvisionCancelAsync(PaymentProvisionCancelRequest request) =>
+            PostRequestAsync<PaymentProvisionCancelRequest, PaymentEmptyResult>("payment/provision/cancel", request);
 
         /// <summary>
         /// Taksit Sorgula
@@ -75,15 +103,15 @@ namespace PayWall.AspNetCore.Implementations
         /// <returns></returns>
         public Task<Response<InstallmentResponse>> GetInstallmentAsync(InstallmentRequest request)
         {
-            _httpClient.SetHeader("currencyid",((int)request.CurrencyId).ToString());
-            _httpClient.SetHeader("amount",request.Amount.ToString(CultureInfo.InvariantCulture));
-            _httpClient.SetHeader("binnumber",request.BinNumber);
-            _httpClient.SetHeader("distinctduplicates",request.DistinctDuplicates.ToString().ToLowerInvariant());
-            _httpClient.SetHeader("endoftheday",((int)request.EndOfTheDay).ToString());
+            _httpClient.SetHeader("currencyid", ((int)request.CurrencyId).ToString());
+            _httpClient.SetHeader("amount", request.Amount.ToString(CultureInfo.InvariantCulture));
+            _httpClient.SetHeader("binnumber", request.BinNumber);
+            _httpClient.SetHeader("distinctduplicates", request.DistinctDuplicates.ToString().ToLowerInvariant());
+            _httpClient.SetHeader("endoftheday", ((int)request.EndOfTheDay).ToString());
 
-            return GetRequestAsync<InstallmentResponse>("payment/installment");
+            return GetRequestAsync<InstallmentResponse>("installment");
         }
-        
+
         /// <summary>
         /// Bin Sorgula
         /// </summary>
@@ -91,11 +119,11 @@ namespace PayWall.AspNetCore.Implementations
         /// <returns></returns>
         public Task<Response<BinResponse>> GetBinInquiryAsync(string binNumber)
         {
-            _httpClient.SetHeader("binnumber",binNumber);
+            _httpClient.SetHeader("binnumber", binNumber);
 
             return GetRequestAsync<BinResponse>("bin/inquiry");
         }
-        
+
         #endregion
 
         #region Private Methods
@@ -110,7 +138,7 @@ namespace PayWall.AspNetCore.Implementations
 
             return await result.Content.ReadFromJsonAsync<Response<TRes>>();
         }
-        
+
         private async Task<Response<TRes>> GetRequestAsync<TRes>(string requestUrl)
             where TRes : IResponseResult
         {
@@ -120,7 +148,7 @@ namespace PayWall.AspNetCore.Implementations
 
             return await result.Content.ReadFromJsonAsync<Response<TRes>>();
         }
-        
+
         private async Task<Response<TRes>> PutRequestAsync<TReq, TRes>(string requestUrl, TReq req)
             where TReq : IRequestParams, new()
             where TRes : IResponseResult
@@ -131,19 +159,20 @@ namespace PayWall.AspNetCore.Implementations
 
             return await result.Content.ReadFromJsonAsync<Response<TRes>>();
         }
-        
+
         private async Task<Response<TRes>> DeleteRequestAsync<TReq, TRes>(string requestUrl, TReq req)
             where TReq : IRequestParams, new()
             where TRes : IResponseResult
         {
-            var request = new HttpRequestMessage {
+            var request = new HttpRequestMessage
+            {
                 Method = HttpMethod.Delete,
-                RequestUri = new Uri(requestUrl,UriKind.Relative),
+                RequestUri = new Uri(requestUrl, UriKind.Relative),
                 Content = new StringContent(JsonSerializer.Serialize(req), Encoding.UTF8, "application/json")
             };
-            
+
             var result = await _httpClient.SendAsync(request);
-            
+
             result.EnsureSuccessStatusCode();
 
             return await result.Content.ReadFromJsonAsync<Response<TRes>>();

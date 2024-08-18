@@ -44,7 +44,7 @@ namespace PayWall.AspNetCore
                 .AddPaymentApiClient(payWallOptions)
                 .AddPaymentPrivateApiClient(payWallOptions)
                 .AddCardWallApiClient(payWallOptions)
-                .AddSingleton<PayWallService>();
+                .AddTransient<PayWallService>();
         }
 
         #endregion
@@ -64,7 +64,7 @@ namespace PayWall.AspNetCore
                 httpClient.DefaultRequestHeaders.Add("apiclientpublic", payWallOptions.PublicClient);
             });
 
-            services.AddSingleton<PaymentApiClient>();
+            services.AddTransient<PaymentApiClient>();
             
             return services; 
         }
@@ -81,7 +81,7 @@ namespace PayWall.AspNetCore
                 httpClient.DefaultRequestHeaders.Add("apiclientprivate", payWallOptions.PrivateClient);
             });
 
-            services.AddSingleton<PaymentPrivateApiClient>();
+            services.AddTransient<PaymentPrivateApiClient>();
             
             return services; 
         }
@@ -98,7 +98,7 @@ namespace PayWall.AspNetCore
                 httpClient.DefaultRequestHeaders.Add("apiclientprivate", payWallOptions.PrivateClient);
             });
 
-            services.AddSingleton<CardWallApiClient>();
+            services.AddTransient<CardWallApiClient>();
             
             return services; 
         }

@@ -153,6 +153,8 @@ namespace PayWall.AspNetCore.Models.Request.Payment
 
         public int TagId { get; set; }
         public MarketPlace MarketPlace { get; set; }
+        
+        public short? RegionId { get; set; }
     }
 
     public class MarketPlace

@@ -1,5 +1,7 @@
 #region Using Directives
 
+using System.Text.Json;
+using Microsoft.AspNetCore.Diagnostics;
 using PayWall.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using PayWall.AspNetCore;
@@ -11,6 +13,9 @@ using PayWall.AspNetCore.Models.Request.PrivatePayment;
 #endregion
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers()
+    .AddJsonOptions(opt => opt.JsonSerializerOptions.PropertyNamingPolicy = null);
 
 builder.Services
     .AddEndpointsApiExplorer()
@@ -140,8 +145,8 @@ app.MapPost("/Card",
 
 app.MapGet("/Card",
         async ([FromServices] PayWallService payWallService, [FromQuery] string relationalIdOne,
-                [FromQuery] string? relationalIdTwo, [FromQuery] string? relationalIdTree) =>
-            await payWallService.CardWall.GetAsync(relationalIdOne, relationalIdTwo, relationalIdTree))
+                [FromQuery] string? relationalIdTwo, [FromQuery] string? relationalIdTree,[FromQuery] bool? includeDetails) =>
+            await payWallService.CardWall.GetAsync(relationalIdOne, relationalIdTwo, relationalIdTree,includeDetails))
     .WithTags("CardWall")
     .WithSummary("Kayıtlı Kart Listesi")
     .WithDescription(
@@ -162,6 +167,47 @@ app.MapPut("/Card",
     .WithSummary("Kayıtlı Kart Güncelleme")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-saklama-servisi/4.-kart-guncelle\">Dökümanyasyon</a>");
+
+#endregion
+
+#region Error Handling
+
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        context.Response.ContentType = "application/json";
+
+        var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+        if (exceptionHandlerPathFeature?.Error is JsonException jsonException)
+        {
+            var errorDetails = new
+            {
+                body = (object?)null,
+                result = false,
+                message = jsonException.Message,
+                errorCode = 13
+            };
+
+            var jsonResponse = JsonSerializer.Serialize(errorDetails);
+            await context.Response.WriteAsync(jsonResponse);
+        }
+        else
+        {
+            var errorDetails = new
+            {
+                body = (object?)null,
+                result = false,
+                message = exceptionHandlerPathFeature?.Error?.InnerException?.Message ?? exceptionHandlerPathFeature?.Error?.Message ?? "An unexpected error occurred",
+                errorCode = 13
+            };
+            
+            var jsonResponse = JsonSerializer.Serialize(errorDetails);
+            await context.Response.WriteAsync(jsonResponse);
+        }
+    });
+});
 
 #endregion
 

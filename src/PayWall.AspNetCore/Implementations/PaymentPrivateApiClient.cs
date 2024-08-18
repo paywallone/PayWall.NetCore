@@ -48,7 +48,7 @@ namespace PayWall.AspNetCore.Implementations
         /// <param name="request"></param>
         /// <returns></returns>
         public Task<Response<PrivatePaymentEmptyResult>> RefundAsync(PaymentRefundRequest request) => 
-            PostRequestAsync<PaymentRefundRequest, PrivatePaymentEmptyResult>("payment/private/refund",request);
+            PostRequestAsync<PaymentRefundRequest, PrivatePaymentEmptyResult>("private/refund",request);
         
         /// <summary>
         /// Kısmi İade Servisi
@@ -56,7 +56,7 @@ namespace PayWall.AspNetCore.Implementations
         /// <param name="request"></param>
         /// <returns></returns>
         public Task<Response<PrivatePaymentEmptyResult>> RefundPartialAsync(PaymentRefundPartialRequest request) => 
-            PostRequestAsync<PaymentRefundPartialRequest, PrivatePaymentEmptyResult>("payment/private/refund/partial",request);
+            PostRequestAsync<PaymentRefundPartialRequest, PrivatePaymentEmptyResult>("private/refund/partial",request);
         
         /// <summary>
         /// İade Servisi
@@ -64,7 +64,7 @@ namespace PayWall.AspNetCore.Implementations
         /// <param name="request"></param>
         /// <returns></returns>
         public Task<Response<PrivatePaymentEmptyResult>> CancelAsync(PaymentCancelRequest request) => 
-            PostRequestAsync<PaymentCancelRequest, PrivatePaymentEmptyResult>("payment/private/refund/cancel",request);
+            PostRequestAsync<PaymentCancelRequest, PrivatePaymentEmptyResult>("private/refund/cancel",request);
 
         #endregion
 

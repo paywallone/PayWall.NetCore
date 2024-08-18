@@ -5,13 +5,11 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using PayWall.AspNetCore.Extensions;
 using PayWall.AspNetCore.Models.Abstraction;
 using PayWall.AspNetCore.Models.Common.CardWall;
 using PayWall.AspNetCore.Models.Request.CardWall;
-using PayWall.AspNetCore.Models.Response;
 using PayWall.AspNetCore.Models.Response.CardWall;
 
 #endregion
@@ -51,12 +49,19 @@ namespace PayWall.AspNetCore.Implementations
         /// <param name="relationalIdOne">Kart'ın ilişkilendirildiği unique bilgi</param>
         /// <param name="relationalIdTwo">Kart'ın ilişkilendirildiği ikinci unique bilgi</param>
         /// <param name="relationalIdTree">Kart'ın ilişkilendirildiği üçüncü unique bilgi</param>
+        /// <param name="includeDetails"></param>
         /// <returns></returns>
-        public Task<ResponseList<CardResponse>> GetAsync(string relationalIdOne, string relationalIdTwo, string relationalIdTree)
+        public Task<ResponseList<CardResponse>> GetAsync(string relationalIdOne, string relationalIdTwo,
+            string relationalIdTree, bool? includeDetails)
         {
             _httpClient.SetHeader("relationalid1",relationalIdOne);
             _httpClient.SetHeader("relationalid2",relationalIdTwo);
             _httpClient.SetHeader("relationalid3",relationalIdTree);
+            
+            if (includeDetails.HasValue)
+            {
+                _httpClient.SetHeader("includeDetails",includeDetails.Value.ToString());
+            }
             
             return GetRequestListAsync<CardResponse>("card");
         }
