@@ -18,6 +18,7 @@ namespace PayWall.AspNetCore
         public static string PaymentClientName => "PaymentApiClient";
         public static string PaymentPrivateClientName => "PaymentPrivateApiClient";
         public static string CardWallClientName => "CardWallApiClient";
+        public static string MemberClientName => "MemberApiClient";
 
         #endregion
 
@@ -29,6 +30,8 @@ namespace PayWall.AspNetCore
         private static Uri TestPaymentPrivateApiUrl => new("https://dev-payment-private-api.itspaywall.com/api/paywall/");
         private static Uri ProdCardWallApiUrl => new("https://card-api.itspaywall.com/paywall/");
         private static Uri TestCardWallApiUrl => new("https://dev-card-api.itspaywall.com/paywall/");
+        private static Uri ProdMemberApiUrl => new("https://member-api.itspaywall.com/api/paywall/");
+        private static Uri TestMemberApiUrl => new("https://dev-member-api.itspaywall.com/api/paywall/");
 
         #endregion
 
@@ -44,6 +47,7 @@ namespace PayWall.AspNetCore
                 .AddPaymentApiClient(payWallOptions)
                 .AddPaymentPrivateApiClient(payWallOptions)
                 .AddCardWallApiClient(payWallOptions)
+                .AddMemberApiClient(payWallOptions)
                 .AddTransient<PayWallService>();
         }
 
@@ -99,6 +103,23 @@ namespace PayWall.AspNetCore
             });
 
             services.AddTransient<CardWallApiClient>();
+            
+            return services; 
+        }
+        private static IServiceCollection AddMemberApiClient(this IServiceCollection services, PayWallOptions payWallOptions)
+        {
+            if (payWallOptions == null) throw new ArgumentNullException(nameof(payWallOptions));
+
+            var baseAddress = payWallOptions.Prod ? ProdMemberApiUrl : TestMemberApiUrl;
+
+            services.AddHttpClient(MemberClientName, httpClient =>
+            {
+                httpClient.BaseAddress = baseAddress;
+                httpClient.DefaultRequestHeaders.Add("apikeypublic", payWallOptions.PublicKey);
+                httpClient.DefaultRequestHeaders.Add("apiclientpublic", payWallOptions.PublicClient);
+            });
+
+            services.AddTransient<MemberApiClient>();
             
             return services; 
         }

@@ -11,6 +11,9 @@ public static class HttpClientExtensions
             client.DefaultRequestHeaders.Remove(headerName);
         }
 
-        client.DefaultRequestHeaders.Add(headerName, headerValue);
+        if (!string.IsNullOrEmpty(headerValue))
+        {
+            client.DefaultRequestHeaders.Add(headerName, headerValue);
+        }        
     }
 }
