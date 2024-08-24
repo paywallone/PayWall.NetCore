@@ -17,7 +17,7 @@ public class UpdateBankAccountRequest : IRequestParams
     /// </summary>
     public string Title { get; set; }
     /// <summary>
-    /// Banka yöntemine ait Iban bilgisi
+    /// Banka yöntemine ait Iban bilgisi.
     /// </summary>
     public string Iban { get; set; }
 }

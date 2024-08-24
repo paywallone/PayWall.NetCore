@@ -10,7 +10,7 @@ namespace PayWall.AspNetCore.Models.Request.Payment;
 public class PaymentProvisionRequest : IRequestParams
 {
     /// <summary>
-    /// Ödeme'nin gerçekleştiği tarih bilgisi
+    /// Ödeme'nin gerçekleştiği tarih bilgisi.
     /// </summary>
     public DateTime? Date { get; set; }
     /// <summary>
@@ -18,7 +18,7 @@ public class PaymentProvisionRequest : IRequestParams
     /// </summary>
     public string MerchantUniqueCode { get; set; }
     /// <summary>
-    /// Ödemenin provizyonunun kapatılacağı nihai tutar. Nullable bir değerdir, boş geçilmesi veya 0 gönderilmesi durumda ana tutar ile provizyon kapatılır
+    /// Ödemenin provizyonunun kapatılacağı nihai tutar. Nullable bir değerdir, boş geçilmesi veya 0 gönderilmesi durumda ana tutar ile provizyon kapatılır.
     /// </summary>
     public decimal? ProvisionAmount { get; set; }
 }

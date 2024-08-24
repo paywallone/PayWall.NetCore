@@ -73,10 +73,6 @@ public class BankAccounts
     /// </summary>
     public int CurrencyId { get; set; }
     /// <summary>
-    /// Üye işyeri banka hesabının hangi para birimine ait olduğunu yazar.
-    /// </summary>
-    public string Currency { get; set; }
-    /// <summary>
     /// Üye işyeri banka hesabının ünvanı. Para gönderimlerinde kullanılır, eksiksiz ve doğru olmalıdır.
     /// </summary>
     public string Title { get; set; }

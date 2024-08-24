@@ -5,10 +5,25 @@ namespace PayWall.AspNetCore.Models.Request.Payment;
 
 public class InstallmentRequest : IRequestParams
 {
+    /// <summary>
+    /// Ödeme'nin gerçekleştirilmek istendiği kartın ilk 6 hanesi.
+    /// </summary>
     public string BinNumber { get; set; }
+    /// <summary>
+    /// Ödeme'nin gerçekleştirilmek istendiği para birimi.
+    /// </summary>
     public Currency CurrencyId { get; set; }
+    /// <summary>
+    /// Ödemeye ait tutar.
+    /// </summary>
     public decimal Amount { get; set; }
+    /// <summary>
+    /// Sadece belirli bir valör gününe sahip ödeme kuruluşlarının (bağlı olan) taksitlerini listelemek istediğinizde kullanabilirsiniz.
+    /// </summary>
     public PaymentTerm EndOfTheDay { get; set; }
+    /// <summary>
+    /// Çoklu ödeme sağlayıcı kullanımlarında örnek 2 taksitin bir çok sağlayıcıda aktif olması durumunda eğer bu parametreyi TRUE gönderirseniz, cevap nesnesinde sadece bir adet 2 taksit satırı yer alacaktır.
+    /// </summary>
     public bool DistinctDuplicates { get; set; }
 }
 

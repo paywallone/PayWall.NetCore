@@ -121,7 +121,7 @@ namespace PayWall.AspNetCore.Models.Request.Payment
         public bool Half2D { get; set; }
 
         /// <summary>
-        /// Ödeme sepet tutarı
+        /// Ödeme sepet tutarı.
         /// </summary>
         [Required]
         public decimal Amount { get; set; }
@@ -165,14 +165,14 @@ namespace PayWall.AspNetCore.Models.Request.Payment
     public class Card
     {
         /// <summary>
-        /// Ödemenin alınacağı kart sahibinin adı soyadı
+        /// Ödemenin alınacağı kart sahibinin adı soyadı.
         /// </summary>
         [StringLength(60)]
         [Required]
         public string OwnerName { get; set; }
 
         /// <summary>
-        /// Ödemenin alınacağı kart numarası
+        /// Ödemenin alınacağı kart numarası.
         /// </summary>
         [StringLength(20)]
         [Required]
@@ -197,7 +197,7 @@ namespace PayWall.AspNetCore.Models.Request.Payment
         public string Cvv { get; set; }
 
         /// <summary>
-        /// Sağlayıcı tarafında saklanmış olan kart bilgisine karşılık gelen değer (X firmasında saklanmış Y kartının kimliği) 
+        /// Sağlayıcı tarafında saklanmış olan kart bilgisine karşılık gelen değer (X firmasında saklanmış Y kartının kimliği).
         /// </summary>
         [Required]
         public string UniqueCode { get; set; }
@@ -208,23 +208,23 @@ namespace PayWall.AspNetCore.Models.Request.Payment
     public class CardSave
     {
         /// <summary>
-        /// Kredi kartına verilecek etiket Örneğin : Kredi kartım
+        /// Kredi kartına verilecek etiket Örneğin : Kredi kartım.
         /// </summary>
         public string Nickname { get; set; }
 
         /// <summary>
-        /// Kart'ın ilişkilendirileceği değer
+        /// Kart'ın ilişkilendirileceği değer.
         /// </summary>
         [Required]
         public string RelationalId1 { get; set; }
 
         /// <summary>
-        /// Kart'ın ilişkilendirileceği değer2
+        /// Kart'ın ilişkilendirileceği değer2.
         /// </summary>
         public string RelationalId2 { get; set; }
 
         /// <summary>
-        /// Kart'ın ilişkilendirileceği değer3
+        /// Kart'ın ilişkilendirileceği değer3.
         /// </summary>
         public string RelationalId3 { get; set; }
 
@@ -237,7 +237,7 @@ namespace PayWall.AspNetCore.Models.Request.Payment
     public class Customer
     {
         /// <summary>
-        /// Üye işyeri tarafındaki alıcıya ait ad
+        /// Üye işyeri tarafındaki alıcıya ait ad.
         /// </summary>
         [Required]
         public string FullName { get; set; }
@@ -304,69 +304,69 @@ namespace PayWall.AspNetCore.Models.Request.Payment
         public string ProductCategory { get; set; }
 
         /// <summary>
-        /// Ürün açıklama
+        /// Ürün açıklama.
         /// </summary>
         [Required]
         public string ProductDescription { get; set; }
 
         /// <summary>
-        /// Ürün fiyat bilgisi
+        /// Ürün fiyat bilgisi.
         /// </summary>
         [Required]
         public decimal ProductAmount { get; set; }
 
         /// <summary>
-        /// MarketPlace modeli için zorunludur. Alt üye işyerinin PayWall sistemindeki MemberId bilgisiyle doldurulmalıdır
+        /// MarketPlace modeli için zorunludur. Alt üye işyerinin PayWall sistemindeki MemberId bilgisiyle doldurulmalıdır.
         /// </summary>
         public int MemberId { get; set; }
 
         /// <summary>
-        /// Ürüne indirim uygulayan taraf
+        /// Ürüne indirim uygulayan taraf.
         /// </summary>
         public DiscountOwnerType DiscountOwnerType { get; set; }
 
         /// <summary>
-        /// Ürüne uygulanan indirim tipi
+        /// Ürüne uygulanan indirim tipi.
         /// </summary>
         public DiscountType DiscountType { get; set; }
 
         /// <summary>
-        /// Ürüne uygulanan indirim değer. Eğer Type 1 ve değer 10 ise 10(TL/USD/EURO) uygular ancak Type 2 ise %10 uygular
+        /// Ürüne uygulanan indirim değer. Eğer Type 1 ve değer 10 ise 10(TL/USD/EURO) uygular ancak Type 2 ise %10 uygular.
         /// </summary>
         public int DiscountValue { get; set; }
 
         /// <summary>
-        /// Ürünün kargo maliyeti olması durumunda, kimin ödeyeceğini belirtir
+        /// Ürünün kargo maliyeti olması durumunda, kimin ödeyeceğini belirtir.
         /// </summary>
         public CargoType CargoType { get; set; }
 
         /// <summary>
-        /// Kargo maliyetinin para birimi
+        /// Kargo maliyetinin para birimi.
         /// </summary>
         public Currency CargoCurrencyId { get; set; }
 
         /// <summary>
-        /// Kargo maliyeti
+        /// Kargo maliyeti.
         /// </summary>
         public decimal CargoCost { get; set; }
 
         /// <summary>
-        /// Pazaryeri modelinde çalışan üye işyerlerinin, alt üye işyerlerine uyguladığı komisyon ürün bazında değişiklik gösterirse ve bu komisyon ürüne uygulanmak istenirse. Bu parametreyi TRUE gönderebilirsiniz
+        /// Pazaryeri modelinde çalışan üye işyerlerinin, alt üye işyerlerine uyguladığı komisyon ürün bazında değişiklik gösterirse ve bu komisyon ürüne uygulanmak istenirse. Bu parametreyi TRUE gönderebilirsiniz.
         /// </summary>
         public bool MemberCustomCommission { get; set; }
 
         /// <summary>
-        /// "MemberCustomCommission" bu parametreye bağlı olarak, ürüne uygulamak istediğiniz komisyon değerini % bazında verebilirsiniz
+        /// "MemberCustomCommission" bu parametreye bağlı olarak, ürüne uygulamak istediğiniz komisyon değerini % bazında verebilirsiniz.
         /// </summary>
         public decimal MemberCommission { get; set; }
 
         /// <summary>
-        /// Üye hakedişini kendi tarafınızda hesapladığınızda True
+        /// Üye hakedişini kendi tarafınızda hesapladığınızda True.
         /// </summary>
         public bool MemberEarningCalculated { get; set; }
 
         /// <summary>
-        /// MemberEarningCalculated true ise üyenin alacağı/gönderilecek tutar
+        /// MemberEarningCalculated true ise üyenin alacağı/gönderilecek tutar.
         /// </summary>
         public int MemberEarning { get; set; }
     }

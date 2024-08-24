@@ -36,7 +36,7 @@ namespace PayWall.AspNetCore.Implementations
         #region Public Methods
 
         /// <summary>
-        /// Yeni Kart
+        /// Yeni Kart.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -46,9 +46,9 @@ namespace PayWall.AspNetCore.Implementations
         /// <summary>
         /// Kayıtlı Kartlar
         /// </summary>
-        /// <param name="relationalIdOne">Kart'ın ilişkilendirildiği unique bilgi</param>
-        /// <param name="relationalIdTwo">Kart'ın ilişkilendirildiği ikinci unique bilgi</param>
-        /// <param name="relationalIdTree">Kart'ın ilişkilendirildiği üçüncü unique bilgi</param>
+        /// <param name="relationalIdOne">Kart'ın ilişkilendirildiği unique bilgi.</param>
+        /// <param name="relationalIdTwo">Kart'ın ilişkilendirildiği ikinci unique bilgi.</param>
+        /// <param name="relationalIdTree">Kart'ın ilişkilendirildiği üçüncü unique bilgi.</param>
         /// <param name="includeDetails"></param>
         /// <returns></returns>
         public Task<ResponseList<CardResponse>> GetAsync(string relationalIdOne, string relationalIdTwo,
@@ -67,7 +67,7 @@ namespace PayWall.AspNetCore.Implementations
         }
         
         /// <summary>
-        /// Kayıtlı Kart Silme
+        /// Kayıtlı Kart Silme.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -77,7 +77,7 @@ namespace PayWall.AspNetCore.Implementations
         }
         
         /// <summary>
-        /// Kayıtlı Kart Güncelleme
+        /// Kayıtlı Kart Güncelleme.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>

@@ -66,10 +66,10 @@ namespace PayWall.AspNetCore.Implementations
             DeleteRequestAsync<DeleteMemberRequest, MemberEmptyResponse>("member", request);
 
         /// <summary>
-        /// Üyeler
+        /// Üyele listeleme.
         /// </summary>
-        /// <param name="start">Liste'nin hangi kayıttan itibaren üye getireceğini belirler</param>
-        /// <param name="length">Liste'nin hangi kayıttan itibaren kaç tane üye getireceğini belirler</param>
+        /// <param name="start">Liste'nin hangi kayıttan itibaren üye getireceğini belirler.</param>
+        /// <param name="length">Liste'nin hangi kayıttan itibaren kaç tane üye getireceğini belirler.</param>
         /// <returns></returns>
         public Task<ResponseList<MemberResponse>> GetListMemberAsync(string start, string length)
         {
@@ -80,10 +80,10 @@ namespace PayWall.AspNetCore.Implementations
         }
 
         /// <summary>
-        /// Üyeler
+        /// Üye sorgulama.
         /// </summary>
-        /// <param name="memberid">Liste'nin hangi kayıttan itibaren üye getireceğini belirler</param>
-        /// <param name="memberexternalid">Liste'nin hangi kayıttan itibaren kaç tane üye getireceğini belirler</param>
+        /// <param name="memberid">Liste'nin hangi kayıttan itibaren üye getireceğini belirler.</param>
+        /// <param name="memberexternalid">Liste'nin hangi kayıttan itibaren kaç tane üye getireceğini belirler.</param>
         /// <returns></returns>
         public Task<Response<MemberResponse>> GetMemberAsync(string? memberid, string? memberexternalid)
         {
@@ -122,9 +122,9 @@ namespace PayWall.AspNetCore.Implementations
             DeleteRequestAsync<DeleteBankAccountRequest, MemberEmptyResponse>("member/bankaccount", request);
         
         /// <summary>
-        /// Üyeler
+        /// Üye Banka Hesabı sorgulama.
         /// </summary>
-        /// <param name="memberid">Üye'nin Paywall'daki Id bilgisi</param>
+        /// <param name="memberid">Üye'nin Paywall'daki Id bilgisi.</param>
         /// <returns></returns>
         public Task<ResponseList<MemberBankAccountResponse>> GetBankAccountAsync(string memberid)
         {
@@ -146,9 +146,9 @@ namespace PayWall.AspNetCore.Implementations
             PostRequestAsync<AddMemberValueDateRequest, MemberEmptyResponse>("member/valuedate", request);
         
         /// <summary>
-        /// Üyeler Valör/Komisyon Ayarını Getir
+        /// Üyeler Valör/Komisyon Ayarını Getir.
         /// </summary>
-        /// <param name="memberid">Üye'nin Paywall'daki Id bilgisi</param>
+        /// <param name="memberid">Üye'nin Paywall'daki Id bilgisi.</param>
         /// <returns></returns>
         public Task<Response<MemberValueDateResponse>> GetMemberValueDateAsync(string memberid)
         {

@@ -37,7 +37,7 @@ namespace PayWall.AspNetCore.Implementations
         #region Public Methods
 
         /// <summary>
-        /// Direkt ödeme servisi, istek gönderdiğiniz anda kart bilgilerinden ödemeyi tahsil etme işlemini başlatır ve işlem sonucunu cevap içerisinde döner
+        /// Direkt ödeme servisi, istek gönderdiğiniz anda kart bilgilerinden ödemeyi tahsil etme işlemini başlatır ve işlem sonucunu cevap içerisinde döner.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -59,7 +59,7 @@ namespace PayWall.AspNetCore.Implementations
         }
 
         /// <summary>
-        /// PayWall 3D ödeme servisine istek gönderdiğinizde, ilgili isteğin cevabında istek başarılıysa PayWall ödeme agent linki dönülmektedir. Bu linki uygulamanızda açmalısınız. Link 3D ekranına yönlendirir
+        /// PayWall 3D ödeme servisine istek gönderdiğinizde, ilgili isteğin cevabında istek başarılıysa PayWall ödeme agent linki dönülmektedir. Bu linki uygulamanızda açmalısınız. Link 3D ekranına yönlendirir.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -81,7 +81,7 @@ namespace PayWall.AspNetCore.Implementations
         }
 
         /// <summary>
-        /// Provizyon Kapatma
+        /// Provizyon Kapatma.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -89,7 +89,7 @@ namespace PayWall.AspNetCore.Implementations
             PostRequestAsync<PaymentProvisionRequest, PaymentEmptyResult>("payment/provision", request);
 
         /// <summary>
-        /// Provizyon İptal
+        /// Provizyon İptal.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -97,7 +97,7 @@ namespace PayWall.AspNetCore.Implementations
             PostRequestAsync<PaymentProvisionCancelRequest, PaymentEmptyResult>("payment/provision/cancel", request);
 
         /// <summary>
-        /// Taksit Sorgula
+        /// Taksit Sorgula.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -113,7 +113,7 @@ namespace PayWall.AspNetCore.Implementations
         }
 
         /// <summary>
-        /// Bin Sorgula
+        /// Bin Sorgula.
         /// </summary>
         /// <param name="binNumber"></param>
         /// <returns></returns>

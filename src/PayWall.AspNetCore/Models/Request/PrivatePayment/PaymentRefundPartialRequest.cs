@@ -10,7 +10,7 @@ namespace PayWall.AspNetCore.Models.Request.PrivatePayment;
 public class PaymentRefundPartialRequest : IRequestParams
 {
     /// <summary>
-    /// Ödeme'nin gerçekleştiği tarih bilgisi
+    /// Ödeme'nin gerçekleştiği tarih bilgisi.
     /// </summary>
     public DateTime? Date { get; set; }
     /// <summary>
@@ -19,7 +19,7 @@ public class PaymentRefundPartialRequest : IRequestParams
     public string MerchantUniqueCode { get; set; }
 
     /// <summary>
-    /// İade edilmesi beklenen tutar
+    /// İade edilmesi beklenen tutar.
     /// </summary>
     public decimal? Amount { get; set; }
 }

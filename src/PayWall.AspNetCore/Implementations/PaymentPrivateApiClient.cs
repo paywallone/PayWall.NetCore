@@ -43,7 +43,7 @@ namespace PayWall.AspNetCore.Implementations
         }
         
         /// <summary>
-        /// İade Servisi
+        /// İade Servisi.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -51,7 +51,7 @@ namespace PayWall.AspNetCore.Implementations
             PostRequestAsync<PaymentRefundRequest, PrivatePaymentEmptyResult>("private/refund",request);
         
         /// <summary>
-        /// Kısmi İade Servisi
+        /// Kısmi İade Servisi.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -59,7 +59,7 @@ namespace PayWall.AspNetCore.Implementations
             PostRequestAsync<PaymentRefundPartialRequest, PrivatePaymentEmptyResult>("private/refund/partial",request);
         
         /// <summary>
-        /// İade Servisi
+        /// İade Servisi.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
