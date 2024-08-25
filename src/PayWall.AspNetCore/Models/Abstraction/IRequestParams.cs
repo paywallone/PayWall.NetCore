@@ -101,18 +101,18 @@ namespace PayWall.AspNetCore.Models.Abstraction
     public enum CargoType
     {
         /// <summary>
-        /// Kargo maliyeti yok
+        /// Kargo maliyeti yok.
         /// </summary>
         [Description("Kargo maliyeti yok")] None = 0,
 
         /// <summary>
-        /// Benden (Platform) düş, üyeye (Satıcı) ekle
+        /// Benden (Platform) düş, üyeye (Satıcı) ekle.
         /// </summary>
         [Description("Benden (Platform) düş, üyeye (Satıcı) ekle")]
         DecreaseMeIncreaseMember = 1,
 
         /// <summary>
-        /// Üye'den (Satıcı) düş, bana (Platform) ekle
+        /// Üye'den (Satıcı) düş, bana (Platform) ekle.
         /// </summary>
         [Description("Üye'den (Satıcı) düş, bana (Platform) ekle")]
         DecreaseMemberIncreaseMe = 2,

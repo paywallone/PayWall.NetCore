@@ -36,6 +36,26 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 - **Kayıtlı Kart Silme**
 - **Kayıtlı Kart Güncelleme**
 
+### Üye Yönetimi
+
+- **Üye Oluştur**
+- **Üye Güncelle**
+- **Üye Sil**
+- **Üye Sil**
+- **Üye Ara**
+
+### Üye Banka Yönetimi
+
+- **Banka Yöntemi Ekle**
+- **Banka Yöntemi Düzenle**
+- **Banka Yöntemi Sil**
+- **Banka Yöntemlerini Listele**
+
+### Üye Valör/Komisyon
+
+- **Valör/Komisyon Ayarını Getir**
+- **Valör/Komisyon Ayarını Ekle (Var olanı da günceller)**
+
 ### Ödeme İşlemleri
 
 - **Direkt Ödeme (2D)** 

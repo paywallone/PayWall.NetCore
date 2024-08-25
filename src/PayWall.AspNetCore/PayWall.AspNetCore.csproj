@@ -12,8 +12,8 @@
         <PackageReleaseNotes>This is initial release</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <RootNamespace>PayWall.AspNetCore</RootNamespace>
-        <PackageProjectUrl>https://github.com/paywall/PayWall.AspNetCore</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/paywall/PayWall.AspNetCore</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/intranettechnology/PayWall.AspNetCore</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/intranettechnology/PayWall.AspNetCore</RepositoryUrl>
         <Copyright>2024</Copyright>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>

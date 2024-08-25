@@ -10,7 +10,7 @@ namespace PayWall.AspNetCore.Models.Request.Payment;
 public class PaymentProvisionCancelRequest : IRequestParams
 {
     /// <summary>
-    /// Ödeme'nin gerçekleştiği tarih bilgisi
+    /// Ödeme'nin gerçekleştiği tarih bilgisi.
     /// </summary>
     public DateTime? Date { get; set; }
     /// <summary>
