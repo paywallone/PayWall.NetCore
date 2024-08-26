@@ -8,7 +8,7 @@ namespace PayWall.AspNetCore.Models.Common.CardWall
         public T Body { get; set; }
         public bool Result { get; set; }
         public string Message { get; set; }
-        public CardWallErrorCodes ErrorCode { get; set; }
+        public ErrorCodes ErrorCode { get; set; }
     }
     
     public class ResponseList<T> where T : IResponseResult
@@ -16,6 +16,6 @@ namespace PayWall.AspNetCore.Models.Common.CardWall
         public List<T> Body { get; set; }
         public bool Result { get; set; }
         public string Message { get; set; }
-        public CardWallErrorCodes ErrorCode { get; set; }
+        public ErrorCodes ErrorCode { get; set; }
     }
 }

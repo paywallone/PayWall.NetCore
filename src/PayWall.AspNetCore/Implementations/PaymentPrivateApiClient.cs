@@ -41,6 +41,8 @@ namespace PayWall.AspNetCore.Implementations
             
             return GetRequestAsync<QueryResponse>("private/query");
         }
+
+        #region Refund/Partial-Refund/Cancel
         
         /// <summary>
         /// İade Servisi.
@@ -66,6 +68,8 @@ namespace PayWall.AspNetCore.Implementations
         public Task<Response<PrivatePaymentEmptyResult>> CancelAsync(PaymentCancelRequest request) => 
             PostRequestAsync<PaymentCancelRequest, PrivatePaymentEmptyResult>("private/refund/cancel",request);
 
+        #endregion
+        
         #endregion
 
         #region Private Methods

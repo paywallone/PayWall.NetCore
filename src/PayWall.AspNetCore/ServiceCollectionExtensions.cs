@@ -66,6 +66,8 @@ namespace PayWall.AspNetCore
                 httpClient.BaseAddress = baseAddress;
                 httpClient.DefaultRequestHeaders.Add("apikeypublic", payWallOptions.PublicKey);
                 httpClient.DefaultRequestHeaders.Add("apiclientpublic", payWallOptions.PublicClient);
+                httpClient.DefaultRequestHeaders.Add("apikeyprivate", payWallOptions.PrivateKey);
+                httpClient.DefaultRequestHeaders.Add("apiclientprivate", payWallOptions.PrivateClient);
             });
 
             services.AddTransient<PaymentApiClient>();

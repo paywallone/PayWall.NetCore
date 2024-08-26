@@ -11,6 +11,7 @@ using PayWall.AspNetCore.Models.Request.Member;
 using PayWall.AspNetCore.Models.Request.Member.MemberBankAccount;
 using PayWall.AspNetCore.Models.Request.Member.MemberValueDate;
 using PayWall.AspNetCore.Models.Request.Payment;
+using PayWall.AspNetCore.Models.Request.PayOut;
 using PayWall.AspNetCore.Models.Request.PrivatePayment;
 
 #endregion
@@ -101,6 +102,67 @@ app.MapGet("/payment/bin/inquiry",
 
 #endregion
 
+#region PayOut
+
+app.MapGet("/payout/balance",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string payoutconnectionid) =>
+        await payWallService.Payment.GetBalanceAsync(payoutconnectionid))
+    .WithTags("PayOut")
+    .WithSummary("Bakiye Kontrol.")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/1.-bakiye\">Dökümanyasyon</a>");
+
+app.MapGet("/payout/balance/main",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string currencyid) =>
+        await payWallService.Payment.GetMainBalanceAsync(currencyid))
+    .WithTags("PayOut")
+    .WithSummary("Bakiye Kontrol (Ana Hesap)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/2.-bakiye-ana-hesap\">Dökümanyasyon</a>");
+
+app.MapPost("/payout/send/iban",
+        async ([FromServices] PayWallService payWallService, [FromBody] PayOutToIbanRequest request) =>
+        await payWallService.Payment.SendToIbanAsync(request))
+    .WithTags("PayOut")
+    .WithSummary("Iban'a Gönderme")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/3.-ibana\">Dökümanyasyon</a>");
+
+app.MapPost("/payout/send/member",
+        async ([FromServices] PayWallService payWallService, [FromBody] PayOutToIbanWithMemberRequest request) =>
+        await payWallService.Payment.SendToMemberIbanAsync(request))
+    .WithTags("PayOut")
+    .WithSummary("Kayıtlı Üye Iban'ına")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/4.-kayitli-uye-iban-member\">Dökümanyasyon</a>");
+
+app.MapPost("/payout/send/account",
+        async ([FromServices] PayWallService payWallService, [FromBody] PayOutToAccountRequest request) =>
+        await payWallService.Payment.SendToAccountAsync(request))
+    .WithTags("PayOut")
+    .WithSummary("Hesaba")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/5.-hesapa\">Dökümanyasyon</a>");
+
+app.MapGet("/payout/query",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string merchantuniquecode) =>
+        await payWallService.Payment.GetPayOutQueryAsync(merchantuniquecode))
+    .WithTags("PayOut")
+    .WithSummary("İşlem Sorgulama")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/6.-islem-sorgulama\">Dökümanyasyon</a>");
+
+app.MapGet("/payout/verify/account/identity",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string providerkey, 
+                [FromHeader] string currencyid, [FromHeader] string identity) =>
+        await payWallService.Payment.GetPayOutVerifyAccountDetailAsync(providerkey, currencyid, identity))
+    .WithTags("PayOut")
+    .WithSummary("Hesap Sorgulama")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/7.-hesap-sorgulama\">Dökümanyasyon</a>");
+
+#endregion
+
 #region PaymentPrivate
 
 app.MapGet("/paymentPrivate/query",
@@ -134,7 +196,6 @@ app.MapPost("/paymentPrivate/refund/cancel",
     .WithSummary("İptal Servisi")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/11.-iptal\">Dökümanyasyon</a>");
-
 #endregion
 
 #region CardWall
