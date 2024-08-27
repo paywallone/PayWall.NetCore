@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://paywall.one/assets/img/logos/paywall-logo-3.png" alt="Logo" width="200"/>
+</p>
+
 # PayWall.AspNetCore
 
 `PayWall.AspNetCore`, ASP.NET Core 5 ve üzeri sürümler için geliştirilmiş bir NuGet paketidir. Bu paket, PayWall API'sine kolay ve etkili bir şekilde entegrasyon sağlar ve uygulamanızda ödeme duvarı (paywall) işlevselliğini basit bir şekilde uygulamanıza eklemenizi sağlar.
@@ -64,6 +68,14 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 - **Taksit Sorgulama** 
 - **BIN Sorgulama**
 
+### Mutabakat Servisi
+- ### **Sanal Pos**
+  - **Mutabakat Yap**
+  - **Mutabakat Getir**
+  - **Gün Sonu Verileri**
+  - **Mutabakat Listesi**
+
+
 ## Kurulum
 
 ### NuGet Paket Yöneticisi Kullanarak
@@ -107,4 +119,7 @@ Paketi yükledikten sonra `appsettings.json` içinde `PayWall` kısmının oldu�
 - **Website:** [https://paywall.one/](https://paywall.one/)
 - **Test Paneli:** [https://dev-panel.itspaywall.com/](https://dev-panel.itspaywall.com/)
 - **Canlı Panel:** [https://panel.itspaywall.com/](https://panel.itspaywall.com/)
-
+- 
+<p align="center">
+  <img src="https://sc-images-prod.s3.eu-central-1.amazonaws.com/logos/e137b4f1-730c-42d8-9d11-af7c2d2d4715" alt="Logo" width="100"/>
+</p>

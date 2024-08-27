@@ -36,6 +36,8 @@ namespace PayWall.AspNetCore.Implementations
 
         #region Public Methods
 
+        #region Paymnets
+        
         /// <summary>
         /// Direkt ödeme servisi, istek gönderdiğiniz anda kart bilgilerinden ödemeyi tahsil etme işlemini başlatır ve işlem sonucunu cevap içerisinde döner.
         /// </summary>
@@ -79,7 +81,10 @@ namespace PayWall.AspNetCore.Implementations
 
             return response;
         }
+        #endregion
 
+        #region Provision
+        
         /// <summary>
         /// Provizyon Kapatma.
         /// </summary>
@@ -96,6 +101,10 @@ namespace PayWall.AspNetCore.Implementations
         public Task<Response<PaymentEmptyResult>> ProvisionCancelAsync(PaymentProvisionCancelRequest request) =>
             PostRequestAsync<PaymentProvisionCancelRequest, PaymentEmptyResult>("payment/provision/cancel", request);
 
+        #endregion
+
+        #region Installment
+        
         /// <summary>
         /// Taksit Sorgula.
         /// </summary>
@@ -111,7 +120,10 @@ namespace PayWall.AspNetCore.Implementations
 
             return GetRequestAsync<InstallmentResponse>("installment");
         }
+        #endregion
 
+        #region BIN
+        
         /// <summary>
         /// Bin Sorgula.
         /// </summary>
@@ -123,6 +135,8 @@ namespace PayWall.AspNetCore.Implementations
 
             return GetRequestAsync<BinResponse>("bin/inquiry");
         }
+        
+        #endregion
 
         #endregion
 

@@ -1,4 +1,6 @@
-﻿using PayWall.AspNetCore.Models.Abstraction;
+﻿using System.Collections.Generic;
+using PayWall.AspNetCore.Models.Abstraction;
+using PayWall.AspNetCore.Models.Common.Member;
 
 namespace PayWall.AspNetCore.Models.Common.PaymentPrivate
 {
@@ -7,6 +9,7 @@ namespace PayWall.AspNetCore.Models.Common.PaymentPrivate
         public T Body { get; set; }
         public bool Result { get; set; }
         public string Message { get; set; }
-        public PaymentErrorCodes ErrorCode { get; set; }
+        public ErrorCodes ErrorCode { get; set; }
     }
+    
 }

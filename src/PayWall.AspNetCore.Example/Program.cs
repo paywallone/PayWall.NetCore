@@ -12,6 +12,7 @@ using PayWall.AspNetCore.Models.Request.Member.MemberBankAccount;
 using PayWall.AspNetCore.Models.Request.Member.MemberValueDate;
 using PayWall.AspNetCore.Models.Request.Payment;
 using PayWall.AspNetCore.Models.Request.PrivatePayment;
+using PayWall.AspNetCore.Models.Request.Reconciliation.VPos;
 
 #endregion
 
@@ -101,7 +102,7 @@ app.MapGet("/payment/bin/inquiry",
 
 #endregion
 
-#region PaymentPrivate
+#region PaymentPrivate-Refund/Partial-Refund/Cancel
 
 app.MapGet("/paymentPrivate/query",
         async ([FromServices] PayWallService payWallService, [FromHeader] string merchantUniqueCode) =>
@@ -134,8 +135,46 @@ app.MapPost("/paymentPrivate/refund/cancel",
     .WithSummary("İptal Servisi")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/11.-iptal\">Dökümanyasyon</a>");
+#endregion
+
+#region PaymentPrivateAPI-VPosReconciliation
+
+app.MapPost("/paymentPrivate/vpos/reconciliation/reconcile",
+        async ([FromServices] PayWallService payWallService, [FromBody] VPosReconcileRequest request) =>
+        await payWallService.PaymentPrivate.ReconcileAsync(request))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Mutabakat Yap")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/mutabakat-servisi/sanal-pos/1.-mutabakat-yap\">Dökümanyasyon</a>");
+
+app.MapGet("/paymentPrivate/vpos/reconciliation",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string reconciliationdate) =>
+        await payWallService.PaymentPrivate.GetReconcilliation(reconciliationdate))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Mutabakat Getir")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/mutabakat-servisi/sanal-pos/2.-mutabakat-getir\">Dökümanyasyon</a>");
+
+app.MapGet("/paymentPrivate/vpos/reconciliation/endofday",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string endofdaydate) =>
+        await payWallService.PaymentPrivate.GetEndOfDay(endofdaydate))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Gün Sonu Verileri")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/mutabakat-servisi/sanal-pos/3.-gun-sonu-verileri\">Dökümanyasyon</a>");
+
+app.MapGet("/paymentPrivate/vpos/reconciliation/list",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string datefrom,
+                [FromHeader] string dateto, [FromHeader] string start, [FromHeader] string length,
+                [FromHeader] string sortvalue) =>
+            await payWallService.PaymentPrivate.GetReconcilliationList(datefrom, dateto, start, length, sortvalue))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Mutabakat Listesi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/mutabakat-servisi/sanal-pos/4.-mutabakat-listesi\">Dökümanyasyon</a>");
 
 #endregion
+
 
 #region CardWall
 
