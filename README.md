@@ -68,6 +68,14 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 - **Taksit Sorgulama** 
 - **BIN Sorgulama**
 
+### Mutabakat Servisi
+- ### **Sanal Pos**
+  - **Mutabakat Yap**
+  - **Mutabakat Getir**
+  - **Gün Sonu Verileri**
+  - **Mutabakat Listesi**
+
+
 ### PayOut
 
 - **Bakiye Kontrol**

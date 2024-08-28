@@ -36,9 +36,7 @@ namespace PayWall.AspNetCore.Implementations
 
         #endregion
 
-        #region Public Methods
-
-        #region Payments
+        #region Paymnets
         
         /// <summary>
         /// Direkt ödeme servisi, istek gönderdiğiniz anda kart bilgilerinden ödemeyi tahsil etme işlemini başlatır ve işlem sonucunu cevap içerisinde döner.
@@ -104,6 +102,7 @@ namespace PayWall.AspNetCore.Implementations
             PostRequestAsync<PaymentProvisionCancelRequest, PaymentEmptyResult>("payment/provision/cancel", request);
         #endregion
 
+
         #region Installment
         
         /// <summary>
@@ -124,7 +123,7 @@ namespace PayWall.AspNetCore.Implementations
         #endregion
 
         #region BIN
-
+        
         /// <summary>
         /// Bin Sorgula.
         /// </summary>
@@ -136,7 +135,7 @@ namespace PayWall.AspNetCore.Implementations
 
             return GetRequestAsync<BinResponse>("bin/inquiry");
         }
-        #endregion
+        
 
         #region PayOut
         

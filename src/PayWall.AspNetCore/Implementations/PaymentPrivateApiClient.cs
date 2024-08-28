@@ -8,9 +8,11 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using PayWall.AspNetCore.Extensions;
 using PayWall.AspNetCore.Models.Abstraction;
-using PayWall.AspNetCore.Models.Common.Payment;
+using PayWall.AspNetCore.Models.Common.PaymentPrivate;
 using PayWall.AspNetCore.Models.Request.PrivatePayment;
+using PayWall.AspNetCore.Models.Request.Reconciliation.VPos;
 using PayWall.AspNetCore.Models.Response.PrivatePayment;
+using PayWall.AspNetCore.Models.Response.Reconcilliation.VPos;
 
 #endregion
 
@@ -35,6 +37,65 @@ namespace PayWall.AspNetCore.Implementations
 
         #region Public Methods
 
+        #region VPosReconciliation
+        
+        /// <summary>
+        /// Mutabakat Yap.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<VPosReconcileResponse>> ReconcileAsync(VPosReconcileRequest request) => 
+            PostRequestAsync<VPosReconcileRequest, VPosReconcileResponse>("private/vpos/reconciliation/reconcile",request);
+        
+        /// <summary>
+        /// Mutabakat Getir.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<VPosReconcilationResponse>> GetReconcilliation(string reconciliationdate)
+        {
+            _httpClient.SetHeader("reconciliationdate",reconciliationdate);
+            
+            return GetRequestAsync<VPosReconcilationResponse>("private/vpos/reconciliation");
+        }
+        
+        /// <summary>
+        /// Gün Sonu Verileri.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<VPosEndOfDayResponse>> GetEndOfDay(string endofdaydate)
+        {
+            _httpClient.SetHeader("endofdaydate",endofdaydate);
+            
+            return GetRequestAsync<VPosEndOfDayResponse>("private/vpos/reconciliation/endofday");
+        }
+        
+        /// <summary>
+        /// Mutabakat Listesi.
+        /// </summary>
+        /// <param name="datefrom">Liste başlangıç tarihi.</param>
+        /// <param name="dateto">Liste bitiş tarihi.</param>
+        /// <param name="start">Başlangıç.</param>
+        /// <param name="length">Bitiş.</param>
+        /// <param name="sortvalue">Sıralama değer. Değerler: desc, asc.</param>
+        /// <returns></returns>
+        public Task<Response<VPosReconcilationListDetailResponse>> GetReconcilliationList(string datefrom,
+            string dateto, string start, string length, string sortvalue)
+        {
+            _httpClient.SetHeader("datefrom",datefrom);
+            _httpClient.SetHeader("dateto",dateto);
+            _httpClient.SetHeader("start",start);
+            _httpClient.SetHeader("length",length);
+            _httpClient.SetHeader("sortvalue",sortvalue);
+
+            return GetRequestAsync<VPosReconcilationListDetailResponse>("private/vpos/reconciliation/list");
+        }
+
+        #endregion
+
+
+        #region Refund/Partial-Refund/Cancel
         public Task<Response<QueryResponse>> QueryAsync(string merchantUniqueCode)
         {
             _httpClient.SetHeader("merchantuniquecode",merchantUniqueCode);
@@ -68,10 +129,11 @@ namespace PayWall.AspNetCore.Implementations
         public Task<Response<PrivatePaymentEmptyResult>> CancelAsync(PaymentCancelRequest request) => 
             PostRequestAsync<PaymentCancelRequest, PrivatePaymentEmptyResult>("private/refund/cancel",request);
 
+        
         #endregion
         
         #endregion
-
+    
         #region Private Methods
 
         private async Task<Response<TRes>> PostRequestAsync<TReq, TRes>(string requestUrl, TReq req)
@@ -94,7 +156,7 @@ namespace PayWall.AspNetCore.Implementations
 
             return await result.Content.ReadFromJsonAsync<Response<TRes>>();
         }
-         
+        
         private async Task<Response<TRes>> PutRequestAsync<TReq, TRes>(string requestUrl, TReq req)
             where TReq : IRequestParams, new()
             where TRes : IResponseResult
