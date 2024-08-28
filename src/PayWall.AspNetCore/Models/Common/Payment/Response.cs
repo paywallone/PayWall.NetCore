@@ -7,6 +7,6 @@ namespace PayWall.AspNetCore.Models.Common.Payment
         public T Body { get; set; }
         public bool Result { get; set; }
         public string Message { get; set; }
-        public PaymentErrorCodes ErrorCode { get; set; }
+        public ErrorCodes ErrorCode { get; set; }
     }
 }

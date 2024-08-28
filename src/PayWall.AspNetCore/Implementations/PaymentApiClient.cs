@@ -11,7 +11,9 @@ using PayWall.AspNetCore.Extensions;
 using PayWall.AspNetCore.Models.Abstraction;
 using PayWall.AspNetCore.Models.Common.Payment;
 using PayWall.AspNetCore.Models.Request.Payment;
+using PayWall.AspNetCore.Models.Request.PayOut;
 using PayWall.AspNetCore.Models.Response.Payment;
+using PayWall.AspNetCore.Models.Response.PayOut;
 
 #endregion
 
@@ -36,6 +38,8 @@ namespace PayWall.AspNetCore.Implementations
 
         #region Public Methods
 
+        #region Payments
+        
         /// <summary>
         /// Direkt ödeme servisi, istek gönderdiğiniz anda kart bilgilerinden ödemeyi tahsil etme işlemini başlatır ve işlem sonucunu cevap içerisinde döner.
         /// </summary>
@@ -79,7 +83,10 @@ namespace PayWall.AspNetCore.Implementations
 
             return response;
         }
+        #endregion
 
+        #region Provision
+        
         /// <summary>
         /// Provizyon Kapatma.
         /// </summary>
@@ -95,7 +102,10 @@ namespace PayWall.AspNetCore.Implementations
         /// <returns></returns>
         public Task<Response<PaymentEmptyResult>> ProvisionCancelAsync(PaymentProvisionCancelRequest request) =>
             PostRequestAsync<PaymentProvisionCancelRequest, PaymentEmptyResult>("payment/provision/cancel", request);
+        #endregion
 
+        #region Installment
+        
         /// <summary>
         /// Taksit Sorgula.
         /// </summary>
@@ -111,6 +121,9 @@ namespace PayWall.AspNetCore.Implementations
 
             return GetRequestAsync<InstallmentResponse>("installment");
         }
+        #endregion
+
+        #region BIN
 
         /// <summary>
         /// Bin Sorgula.
@@ -123,7 +136,89 @@ namespace PayWall.AspNetCore.Implementations
 
             return GetRequestAsync<BinResponse>("bin/inquiry");
         }
+        #endregion
 
+        #region PayOut
+        
+        /// <summary>
+        /// Bakiye Kontrol.
+        /// </summary>
+        /// <param name="payoutconnectionid"> Bağlı sağlayıcı kimlik (Id) bilgisi.</param>
+        /// <returns></returns>
+        public Task<Response<PayOutAccountResponse>> GetBalanceAsync(string payoutconnectionid)
+        {
+            _httpClient.SetHeader("payoutconnectionid", payoutconnectionid);
+
+            return GetRequestAsync<PayOutAccountResponse>("payout/balance");
+        }
+        
+        /// <summary>
+        /// Bakiye Kontrol (Ana Hesap).
+        /// </summary>
+        /// <param name="currencyid">Sağlayıcı para birimi.</param>
+        /// <returns></returns>
+        public Task<Response<PayOutAccountResponse>> GetMainBalanceAsync(string currencyid)
+        {
+            _httpClient.SetHeader("currencyid", currencyid);
+
+            return GetRequestAsync<PayOutAccountResponse>("payout/balance/main");
+        }
+        
+        /// <summary>
+        /// Iban'a.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<PayOutIbanResponse>> SendToIbanAsync(PayOutToIbanRequest request) =>
+            PostRequestAsync<PayOutToIbanRequest, PayOutIbanResponse>("payout/send/iban", request);
+        
+        /// <summary>
+        /// Kayıtlı Üye Iban'ına.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<PayOutIbanResponse>> SendToMemberIbanAsync(PayOutToIbanWithMemberRequest request) =>
+            PostRequestAsync<PayOutToIbanWithMemberRequest, PayOutIbanResponse>("payout/send/member", request);
+        
+        /// <summary>
+        /// Hesaba.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<PayOutIbanResponse>> SendToAccountAsync(PayOutToAccountRequest request) =>
+            PostRequestAsync<PayOutToAccountRequest, PayOutIbanResponse>("payout/send/account", request);
+        
+        /// <summary>
+        /// İşlem Sorgulama.
+        /// </summary>
+        /// <param name="merchantuniquecode">Sağlayıcı para birimi.</param>
+        /// <returns></returns>
+        public Task<Response<PayOutQueryResponse>> GetPayOutQueryAsync(string merchantuniquecode)
+        {
+            _httpClient.SetHeader("merchantuniquecode", merchantuniquecode);
+
+            return GetRequestAsync<PayOutQueryResponse>("payout/query");
+        }
+        
+        /// <summary>
+        /// Hesap Sorgulama.
+        /// </summary>
+        /// <param name="providerkey">Sorgulama yapmak istediğiniz ve hesabınızda bağlı olan sağlayıcıya ait anahtar bilgisi.</param>
+        /// <param name="currencyid">Para birimi.</param>
+        /// <param name="identity">Arama işlemi için kullanılacak olan kimlik bilgisi.</param>
+        /// <returns></returns>
+        public Task<Response<PayOutVerifyAccountDetailResponse>> GetPayOutVerifyAccountDetailAsync(string providerkey, string currencyid, string identity)
+        {
+            _httpClient.SetHeader("providerkey", providerkey);
+            _httpClient.SetHeader("currencyid", currencyid);
+            _httpClient.SetHeader("identity", identity);
+
+            return GetRequestAsync<PayOutVerifyAccountDetailResponse>("payout/verify/account/identity");
+        }
+
+        #endregion
+
+        
         #endregion
 
         #region Private Methods

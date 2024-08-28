@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://paywall.one/assets/img/logos/paywall-logo-3.png" alt="Logo" width="200"/>
+</p>
+
 # PayWall.AspNetCore
 
 `PayWall.AspNetCore`, ASP.NET Core 5 ve üzeri sürümler için geliştirilmiş bir NuGet paketidir. Bu paket, PayWall API'sine kolay ve etkili bir şekilde entegrasyon sağlar ve uygulamanızda ödeme duvarı (paywall) işlevselliğini basit bir şekilde uygulamanıza eklemenizi sağlar.
@@ -47,7 +51,7 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 ### Üye Banka Yönetimi
 
 - **Banka Yöntemi Ekle**
-- **Banka Yöntemi Düzenle**
+- **Banka Yöntemi Düzenle**                                                                     
 - **Banka Yöntemi Sil**
 - **Banka Yöntemlerini Listele**
 
@@ -63,6 +67,16 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 - **Provizyon İşlemleri**
 - **Taksit Sorgulama** 
 - **BIN Sorgulama**
+
+### PayOut
+
+- **Bakiye Kontrol**
+- **Bakiye Kontrol (Ana Hesap)**
+- **Iban'a Gönderme**
+- **Kayıtlı Üye Iban Gönderme (Member)**
+- **Hesaba Gönderme**
+- **İşlem Sorgulama**
+- **Hesap Sorgulama**
 
 ## Kurulum
 
@@ -103,8 +117,10 @@ Paketi yükledikten sonra `appsettings.json` içinde `PayWall` kısmının oldu�
 
 ## Adresler 
 
-- **PayWall Entegrasyon Dökümanı:** [https://developer.paywall.one/](https://developer.paywall.one/)
+- **PayWall Entegrasyon Dökümanı:** [https://developer.paywall.one/](https://developer.paywall.one/)                                                        
 - **Website:** [https://paywall.one/](https://paywall.one/)
 - **Test Paneli:** [https://dev-panel.itspaywall.com/](https://dev-panel.itspaywall.com/)
 - **Canlı Panel:** [https://panel.itspaywall.com/](https://panel.itspaywall.com/)
-
+<p align="center">
+  <img src="https://sc-images-prod.s3.eu-central-1.amazonaws.com/logos/e137b4f1-730c-42d8-9d11-af7c2d2d4715" alt="Logo" width="100"/>
+</p>
