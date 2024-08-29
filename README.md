@@ -1,10 +1,6 @@
-<p align="center">
-  <img src="https://paywall.one/assets/img/logos/paywall-logo-3.png" alt="Logo" width="200"/>
-</p>
+# PayWall.NetCore
 
-# PayWall.AspNetCore
-
-`PayWall.AspNetCore`, ASP.NET Core 5 ve üzeri sürümler için geliştirilmiş bir NuGet paketidir. Bu paket, PayWall API'sine kolay ve etkili bir şekilde entegrasyon sağlar ve uygulamanızda ödeme duvarı (paywall) işlevselliğini basit bir şekilde uygulamanıza eklemenizi sağlar.
+`PayWall.NetCore`, ASP.NET Core 5 ve üzeri sürümler için geliştirilmiş bir NuGet paketidir. Bu paket, PayWall API'sine kolay ve etkili bir şekilde entegrasyon sağlar ve uygulamanızda ödeme duvarı (paywall) işlevselliğini basit bir şekilde uygulamanıza eklemenizi sağlar.
 
 ## PayWall
 
@@ -93,7 +89,7 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 
 ### NuGet Paket Yöneticisi Kullanarak
 
-Visual Studio'da NuGet Paket Yöneticisi'ni açın, `PayWall.AspNetCore` paketini arayın ve yükleyin.
+Visual Studio'da NuGet Paket Yöneticisi'ni açın, `PayWall.NetCore` paketini arayın ve yükleyin.
 
 
 ### .NET CLI Kullanarak
@@ -101,7 +97,7 @@ Visual Studio'da NuGet Paket Yöneticisi'ni açın, `PayWall.AspNetCore` paketin
 Aşağıdaki komutu kullanarak NuGet paketini yükleyebilirsiniz:
 
 ```bash
-dotnet add package PayWall.AspNetCore
+dotnet add package PayWall.NetCore
 ```
 ## Yapılandırma
 
