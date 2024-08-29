@@ -76,7 +76,7 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
   - **Mutabakat Listesi**
 
 
-### PayOut
+### PayOut Servisi
 
 - **Bakiye Kontrol**
 - **Bakiye Kontrol (Ana Hesap)**
@@ -85,6 +85,9 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 - **Hesaba Gönderme**
 - **İşlem Sorgulama**
 - **Hesap Sorgulama**
+
+### LinkQr Servisi
+- **LinkQr Ödeme Emri Oluştur**
 
 ## Kurulum
 
@@ -108,7 +111,7 @@ Paketi yükledikten sonra `appsettings.json` içinde `PayWall` kısmının oldu�
 
 ### Yapılandırma Json
 ```json
-"PayWall" : {
+"PayWall": {
   "Prod": false,
   "PublicClient": "********************",
   "PublicKey": "***********************",

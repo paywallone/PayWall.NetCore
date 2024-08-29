@@ -20,7 +20,7 @@ public class PayOutIbanResponse : IResponseResult
     /// <summary>
     /// PayOut işleminin tutarı.
     /// </summary>
-    public double Amount { get; set; }
+    public decimal Amount { get; set; }
 }
 
 

@@ -47,7 +47,7 @@ public class PayOutQueryResponse : IResponseResult
     /// <summary>
     /// Alıcının hesap numarası. (Opsiyonel)
     /// </summary>
-    public object ReceiverAccountNumber { get; set; }
+    public string ReceiverAccountNumber { get; set; }
     /// <summary>
     /// İşlem kanalının kimlik numarası.
     /// </summary>
