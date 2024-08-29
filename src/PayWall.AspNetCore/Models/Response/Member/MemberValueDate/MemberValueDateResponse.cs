@@ -17,5 +17,5 @@ public class MemberValueDateResponse : IResponseResult
     /// <summary>
     /// Alt üye işyerinden alınacak komisyon yüzdesi belirtilir, hak ediş hesaplandığında alt üye işyerinde yüzde kadar kazanç düşülür Alışveriş 100TL, hak edişiniz 10% ve gün sonunda 90TL üye işyerine 10TL (ödeme sağlayıcı komisyonu düşülecektir) sizin hesabınıza yansır.
     /// </summary>
-    public double Commission { get; set; }
+    public decimal Commission { get; set; }
 }

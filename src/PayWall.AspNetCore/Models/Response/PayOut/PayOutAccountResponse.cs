@@ -39,15 +39,15 @@ public class Balances
     /// <summary>
     /// Toplam bakiye miktarını temsil eder.
     /// </summary>
-    public double TotalBalance { get; set; }
+    public decimal TotalBalance { get; set; }
     /// <summary>
     /// Kilitli bakiye miktarını temsil eder.
     /// </summary>
-    public double LockedBalance { get; set; }
+    public decimal LockedBalance { get; set; }
     /// <summary>
     /// Kullanılabilir bakiye miktarını temsil eder.
     /// </summary>
-    public double AvailableBalance { get; set; }
+    public decimal AvailableBalance { get; set; }
 }
 
 

@@ -19,7 +19,7 @@ public class AddMemberValueDateRequest : IRequestParams
     /// <summary>
     /// Hakediş hesaplama anında alt üye işyerine uygulanacak komisyon değeri.
     /// </summary>
-    public int Commission { get; set; }
+    public decimal Commission { get; set; }
 }
 
 

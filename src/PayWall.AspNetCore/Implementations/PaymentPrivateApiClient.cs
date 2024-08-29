@@ -50,7 +50,7 @@ namespace PayWall.AspNetCore.Implementations
         /// <summary>
         /// Mutabakat Getir.
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="reconciliationdate"> Getirilmek istenen mutabakat tarihi. Format: yyyy-MM-dd. </param>
         /// <returns></returns>
         public Task<Response<VPosReconcilationResponse>> GetReconcilliation(string reconciliationdate)
         {
@@ -62,7 +62,7 @@ namespace PayWall.AspNetCore.Implementations
         /// <summary>
         /// Gün Sonu Verileri.
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="endofdaydate"> Gün sonu verilerinin alınmak istendiği tarih bilgisi. Format: yyyy-MM-dd. </param>
         /// <returns></returns>
         public Task<Response<VPosEndOfDayResponse>> GetEndOfDay(string endofdaydate)
         {
@@ -93,9 +93,12 @@ namespace PayWall.AspNetCore.Implementations
         }
 
         #endregion
-
-
-        #region Refund/Partial-Refund/Cancel
+        
+        /// <summary>
+        /// Ödeme Sorgulama.
+        /// </summary>
+        /// <param name="merchantUniqueCode"> Ödeme'ye ait sizin tarafınızdan verilmiş olan tekil takip kodu. </param>
+        /// <returns></returns>
         public Task<Response<QueryResponse>> QueryAsync(string merchantUniqueCode)
         {
             _httpClient.SetHeader("merchantuniquecode",merchantUniqueCode);
