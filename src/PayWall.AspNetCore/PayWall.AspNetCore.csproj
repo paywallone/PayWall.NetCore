@@ -3,17 +3,18 @@
     <PropertyGroup>
         <TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
         <Authors>PayWall</Authors>
-        <PackageId>PayWall.AspNetCoree</PackageId>
+        <PackageId>PayWall.NetCore</PackageId>
         <Version>0.0.2</Version>
-        <Product>PayWall.AspNetCore</Product>
+        <Product>PayWall.NetCore</Product>
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>disable</Nullable>
-        <Description>PayWall.AspNetCore nuget</Description>
+        <Description>PayWall.NetCore nuget</Description>
         <PackageReleaseNotes>This is initial release</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <RootNamespace>PayWall.AspNetCore</RootNamespace>
-        <PackageProjectUrl>https://github.com/intranettechnology/PayWall.AspNetCore</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/intranettechnology/PayWall.AspNetCore</RepositoryUrl>
+        <RootNamespace>PayWall.NetCore</RootNamespace>
+        <PackageLicenseUrl>https://github.com/intranettechnology/PayWall.NetCore/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageProjectUrl>https://github.com/intranettechnology/PayWall.NetCore</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/intranettechnology/PayWall.NetCore</RepositoryUrl>
         <Copyright>2024</Copyright>
         <LangVersion>latest</LangVersion>
         <PackageReadmeFile>README.md</PackageReadmeFile>
