@@ -16,9 +16,11 @@
         <RepositoryUrl>https://github.com/intranettechnology/PayWall.AspNetCore</RepositoryUrl>
         <Copyright>2024</Copyright>
         <LangVersion>latest</LangVersion>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <ItemGroup>
+        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.1" />
