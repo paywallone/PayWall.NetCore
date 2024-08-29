@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayWall.AspNetCore", "src\PayWall.AspNetCore\PayWall.AspNetCore.csproj", "{95BB64F0-640E-4F56-AE6B-CCBBF97B4AFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayWall.NetCore", "src\PayWall.NetCore\PayWall.NetCore.csproj", "{95BB64F0-640E-4F56-AE6B-CCBBF97B4AFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayWall.AspNetCore.Example", "src\PayWall.AspNetCore.Example\PayWall.AspNetCore.Example.csproj", "{08F9554E-9A88-4AF9-B5FC-BC07E2C24F03}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayWall.NetCore.Example", "src\PayWall.NetCore.Example\PayWall.NetCore.Example.csproj", "{08F9554E-9A88-4AF9-B5FC-BC07E2C24F03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
