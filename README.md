@@ -85,6 +85,10 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 ### LinkQr Servisi
 - **LinkQr Ödeme Emri Oluştur**
 
+### Checkout Servisi (Ortak Ödeme Sayfası)
+- **Ortak Ödeme Sayfası Oluştur**
+- **Ödeme Sorgulama**
+
 ## Kurulum
 
 ### NuGet Paket Yöneticisi Kullanarak
