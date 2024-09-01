@@ -16,6 +16,7 @@ using PayWall.NetCore.Models.Request.Member;
 using PayWall.NetCore.Models.Request.Member.MemberBankAccount;
 using PayWall.NetCore.Models.Request.Member.MemberValueDate;
 using PayWall.NetCore.Models.Request.Payment;
+using PayWall.NetCore.Models.Request.Payment.TempToken;
 using PayWall.NetCore.Models.Request.PayOut;
 using PayWall.NetCore.Models.Request.PrivatePayment;
 using PayWall.NetCore.Models.Request.Reconciliation.VPos;
@@ -256,7 +257,7 @@ app.MapGet("/apm/list",
 
 app.MapGet("/apm/query",
         async ([FromServices] PayWallService payWallService, [FromHeader] string merchantuniquecode) =>
-            await payWallService.Payment.GetApmQueryAsync(merchantuniquecode))
+        await payWallService.Payment.GetApmQueryAsync(merchantuniquecode))
     .WithTags("Apm")
     .WithSummary("Ödeme Sorgula")
     .WithDescription(
@@ -277,6 +278,15 @@ app.MapPost("/apm/refund/partial",
     .WithSummary("Ödeme Kısmi İade İşlemi")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/alternatif-odeme-apm/4.-kismi-iade\">Dökümantasyon</a>");
+
+#endregion
+
+#region TempToken
+
+app.MapPost("/temp-token",
+        async ([FromServices] PayWallService payWallService, [FromBody] TempTokenGenerateRequest request) =>
+        await payWallService.Payment.TempTokenGenerateAsync(request))
+    .WithTags("TempToken");
 
 #endregion
 

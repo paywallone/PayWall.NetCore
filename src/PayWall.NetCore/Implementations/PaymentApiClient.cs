@@ -17,6 +17,7 @@ using PayWall.NetCore.Models.Request.Apm.PayRequest;
 using PayWall.NetCore.Models.Request.Apm.QrBasedRequest;
 using PayWall.NetCore.Models.Request.LinkQr;
 using PayWall.NetCore.Models.Request.Payment;
+using PayWall.NetCore.Models.Request.Payment.TempToken;
 using PayWall.NetCore.Models.Request.PayOut;
 using PayWall.NetCore.Models.Response.Apm;
 using PayWall.NetCore.Models.Response.Apm.CheckoutBasedResponse;
@@ -25,6 +26,7 @@ using PayWall.NetCore.Models.Response.Apm.PayResponse;
 using PayWall.NetCore.Models.Response.Apm.QrResponse;
 using PayWall.NetCore.Models.Response.LinkQr;
 using PayWall.NetCore.Models.Response.Payment;
+using PayWall.NetCore.Models.Response.Payment.TempToken;
 using PayWall.NetCore.Models.Response.PayOut;
 
 #endregion
@@ -195,7 +197,6 @@ namespace PayWall.NetCore.Implementations
 
         #endregion
 
-
         #region APM
 
         /// <summary>
@@ -256,7 +257,7 @@ namespace PayWall.NetCore.Implementations
 
             return GetRequestListAsync<ApmListResponse>("apm/list");
         }
-        
+
         /// <summary>
         /// Ödeme Sorgula.
         /// </summary>
@@ -268,7 +269,7 @@ namespace PayWall.NetCore.Implementations
 
             return GetRequestAsync<ApmQueryResponse>("apm/query");
         }
-        
+
         /// <summary>
         /// Ödeme İade İşlemi.
         /// </summary>
@@ -276,7 +277,7 @@ namespace PayWall.NetCore.Implementations
         /// <returns></returns>
         public Task<Response<ApmRefundResponse>> ApmRefundAsync(ApmRefundRequest request) =>
             PostRequestAsync<ApmRefundRequest, ApmRefundResponse>("apm/refund", request);
-        
+
         /// <summary>
         /// Ödeme Kısmi İade İşlemi.
         /// </summary>
@@ -285,6 +286,12 @@ namespace PayWall.NetCore.Implementations
         public Task<Response<ApmRefundResponse>> ApmPartialRefundAsync(ApmRefundPartialRequest request) =>
             PostRequestAsync<ApmRefundPartialRequest, ApmRefundResponse>("apm/refund/partial", request);
 
+        #endregion
+        
+        #region TempToken
+
+        public Task<Response<TempTokenGenerateResponse>> TempTokenGenerateAsync(TempTokenGenerateRequest request) =>
+            PostRequestAsync<TempTokenGenerateRequest, TempTokenGenerateResponse>("temptoken", request);
         #endregion
 
         #endregion
@@ -367,7 +374,7 @@ namespace PayWall.NetCore.Implementations
 
             return await result.Content.ReadFromJsonAsync<Response<TRes>>();
         }
-        
+
         private async Task<ResponseList<TRes>> GetRequestListAsync<TRes>(string requestUrl)
             where TRes : IResponseResult
         {
