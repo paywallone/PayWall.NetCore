@@ -17,6 +17,7 @@ using PayWall.NetCore.Models.Request.Apm.PayRequest;
 using PayWall.NetCore.Models.Request.Apm.QrBasedRequest;
 using PayWall.NetCore.Models.Request.LinkQr;
 using PayWall.NetCore.Models.Request.Payment;
+using PayWall.NetCore.Models.Request.Payment.TempCard;
 using PayWall.NetCore.Models.Request.Payment.TempToken;
 using PayWall.NetCore.Models.Request.PayOut;
 using PayWall.NetCore.Models.Response.Apm;
@@ -26,6 +27,7 @@ using PayWall.NetCore.Models.Response.Apm.PayResponse;
 using PayWall.NetCore.Models.Response.Apm.QrResponse;
 using PayWall.NetCore.Models.Response.LinkQr;
 using PayWall.NetCore.Models.Response.Payment;
+using PayWall.NetCore.Models.Response.Payment.TempCard;
 using PayWall.NetCore.Models.Response.Payment.TempToken;
 using PayWall.NetCore.Models.Response.PayOut;
 
@@ -292,6 +294,21 @@ namespace PayWall.NetCore.Implementations
 
         public Task<Response<TempTokenGenerateResponse>> TempTokenGenerateAsync(TempTokenGenerateRequest request) =>
             PostRequestAsync<TempTokenGenerateRequest, TempTokenGenerateResponse>("temptoken", request);
+        #endregion
+        
+        #region TempCard
+
+        /// <summary>
+        /// TempCard.
+        /// </summary>
+        /// <param name="token">Kimlik doğrulama için TempToken'ı kullanın.</param>
+        /// <returns></returns>
+        public async Task<Response<TempCardGenerateResponse>> TempCardGenerateAsync(string token,TempCardGenerateRequest request)
+        {
+            _httpClient.SetHeader("token", token);
+            return await PostRequestAsync<TempCardGenerateRequest, TempCardGenerateResponse>("tempcard", request);
+        }
+        
         #endregion
 
         #endregion
