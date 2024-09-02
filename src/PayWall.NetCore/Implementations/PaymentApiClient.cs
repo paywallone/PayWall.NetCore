@@ -15,6 +15,9 @@ using PayWall.NetCore.Models.Request.Apm.CheckoutBasedRequest;
 using PayWall.NetCore.Models.Request.Apm.OtpBasedRequest;
 using PayWall.NetCore.Models.Request.Apm.PayRequest;
 using PayWall.NetCore.Models.Request.Apm.QrBasedRequest;
+using PayWall.NetCore.Models.Request.CardProduction.CardOperations;
+using PayWall.NetCore.Models.Request.CardProduction.PhysicalCard;
+using PayWall.NetCore.Models.Request.CardProduction.VirtualCard;
 using PayWall.NetCore.Models.Request.LinkQr;
 using PayWall.NetCore.Models.Request.Payment;
 using PayWall.NetCore.Models.Request.Payment.TempCard;
@@ -25,6 +28,9 @@ using PayWall.NetCore.Models.Response.Apm.CheckoutBasedResponse;
 using PayWall.NetCore.Models.Response.Apm.OtpResponse;
 using PayWall.NetCore.Models.Response.Apm.PayResponse;
 using PayWall.NetCore.Models.Response.Apm.QrResponse;
+using PayWall.NetCore.Models.Response.CardProduction;
+using PayWall.NetCore.Models.Response.CardProduction.CardOperations;
+using PayWall.NetCore.Models.Response.CardProduction.VirtualCard;
 using PayWall.NetCore.Models.Response.LinkQr;
 using PayWall.NetCore.Models.Response.Payment;
 using PayWall.NetCore.Models.Response.Payment.TempCard;
@@ -287,6 +293,156 @@ namespace PayWall.NetCore.Implementations
         /// <returns></returns>
         public Task<Response<ApmRefundResponse>> ApmPartialRefundAsync(ApmRefundPartialRequest request) =>
             PostRequestAsync<ApmRefundPartialRequest, ApmRefundResponse>("apm/refund/partial", request);
+
+        #endregion
+
+        #region CardProduction
+
+        /// <summary>
+        /// Hesap / Bakiye Kontrol.
+        /// </summary>
+        /// <param name="cardproductionkey">Bağlı sağlayıcıya ait anahtar (Key) bilgisi.</param>
+        /// <returns></returns>
+        public Task<Response<CardOperationAccountResponse>> GetAccountBalanceAsync(string cardproductionkey)
+        {
+            _httpClient.SetHeader("cardproductionkey", cardproductionkey);
+
+            return GetRequestAsync<CardOperationAccountResponse>("card/production/balance");
+        }
+        
+        /// <summary>
+        /// Kart - Pasif Et.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<CardOperationEmptyResult>> CardDisableAsync(CardIdRequest request) =>
+            PutRequestAsync<CardIdRequest, CardOperationEmptyResult>("card/production/disable", request);
+        
+        /// <summary>
+        /// Kart - Aktif Et.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<CardOperationEmptyResult>> CardEnableAsync(CardIdRequest request) =>
+            PutRequestAsync<CardIdRequest, CardOperationEmptyResult>("card/production/enable", request);
+        
+        /// <summary>
+        /// Kart - Sil.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<CardOperationEmptyResult>> CardDeleteAsync(CardIdRequest request) =>
+            DeleteRequestAsync<CardIdRequest, CardOperationEmptyResult>("card/production/delete", request);
+        
+        /// <summary>
+        /// Kart - Bakiye Artır.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<CardOperationEmptyResult>> IncreaseBalanceAsync(CardOperationBalanceRequest request) =>
+            PostRequestAsync<CardOperationBalanceRequest, CardOperationEmptyResult>("card/production/balance/increase", request);
+        
+        /// <summary>
+        /// Kart - Bakiye Azalt.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<CardOperationEmptyResult>> decreaseBalanceAsync(CardOperationBalanceRequest request) =>
+            PostRequestAsync<CardOperationBalanceRequest, CardOperationEmptyResult>("card/production/balance/decrease", request);
+        
+        /// <summary>
+        /// Kart - Detay.
+        /// </summary>
+        /// <param name="cardid">Kart'ın PayWall'daki Id bilgisi. Oluşturma anında döner.</param>
+        /// <returns></returns>
+        public Task<Response<CardDetailResponse>> GetCardDetailAsync(string cardid)
+        {
+            _httpClient.SetHeader("cardid", cardid);
+
+            return GetRequestAsync<CardDetailResponse>("card/production/detail");
+        }
+        
+        /// <summary>
+        /// Kart - Liste.
+        /// </summary>
+        /// <param name="start"> Listelemeye başlanacak yer. </param>
+        /// <param name="length"> Listenin uzunluğu. </param>
+        /// <param name="cardid"> Kart'ın PayWall'daki Id bilgisi. Oluşturma anında döner. </param>
+        /// <param name="cardnumber"> Kart'ın içerisindeki bilinen veri. </param>
+        /// <param name="phone"> Kart'ın tanımlı olduğu telefon numarası. </param>
+        /// <param name="externalid"> Kart'ın oluşturulma anında verilen kimlik. </param>
+        /// <returns></returns>
+        public Task<Response<CardListResponse>> GetCardListAsync(string start, string length,
+            string? cardid, string? cardnumber, string? phone, string? externalid)
+        {
+            _httpClient.SetHeader("start", start);
+            _httpClient.SetHeader("length", length);
+            _httpClient.SetHeader("cardid", cardid);
+            _httpClient.SetHeader("cardnumber", cardnumber);
+            _httpClient.SetHeader("phone", phone);
+            _httpClient.SetHeader("externalid", externalid);
+
+            return GetRequestAsync<CardListResponse>("card/production/list");
+        }
+        
+        /// <summary>
+        /// Kart - Telefon Güncelle.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<CardOperationEmptyResult>> PhoneUpdateAsync(CardOperationPhoneUpdateRequest request) =>
+            PutRequestAsync<CardOperationPhoneUpdateRequest, CardOperationEmptyResult>("card/production/phone", request);
+        
+        /// <summary>
+        /// Kart - Açıklama Güncelle.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<CardOperationEmptyResult>> DescriptionUpdateAsync(CardOperationDescriptionUpdateRequest request) =>
+            PutRequestAsync<CardOperationDescriptionUpdateRequest, CardOperationEmptyResult>("card/production/description", request);
+        
+        /// <summary>
+        /// Kart - Liste.
+        /// </summary>
+        /// <param name="page"> Listelemeye başlanacak sayfa. </param>
+        /// <param name="cardid"> Kart'ın PayWall'daki Id bilgisi. Oluşturma anında döner. </param>
+        /// <param name="datefrom"> İşlem tarih aralığı. Başlangıç tarihi. </param>
+        /// <param name="dateto"> İşlem tarih aralığı. Bitiş tarihi. </param>
+        /// <returns></returns>
+        public Task<Response<CardTransactionsListResponse>> GetCardTransactionsAsync(string page, string cardid,
+            string datefrom, string dateto)
+        {
+            _httpClient.SetHeader("page", page);
+            _httpClient.SetHeader("cardid", cardid);
+            _httpClient.SetHeader("datefrom", datefrom);
+            _httpClient.SetHeader("dateto", dateto);
+
+            return GetRequestAsync<CardTransactionsListResponse>("card/production/transaction");
+        }
+        
+        /// <summary>
+        /// Kart - Şifre Güncelle.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<CardOperationEmptyResult>> CardOperationSetPınAsync(CardOperationPınUpdateRequest request) =>
+            PutRequestAsync<CardOperationPınUpdateRequest, CardOperationEmptyResult>("card/production/pin", request);
+        
+        /// <summary>
+        /// Sanal Kart Oluştur.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<GenerateVirtualCardResponse>> GenerateVirtualCardAsync(GenerateVirtualCardRequest request) =>
+            PostRequestAsync<GenerateVirtualCardRequest, GenerateVirtualCardResponse>("card/production/virtual", request);
+        
+        /// <summary>
+        /// Fiziksel Kart Ekle.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<PaymentEmptyResult>> AddPhysicalCardAsync(AddPhysicalCardRequest request) =>
+            PostRequestAsync<AddPhysicalCardRequest, PaymentEmptyResult>("card/production/physical/add", request);
 
         #endregion
         

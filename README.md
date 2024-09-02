@@ -37,7 +37,6 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 - **Kayıtlı Kart Güncelleme**
 
 ### Üye Yönetimi
-
 - **Üye Oluştur**
 - **Üye Güncelle**
 - **Üye Sil**
@@ -45,19 +44,16 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 - **Üye Ara**
 
 ### Üye Banka Yönetimi
-
 - **Banka Yöntemi Ekle**
 - **Banka Yöntemi Düzenle**                                                                     
 - **Banka Yöntemi Sil**
 - **Banka Yöntemlerini Listele**
 
 ### Üye Valör/Komisyon
-
 - **Valör/Komisyon Ayarını Getir**
 - **Valör/Komisyon Ayarını Ekle (Var olanı da günceller)**
 
 ### Ödeme İşlemleri
-
 - **Direkt Ödeme (2D)** 
 - **Güvenli Ödeme (3D)** 
 - **Provizyon İşlemleri**
@@ -71,9 +67,7 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
   - **Gün Sonu Verileri**
   - **Mutabakat Listesi**
 
-
 ### PayOut Servisi
-
 - **Bakiye Kontrol**
 - **Bakiye Kontrol (Ana Hesap)**
 - **Iban'a Gönderme**
@@ -99,6 +93,24 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 - **Ödeme Sorgula**
 - **Ödeme İade İşlemi**
 - **Ödeme Kısmi İade İşlemi**
+
+### Kart Üretim Servisi
+- **Sanal Kart**
+  - **Oluştur**
+- **Fiziksel Kart**
+  - **Fiziksel Kart Ekle**
+- **Hesap / Bakiye Kontrol**
+- **Kart - Pasif Et**
+- **Kart - Aktif Et**
+- **Kart - Sil**
+- **Kart - Bakiye Artır**
+- **Kart - Bakiye Azalt**
+- **Kart - Detay**
+- **Kart - Liste**
+- **Kart - Telefon Güncelle**
+- **Kart - Açıklama Güncelle**
+- **Kart - Kart İşlemleri**
+- **Kart - Şifre Güncelle**
 
 ## Kurulum
 
