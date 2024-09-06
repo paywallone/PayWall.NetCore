@@ -76,6 +76,25 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 - **İşlem Sorgulama**
 - **Hesap Sorgulama**
 
+### Tekrarlı Ödeme Servisi
+- **Tekrarlı Ödeme Oluştur**
+- **Tekrarlı Ödeme Düzenle**
+- **Tekrarlı Ödeme Sorgula**
+- **Tekrarlı Ödeme Durdur**
+- **Tekrarlı Ödeme Sil**
+- **Tekrarlı Ödeme Yeniden Başlat**
+- **Tekrarlı Ödeme Sorgula**
+- **Tekrarlı Ödeme Kart**
+  - **Tekrarlı Ödeme Kapsamındaki Kartlar**
+  - **Tekrarlı Ödeme Kapsamına Yeni Kart Ekle**
+  - **Tekrarlı Ödeme Kapsamındaki Kartı Sil**
+- **Müşteri Havuzu**
+  - **Tekrarlı Ödeme Müşteri Havuz Listesi**
+  - **Tekrarlı Ödeme Müşteri Ara**
+- **Ürün/İçerik Havuzu**
+  - **Tekrarlı Ödeme Ürün/İçerik Havuz Listesi**
+  - **Tekrarlı Ödeme Ürün/İçerik Ara**
+
 ### LinkQr Servisi
 - **LinkQr Ödeme Emri Oluştur**
 

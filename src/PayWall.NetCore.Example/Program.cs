@@ -24,6 +24,8 @@ using PayWall.NetCore.Models.Request.Payment.TempToken;
 using PayWall.NetCore.Models.Request.PayOut;
 using PayWall.NetCore.Models.Request.PrivatePayment;
 using PayWall.NetCore.Models.Request.Reconciliation.VPos;
+using PayWall.NetCore.Models.Request.Recurring;
+using PayWall.NetCore.Models.Request.Recurring.Card;
 using PayWall.NetCore.Models.Response.Apm.OtpResponse;
 using PayWall.NetCore.Models.Response.CardProduction.CardOperations;
 using PayWall.NetCore.Services;
@@ -363,8 +365,9 @@ app.MapPut("/card/production/phone",
         "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/9.-telefon-guncelle\">Dökümantasyon</a>");
 
 app.MapPut("/card/production/description",
-        async ([FromServices] PayWallService payWallService, [FromBody] CardOperationDescriptionUpdateRequest request) =>
-        await payWallService.Payment.DescriptionUpdateAsync(request))
+        async ([FromServices] PayWallService payWallService,
+                [FromBody] CardOperationDescriptionUpdateRequest request) =>
+            await payWallService.Payment.DescriptionUpdateAsync(request))
     .WithTags("CardProduction")
     .WithSummary("Kart - Açıklama Güncelle")
     .WithDescription(
@@ -403,6 +406,143 @@ app.MapPost("/card/production/physical/add",
     .WithSummary("Fiziksel Kart Ekle")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/fiziksel-kart/1.-ekle\">Dökümantasyon</a>");
+
+#endregion
+
+#region Recurring
+
+app.MapPost("/recurring",
+        async ([FromServices] PayWallService payWallService, [FromBody] RecurringGenerateRequest request) =>
+        await payWallService.Payment.GenerateRecurringPaymentAsync(request))
+    .WithTags("Recurring")
+    .WithSummary("Tekrarlı Ödeme Oluştur")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/tekrarli-odeme-servisi/1.-tekrarli-olustur\">Dökümantasyon</a>");
+
+app.MapPut("/recurring",
+        async ([FromServices] PayWallService payWallService, [FromBody] RecurringEditRequest request) =>
+        await payWallService.Payment.RecurringPaymentEditAsync(request))
+    .WithTags("Recurring")
+    .WithSummary("Tekrarlı Ödeme Düzenle")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/tekrarli-odeme-servisi/2.-tekrarli-duzenle\">Dökümantasyon</a>");
+
+app.MapGet("/recurring/query",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string subscriptionmerchantcode) =>
+        await payWallService.Payment.GetRecurringQueryAsync(subscriptionmerchantcode))
+    .WithTags("Recurring")
+    .WithSummary("Tekrarlı Sorgula")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/tekrarli-odeme-servisi/3.-tekrarli-sorgula\">Dökümantasyon</a>");
+
+app.MapDelete("/recurring/unsubscribe",
+        async ([FromServices] PayWallService payWallService, [FromBody] RecurringRequest request) =>
+        await payWallService.Payment.RecurringUnsubscribeAsync(request))
+    .WithTags("Recurring")
+    .WithSummary("Tekrarlı Ödeme Durdur")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/tekrarli-odeme-servisi/4.-tekrarli-durdur\">Dökümantasyon</a>");
+
+app.MapDelete("/recurring/delete",
+        async ([FromServices] PayWallService payWallService, [FromBody] RecurringRequest request) =>
+        await payWallService.Payment.RecurringDeleteAsync(request))
+    .WithTags("Recurring")
+    .WithSummary("Tekrarlı Ödeme Sil")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/tekrarli-odeme-servisi/5.-tekrarli-sil\">Dökümantasyon</a>");
+
+app.MapPut("/recurring/resubscribe",
+        async ([FromServices] PayWallService payWallService, [FromBody] RecurringRequest request) =>
+        await payWallService.Payment.RecurringResubscribeAsync(request))
+    .WithTags("Recurring")
+    .WithSummary("Tekrarlı Ödeme Yeniden Başlat")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/tekrarli-odeme-servisi/6.-tekrarli-yeniden-baslat\">Dökümantasyon</a>");
+
+app.MapGet("/recurring/query/payment",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string subscriptionid, string paymentid) =>
+        await payWallService.Payment.GetRecurringQueryPaymentAsync(subscriptionid, paymentid))
+    .WithTags("Recurring")
+    .WithSummary("Tekrarlı Ödeme Sorgula")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/tekrarli-odeme-servisi/7.-tekrarli-odeme-sorgula\">Dökümantasyon</a>");
+
+app.MapGet("/recurring/card",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string subscriptionid) =>
+        await payWallService.Payment.GetRecurringCardAsync(subscriptionid))
+    .WithTags("Recurring")
+    .WithSummary("Tekrarlı Ödeme Kapsamındaki Kartlar")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/tekrarli-odeme-servisi/8.-tekrarli-odeme-kart/1.-kartlar\">Dökümantasyon</a>");
+
+app.MapPost("/recurring/card",
+        async ([FromServices] PayWallService payWallService, [FromBody] RecurringAddCardRequest request) =>
+        await payWallService.Payment.RecurringAddCardAsync(request))
+    .WithTags("Recurring")
+    .WithSummary("Tekrarlı Ödeme Kapsamına Yeni Kart Ekle")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/tekrarli-odeme-servisi/8.-tekrarli-odeme-kart/2.-kart-ekle\">Dökümantasyon</a>");
+
+app.MapDelete("/recurring/card",
+        async ([FromServices] PayWallService payWallService, [FromBody] RecurringCardIdRequest request) =>
+        await payWallService.Payment.RecurringDeleteCardAsync(request))
+    .WithTags("Recurring")
+    .WithSummary("Tekrarlı Ödeme Kapsamındaki Kartı Sil")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/tekrarli-odeme-servisi/8.-tekrarli-odeme-kart/3.-kart-sil\">Dökümantasyon</a>");
+
+#region RecurringCustomerPool
+
+app.MapGet("/recurring/customer/pool",
+        async ([FromServices] PayWallService payWallService,
+                [FromHeader] string start, [FromHeader] string length,
+                [FromHeader] string? sortvalue, [FromHeader] string? sortcolumn, [FromHeader] string? name,
+                [FromHeader] string? lastname, [FromHeader] string? phone,
+                [FromHeader] string? email, [FromHeader] string? country,
+                [FromHeader] string? city, [FromHeader] string? dateto, [FromHeader] string? datefrom,
+                [FromHeader] string? address, [FromHeader] string? identity) =>
+            await payWallService.Payment.GetCustomerPoolListAsync(start, length, sortvalue, sortcolumn, name, lastname,
+                phone, email, country, city, dateto, datefrom, address, identity))
+    .WithTags("RecurringCustomerPool")
+    .WithSummary("Tekrarlı Ödeme Müşteri Havuz Listesi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/tekrarli-odeme-servisi/9.-musteri-havuzu/1.-liste\">Dökümantasyon</a>");
+
+app.MapGet("/recurring/customer/pool/search",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string customername) =>
+        await payWallService.Payment.GetCustomerPoolAsync(customername))
+    .WithTags("RecurringCustomerPool")
+    .WithSummary("Tekrarlı Ödeme Müşteri Ara")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/tekrarli-odeme-servisi/9.-musteri-havuzu/2.-ara\">Dökümantasyon</a>");
+
+#endregion
+
+#region RecurringItemPool
+
+app.MapGet("/recurring/item/pool",
+        async ([FromServices] PayWallService payWallService,
+                [FromHeader] string start, [FromHeader] string length,
+                [FromHeader] string? sortvalue, [FromHeader] string? sortcolumn, [FromHeader] string? dateto,
+                [FromHeader] string? datefrom,
+                [FromHeader] string? itemtype, [FromHeader] string? itemname,
+                [FromHeader] string? amount) =>
+            await payWallService.Payment.GetItemPoolListAsync(start, length, sortvalue, sortcolumn, itemtype, itemname,
+                amount,dateto, datefrom))
+    .WithTags("RecurringItemPool")
+    .WithSummary("Tekrarlı Ödeme Ürün/İçerik Havuz Listesi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/tekrarli-odeme-servisi/10.-urun-icerik-havuzu/1.-liste\">Dökümantasyon</a>");
+
+app.MapGet("/recurring/item/pool/search",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string itemname) =>
+        await payWallService.Payment.GetItemPoolAsync(itemname))
+    .WithTags("RecurringItemPool")
+    .WithSummary("Tekrarlı Ödeme Ürün/İçerik Ara")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/tekrarli-odeme-servisi/9.-musteri-havuzu/2.-ara\">Dökümantasyon</a>");
+
+#endregion
 
 #endregion
 
