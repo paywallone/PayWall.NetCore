@@ -4,11 +4,11 @@ namespace PayWall.NetCore.Models.Response.Reconcilliation.VPos;
 
 public class VPosReconcilationListDetailResponse : IResponseResult
 {
-    public Data[] Data { get; set; }
+    public VPosData[] Data { get; set; }
     public int TotalRecord { get; set; }
 }
 
-public class Data
+public class VPosData
 {
     /// <summary>
     /// Uzlaştırma işlemi için benzersiz kimlik.

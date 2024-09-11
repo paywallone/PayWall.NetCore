@@ -7,7 +7,7 @@ public class PayOutAccountResponse : IResponseResult
     /// <summary>
     /// Hesap bakiyelerini temsil eden bir dizi. Her bir bakiye nesnesi ilgili bakiye bilgilerini içerir.
     /// </summary>
-    public Balances[] Balances { get; set; }
+    public PayoutBalances[] Balances { get; set; }
     /// <summary>
     /// Sağlayıcıdan alınan ham veri dump'ını içeren bir dize.
     /// </summary>
@@ -34,7 +34,7 @@ public class PayOutAccountResponse : IResponseResult
     public int CurrencyId { get; set; }
 }
 
-public class Balances
+public class PayoutBalances
 {
     /// <summary>
     /// Toplam bakiye miktarını temsil eder.

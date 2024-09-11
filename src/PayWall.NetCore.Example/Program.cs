@@ -10,6 +10,9 @@ using PayWall.NetCore.Models.Request.Apm.CheckoutBasedRequest;
 using PayWall.NetCore.Models.Request.Apm.OtpBasedRequest;
 using PayWall.NetCore.Models.Request.Apm.PayRequest;
 using PayWall.NetCore.Models.Request.Apm.QrBasedRequest;
+using PayWall.NetCore.Models.Request.CardProduction.CardOperations;
+using PayWall.NetCore.Models.Request.CardProduction.PhysicalCard;
+using PayWall.NetCore.Models.Request.CardProduction.VirtualCard;
 using PayWall.NetCore.Models.Request.CardWall;
 using PayWall.NetCore.Models.Request.Checkout;
 using PayWall.NetCore.Models.Request.LinkQr;
@@ -17,10 +20,13 @@ using PayWall.NetCore.Models.Request.Member;
 using PayWall.NetCore.Models.Request.Member.MemberBankAccount;
 using PayWall.NetCore.Models.Request.Member.MemberValueDate;
 using PayWall.NetCore.Models.Request.Payment;
+using PayWall.NetCore.Models.Request.Payment.TempCard;
+using PayWall.NetCore.Models.Request.Payment.TempToken;
 using PayWall.NetCore.Models.Request.PayOut;
 using PayWall.NetCore.Models.Request.PrivatePayment;
 using PayWall.NetCore.Models.Request.Reconciliation.VPos;
 using PayWall.NetCore.Models.Response.Apm.OtpResponse;
+using PayWall.NetCore.Models.Response.CardProduction.CardOperations;
 using PayWall.NetCore.Services;
 
 #endregion
@@ -222,7 +228,6 @@ app.MapGet("/payout/verify/account/identity",
 
 #endregion
 
-
 #region APM
 
 app.MapPost("/apm/pay",
@@ -277,7 +282,7 @@ app.MapGet("/apm/list",
 
 app.MapGet("/apm/query",
         async ([FromServices] PayWallService payWallService, [FromHeader] string merchantuniquecode) =>
-            await payWallService.Payment.GetApmQueryAsync(merchantuniquecode))
+        await payWallService.Payment.GetApmQueryAsync(merchantuniquecode))
     .WithTags("Apm")
     .WithSummary("Ödeme Sorgula")
     .WithDescription(
@@ -298,6 +303,146 @@ app.MapPost("/apm/refund/partial",
     .WithSummary("Ödeme Kısmi İade İşlemi")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/alternatif-odeme-apm/4.-kismi-iade\">Dökümantasyon</a>");
+
+#endregion
+
+#region CardProduction
+
+app.MapGet("/card/production/balance",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string cardproductionkey) =>
+        await payWallService.Payment.GetAccountBalanceAsync(cardproductionkey))
+    .WithTags("CardProduction")
+    .WithSummary("Hesap / Bakiye Kontrol")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/1.-hesap-bakiye-kontrol\">Dökümantasyon</a>");
+
+app.MapPut("/card/production/disable",
+        async ([FromServices] PayWallService payWallService, [FromBody] CardIdRequest request) =>
+        await payWallService.Payment.CardDisableAsync(request))
+    .WithTags("CardProduction")
+    .WithSummary("Kart - Pasif Et")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/2.-pasif-et\">Dökümantasyon</a>");
+
+app.MapPut("/card/production/enable",
+        async ([FromServices] PayWallService payWallService, [FromBody] CardIdRequest request) =>
+        await payWallService.Payment.CardEnableAsync(request))
+    .WithTags("CardProduction")
+    .WithSummary("Kart - Aktif Et")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/3.-aktif-et\">Dökümantasyon</a>");
+
+app.MapDelete("/card/production/delete",
+        async ([FromServices] PayWallService payWallService, [FromBody] CardIdRequest request) =>
+        await payWallService.Payment.CardDeleteAsync(request))
+    .WithTags("CardProduction")
+    .WithSummary("Kart - Sil")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/4.-sil\">Dökümantasyon</a>");
+
+app.MapPost("/card/production/balance/increase",
+        async ([FromServices] PayWallService payWallService, [FromBody] CardOperationBalanceRequest request) =>
+        await payWallService.Payment.IncreaseBalanceAsync(request))
+    .WithTags("CardProduction")
+    .WithSummary("Kart - Bakiye Artır")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/5.-bakiye-artir\">Dökümantasyon</a>");
+
+app.MapPost("/card/production/balance/decrease",
+        async ([FromServices] PayWallService payWallService, [FromBody] CardOperationBalanceRequest request) =>
+        await payWallService.Payment.decreaseBalanceAsync(request))
+    .WithTags("CardProduction")
+    .WithSummary("Kart - Bakiye Azalt")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/6.-bakiye-azalt\">Dökümantasyon</a>");
+
+app.MapGet("/card/production/detail",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string cardid) =>
+        await payWallService.Payment.GetCardDetailAsync(cardid))
+    .WithTags("CardProduction")
+    .WithSummary("Kart - Detay")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/7.-detay\">Dökümantasyon</a>");
+
+app.MapGet("/card/production/list",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string start,
+                [FromHeader] string length, [FromHeader] string? cardid,
+                [FromHeader] string? cardnumber, [FromHeader] string? phone,
+                [FromHeader] string? externalid) =>
+            await payWallService.Payment.GetCardListAsync(start, length, cardid, cardnumber, phone, externalid))
+    .WithTags("CardProduction")
+    .WithSummary("Kart - Liste")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/8.-kart-listesi\">Dökümantasyon</a>");
+
+app.MapPut("/card/production/phone",
+        async ([FromServices] PayWallService payWallService, [FromBody] CardOperationPhoneUpdateRequest request) =>
+        await payWallService.Payment.PhoneUpdateAsync(request))
+    .WithTags("CardProduction")
+    .WithSummary("Kart - Telefon Güncelle")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/9.-telefon-guncelle\">Dökümantasyon</a>");
+
+app.MapPut("/card/production/description",
+        async ([FromServices] PayWallService payWallService, [FromBody] CardOperationDescriptionUpdateRequest request) =>
+        await payWallService.Payment.DescriptionUpdateAsync(request))
+    .WithTags("CardProduction")
+    .WithSummary("Kart - Açıklama Güncelle")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/10.-aciklama-guncelle\">Dökümantasyon</a>");
+
+app.MapGet("/card/production/transaction",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string page,
+                [FromHeader] string cardid, [FromHeader] string datefrom,
+                [FromHeader] string dateto) =>
+            await payWallService.Payment.GetCardTransactionsAsync(page, cardid, datefrom, dateto))
+    .WithTags("CardProduction")
+    .WithSummary("Kart - Kart İşlemleri")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/11.-kart-islemleri\">Dökümantasyon</a>");
+
+app.MapPut("/card/production/pin",
+        async ([FromServices] PayWallService payWallService, [FromBody] CardOperationPınUpdateRequest request) =>
+        await payWallService.Payment.CardOperationSetPınAsync(request))
+    .WithTags("CardProduction")
+    .WithSummary("Kart - Şifre Güncelle")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/12.-sifre-guncelle\">Dökümantasyon</a>");
+
+app.MapPost("/card/production/virtual",
+        async ([FromServices] PayWallService payWallService, [FromBody] GenerateVirtualCardRequest request) =>
+        await payWallService.Payment.GenerateVirtualCardAsync(request))
+    .WithTags("CardProduction")
+    .WithSummary("Sanal Kart Oluştur")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/sanal-kart/1.-olustur\">Dökümantasyon</a>");
+
+app.MapPost("/card/production/physical/add",
+        async ([FromServices] PayWallService payWallService, [FromBody] AddPhysicalCardRequest request) =>
+        await payWallService.Payment.AddPhysicalCardAsync(request))
+    .WithTags("CardProduction")
+    .WithSummary("Fiziksel Kart Ekle")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-uretim-servisi/fiziksel-kart/1.-ekle\">Dökümantasyon</a>");
+
+#endregion
+
+#region TempToken
+
+app.MapPost("/temp-token",
+        async ([FromServices] PayWallService payWallService, [FromBody] TempTokenGenerateRequest request) =>
+        await payWallService.Payment.TempTokenGenerateAsync(request))
+    .WithTags("TempToken");
+
+#endregion
+
+#region TempCard
+
+app.MapPost("/temp-card",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string token,
+                [FromBody] TempCardGenerateRequest request) =>
+            await payWallService.Payment.TempCardGenerateAsync(token, request))
+    .WithTags("TempCard");
 
 #endregion
 
