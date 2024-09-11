@@ -89,6 +89,21 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 - **Ortak Ödeme Sayfası Oluştur**
 - **Ödeme Sorgulama**
 
+### Alternatif Ödeme (APM)
+- **DirectPay Tabanlı**
+  - **Ödeme Başlat**
+- **Otp Tabanlı** 
+  - **Ödeme Onayla / Otp Tabanlı**
+- **QR Tabanlı**
+  - **Ödeme Başlat / QR Tabanlı**
+- **CheckoutPage Tabanlı**
+  - **Ödeme Başlat (Id)**
+  - **Ödeme Başlat (Key)**
+- **APM'lerimi listele**
+- **Ödeme Sorgula**
+- **Ödeme İade İşlemi**
+- **Ödeme Kısmi İade İşlemi**
+
 ## Kurulum
 
 ### NuGet Paket Yöneticisi Kullanarak

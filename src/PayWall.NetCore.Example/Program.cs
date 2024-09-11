@@ -5,6 +5,11 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using PayWall.NetCore;
 using PayWall.NetCore.Models.Abstraction;
+using PayWall.NetCore.Models.Request.Apm;
+using PayWall.NetCore.Models.Request.Apm.CheckoutBasedRequest;
+using PayWall.NetCore.Models.Request.Apm.OtpBasedRequest;
+using PayWall.NetCore.Models.Request.Apm.PayRequest;
+using PayWall.NetCore.Models.Request.Apm.QrBasedRequest;
 using PayWall.NetCore.Models.Request.CardWall;
 using PayWall.NetCore.Models.Request.Checkout;
 using PayWall.NetCore.Models.Request.LinkQr;
@@ -15,6 +20,7 @@ using PayWall.NetCore.Models.Request.Payment;
 using PayWall.NetCore.Models.Request.PayOut;
 using PayWall.NetCore.Models.Request.PrivatePayment;
 using PayWall.NetCore.Models.Request.Reconciliation.VPos;
+using PayWall.NetCore.Models.Response.Apm.OtpResponse;
 using PayWall.NetCore.Services;
 
 #endregion
@@ -147,7 +153,7 @@ app.MapGet("/checkout/inquiry",
 
 app.MapPost("/linkqr/generate",
         async ([FromServices] PayWallService payWallService, [FromBody] LinkRequest request) =>
-        await payWallService.Payment.GenerateLink(request))
+        await payWallService.Payment.GenerateLinkAsync(request))
     .WithTags("LinkQr")
     .WithSummary("LinkQr Ödeme Emri Oluştur")
     .WithDescription(
@@ -213,6 +219,86 @@ app.MapGet("/payout/verify/account/identity",
     .WithSummary("Hesap Sorgulama")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/7.-hesap-sorgulama\">Dökümantasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/7.-hesap-sorgulama\">Dökümantasyon</a>");
+
+#endregion
+
+
+#region APM
+
+app.MapPost("/apm/pay",
+        async ([FromServices] PayWallService payWallService, [FromBody] ApmPayRequest request) =>
+        await payWallService.Payment.ApmPayAsync(request))
+    .WithTags("Apm")
+    .WithSummary("Ödeme Başlat")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/alternatif-odeme-apm/directpay-tabanli/1.-odeme-baslat\">Dökümantasyon</a>");
+
+app.MapPost("/apm/pay/confirm/otp",
+        async ([FromServices] PayWallService payWallService, [FromBody] ApmPayConfirmOtpRequest request) =>
+        await payWallService.Payment.ApmOtpConfirmAsync(request))
+    .WithTags("Apm")
+    .WithSummary("Ödeme Onayla / Otp Tabanlı")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/alternatif-odeme-apm/otp-tabanli/1.-odeme-onayla\">Dökümantasyon</a>");
+
+app.MapPost("/apm/pay/qr/generate",
+        async ([FromServices] PayWallService payWallService, [FromBody] ApmPayQrRequest request) =>
+        await payWallService.Payment.ApmQrGenerateAsync(request))
+    .WithTags("Apm")
+    .WithSummary("Ödeme Başlat / QR Tabanlı")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/alternatif-odeme-apm/qr-tabanli/1.-odeme-olustur\">Dökümantasyon</a>");
+
+app.MapPost("/apm/pay/byid",
+        async ([FromServices] PayWallService payWallService, [FromBody] ApmCheckoutPayByIdRequest request) =>
+        await payWallService.Payment.ApmCheckoutPayIdAsync(request))
+    .WithTags("Apm")
+    .WithSummary("Ödeme Başlat (Id) checkout")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/alternatif-odeme-apm/checkoutpage-tabanli/1.-odeme-baslat-id\">Dökümantasyon</a>");
+
+app.MapPost("/apm/pay/bykey",
+        async ([FromServices] PayWallService payWallService, [FromBody] ApmCheckoutPayByKeyRequest request) =>
+        await payWallService.Payment.ApmCheckoutPayKeyAsync(request))
+    .WithTags("Apm")
+    .WithSummary("Ödeme Başlat (Key)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/alternatif-odeme-apm/checkoutpage-tabanli/2.-odeme-baslat-key\">Dökümantasyon</a>");
+
+app.MapGet("/apm/list",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string currencyid,
+                [FromHeader] string? externalid, [FromHeader] string? focusedfeature,
+                [FromHeader] string? distinctduplicates) =>
+            await payWallService.Payment.GetApmListAsync(currencyid, externalid, focusedfeature, distinctduplicates))
+    .WithTags("Apm")
+    .WithSummary("APM'lerimi listele")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/alternatif-odeme-apm/1.-bagli-saglayici-liste\">Dökümantasyon</a>");
+
+app.MapGet("/apm/query",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string merchantuniquecode) =>
+            await payWallService.Payment.GetApmQueryAsync(merchantuniquecode))
+    .WithTags("Apm")
+    .WithSummary("Ödeme Sorgula")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/alternatif-odeme-apm/2.-odeme-sorgula\">Dökümantasyon</a>");
+
+app.MapPost("/apm/refund",
+        async ([FromServices] PayWallService payWallService, [FromBody] ApmRefundRequest request) =>
+        await payWallService.Payment.ApmRefundAsync(request))
+    .WithTags("Apm")
+    .WithSummary("Ödeme İade İşlemi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/alternatif-odeme-apm/3.-iade\">Dökümantasyon</a>");
+
+app.MapPost("/apm/refund/partial",
+        async ([FromServices] PayWallService payWallService, [FromBody] ApmRefundPartialRequest request) =>
+        await payWallService.Payment.ApmPartialRefundAsync(request))
+    .WithTags("Apm")
+    .WithSummary("Ödeme Kısmi İade İşlemi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/alternatif-odeme-apm/4.-kismi-iade\">Dökümantasyon</a>");
 
 #endregion
 

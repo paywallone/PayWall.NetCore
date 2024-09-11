@@ -10,10 +10,20 @@ using System.Threading.Tasks;
 using PayWall.NetCore.Extensions;
 using PayWall.NetCore.Models.Abstraction;
 using PayWall.NetCore.Models.Common.Payment;
+using PayWall.NetCore.Models.Request.Apm;
+using PayWall.NetCore.Models.Request.Apm.CheckoutBasedRequest;
+using PayWall.NetCore.Models.Request.Apm.OtpBasedRequest;
+using PayWall.NetCore.Models.Request.Apm.PayRequest;
+using PayWall.NetCore.Models.Request.Apm.QrBasedRequest;
 using PayWall.NetCore.Models.Request.Checkout;
 using PayWall.NetCore.Models.Request.LinkQr;
 using PayWall.NetCore.Models.Request.Payment;
 using PayWall.NetCore.Models.Request.PayOut;
+using PayWall.NetCore.Models.Response.Apm;
+using PayWall.NetCore.Models.Response.Apm.CheckoutBasedResponse;
+using PayWall.NetCore.Models.Response.Apm.OtpResponse;
+using PayWall.NetCore.Models.Response.Apm.PayResponse;
+using PayWall.NetCore.Models.Response.Apm.QrResponse;
 using PayWall.NetCore.Models.Response.Checkout;
 using PayWall.NetCore.Models.Response.LinkQr;
 using PayWall.NetCore.Models.Response.Payment;
@@ -147,7 +157,7 @@ namespace PayWall.NetCore.Implementations
         /// <summary>
         /// İşlem Sorgulama.
         /// </summary>
-        /// <param name="merchantuniquecode">Sağlayıcı para birimi.</param>
+        /// <param name="merchantuniquecode">Ödeme başlatma anında ödemeye tanımladığınız tekil takip numarası.</param>
         /// <returns></returns>
         public Task<Response<PayOutQueryResponse>> GetPayOutQueryAsync(string merchantuniquecode)
         {
@@ -182,8 +192,100 @@ namespace PayWall.NetCore.Implementations
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public Task<Response<LinkResponse>> GenerateLink(LinkRequest request) =>
+        public Task<Response<LinkResponse>> GenerateLinkAsync(LinkRequest request) =>
             PostRequestAsync<LinkRequest, LinkResponse>("linkqr/generate", request);
+
+        #endregion
+
+
+        #region APM
+
+        /// <summary>
+        /// Ödeme Başlat.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<ApmPayResponse>> ApmPayAsync(ApmPayRequest request) =>
+            PostRequestAsync<ApmPayRequest, ApmPayResponse>("apm/pay", request);
+
+        /// <summary>
+        /// Ödeme Onayla / Otp Tabanlı.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<ApmPayConfirmOtpResponse>> ApmOtpConfirmAsync(ApmPayConfirmOtpRequest request) =>
+            PostRequestAsync<ApmPayConfirmOtpRequest, ApmPayConfirmOtpResponse>("apm/pay/confirm/otp", request);
+
+        /// <summary>
+        /// Ödeme Başlat / QR Tabanlı.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<ApmQrGenerateResponse>> ApmQrGenerateAsync(ApmPayQrRequest request) =>
+            PostRequestAsync<ApmPayQrRequest, ApmQrGenerateResponse>("apm/pay/qr/generate", request);
+
+        /// <summary>
+        /// Ödeme Başlat (Id).
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<ApmCheckoutPayResponse>> ApmCheckoutPayIdAsync(ApmCheckoutPayByIdRequest request) =>
+            PostRequestAsync<ApmCheckoutPayByIdRequest, ApmCheckoutPayResponse>("apm/pay/byid", request);
+
+        /// <summary>
+        /// Ödeme Başlat (Key).
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<ApmCheckoutPayResponse>> ApmCheckoutPayKeyAsync(ApmCheckoutPayByKeyRequest request) =>
+            PostRequestAsync<ApmCheckoutPayByKeyRequest, ApmCheckoutPayResponse>("apm/pay/bykey", request);
+
+        /// <summary>
+        /// APM'lerimi listele.
+        /// </summary>
+        /// <param name="currencyid"> Ödeme'nin gerçekleştirilmek istendiği para birimi. </param>
+        /// /// <param name="externalid"> APM bağlantı anında verilen Dış Kimlik (ExternalId) bilgisi. </param>
+        /// /// <param name="focusedfeature"> Ödeme akışının hangi özellikte gerçekleştirilmek istendiği bildirilir. Örnek: qr iletilirse PayWall hesabında QR'lı ödeme destekleyen sağlayıcı listesi paylaşılır. </param>
+        /// /// <param name="distinctduplicates"> True olarak gönderilmesi durumunda liste içerisinde çoklanan aynı sağlayıcıya ait bağlantılar teke indirgenir. </param>
+        /// <returns></returns>
+        public Task<ResponseList<ApmListResponse>> GetApmListAsync(string currencyid, string? externalid,
+            string? focusedfeature, string? distinctduplicates)
+        {
+            _httpClient.SetHeader("currencyid", currencyid);
+            _httpClient.SetHeader("externalid", externalid);
+            _httpClient.SetHeader("focusedfeature", focusedfeature);
+            _httpClient.SetHeader("distinctduplicates", distinctduplicates);
+
+            return GetRequestListAsync<ApmListResponse>("apm/list");
+        }
+        
+        /// <summary>
+        /// Ödeme Sorgula.
+        /// </summary>
+        /// <param name="merchantuniquecode">Ödeme başlatma anında ödemeye tanımladığınız tekil takip numarası.</param>
+        /// <returns></returns>
+        public Task<Response<ApmQueryResponse>> GetApmQueryAsync(string merchantuniquecode)
+        {
+            _httpClient.SetHeader("merchantuniquecode", merchantuniquecode);
+
+            return GetRequestAsync<ApmQueryResponse>("apm/query");
+        }
+        
+        /// <summary>
+        /// Ödeme İade İşlemi.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<ApmRefundResponse>> ApmRefundAsync(ApmRefundRequest request) =>
+            PostRequestAsync<ApmRefundRequest, ApmRefundResponse>("apm/refund", request);
+        
+        /// <summary>
+        /// Ödeme Kısmi İade İşlemi.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<ApmRefundResponse>> ApmPartialRefundAsync(ApmRefundPartialRequest request) =>
+            PostRequestAsync<ApmRefundPartialRequest, ApmRefundResponse>("apm/refund/partial", request);
 
         #endregion
 
@@ -290,6 +392,16 @@ namespace PayWall.NetCore.Implementations
             result.EnsureSuccessStatusCode();
 
             return await result.Content.ReadFromJsonAsync<Response<TRes>>();
+        }
+        
+        private async Task<ResponseList<TRes>> GetRequestListAsync<TRes>(string requestUrl)
+            where TRes : IResponseResult
+        {
+            var result = await _httpClient.GetAsync(requestUrl);
+
+            result.EnsureSuccessStatusCode();
+
+            return await result.Content.ReadFromJsonAsync<ResponseList<TRes>>();
         }
 
         private async Task<Response<TRes>> PutRequestAsync<TReq, TRes>(string requestUrl, TReq req)
