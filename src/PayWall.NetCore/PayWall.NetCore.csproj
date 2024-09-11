@@ -4,7 +4,7 @@
         <TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
         <Authors>PayWall</Authors>
         <PackageId>PayWall.NetCore</PackageId>
-        <Version>0.0.1</Version>
+        <Version>0.0.2</Version>
         <Product>PayWall.NetCore</Product>
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>disable</Nullable>
