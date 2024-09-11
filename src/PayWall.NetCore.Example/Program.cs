@@ -219,7 +219,6 @@ app.MapGet("/payout/verify/account/identity",
     .WithSummary("Hesap Sorgulama")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/7.-hesap-sorgulama\">Dökümantasyon</a>");
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/7.-hesap-sorgulama\">Dökümantasyon</a>");
 
 #endregion
 
