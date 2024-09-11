@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using PayWall.NetCore;
 using PayWall.NetCore.Models.Abstraction;
 using PayWall.NetCore.Models.Request.CardWall;
+using PayWall.NetCore.Models.Request.Checkout;
 using PayWall.NetCore.Models.Request.LinkQr;
 using PayWall.NetCore.Models.Request.Member;
 using PayWall.NetCore.Models.Request.Member.MemberBankAccount;
@@ -50,7 +51,7 @@ app.MapPost("/payment/startDirect",
     .WithTags("Payment")
     .WithSummary("Direkt Ödeme (Non-Secure)")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/2.-direkt-odeme-non-secure\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/2.-direkt-odeme-non-secure\">Dökümantasyon</a>");
 
 #endregion
 
@@ -62,7 +63,7 @@ app.MapPost("/payment/startThreeD",
     .WithTags("Payment")
     .WithSummary("3D Ödeme")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/3.-3d-odeme\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/3.-3d-odeme\">Dökümantasyon</a>");
 
 #endregion
 
@@ -74,7 +75,7 @@ app.MapPost("/payment/provision",
     .WithTags("Payment")
     .WithSummary("Provizyon Kapatma")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/5.-provizyon-kapatma\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/5.-provizyon-kapatma\">Dökümantasyon</a>");
 
 app.MapPost("/payment/provision/cancel",
         async ([FromServices] PayWallService payWallService, [FromBody] PaymentProvisionCancelRequest request) =>
@@ -82,7 +83,7 @@ app.MapPost("/payment/provision/cancel",
     .WithTags("Payment")
     .WithSummary("Provizyon İptal")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/6.-provizyon-iptal\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/6.-provizyon-iptal\">Dökümantasyon</a>");
 
 #endregion
 
@@ -106,7 +107,7 @@ app.MapGet("/payment/installment", async ([FromServices] PayWallService payWallS
     .WithTags("Payment")
     .WithSummary("Taksit Sorgula")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/7.-taksit-sorgula\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/7.-taksit-sorgula\">Dökümantasyon</a>");
 
 #endregion
 
@@ -118,7 +119,27 @@ app.MapGet("/payment/bin/inquiry",
     .WithTags("Payment")
     .WithSummary("Bin Sorgula")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/8.-bin-sorgula\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/8.-bin-sorgula\">Dökümantasyon</a>");
+
+#endregion
+
+#region Checkout
+
+app.MapPost("/checkout/generate",
+        async ([FromServices] PayWallService payWallService, [FromBody] CheckoutRequest request) =>
+        await payWallService.Payment.CheckoutGenerateAsync(request))
+    .WithTags("Checkout")
+    .WithSummary("Ortak Ödeme Sayfası Oluştur")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/ortak-odeme-sayfasi/1.-olustur\">Dökümantasyon</a>");
+
+app.MapGet("/checkout/inquiry",
+        async ([FromServices] PayWallService payWallService, [FromHeader] string id) =>
+        await payWallService.Payment.GetCheckoutInquiry(id))
+    .WithTags("Checkout")
+    .WithSummary("Ortak Ödeme Sayfası Sorgulama")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/ortak-odeme-sayfasi/2.-odeme-sorgulama\">Dökümantasyon</a>");
 
 #endregion
 
@@ -130,7 +151,7 @@ app.MapPost("/linkqr/generate",
     .WithTags("LinkQr")
     .WithSummary("LinkQr Ödeme Emri Oluştur")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://https://developer.paywall.one/linkqr-servisi/1.-olustur\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://https://developer.paywall.one/linkqr-servisi/1.-olustur\">Dökümantasyon</a>");
 
 #endregion
 
@@ -142,7 +163,7 @@ app.MapGet("/payout/balance",
     .WithTags("PayOut")
     .WithSummary("Bakiye Kontrol.")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/1.-bakiye\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/1.-bakiye\">Dökümantasyon</a>");
 
 app.MapGet("/payout/balance/main",
         async ([FromServices] PayWallService payWallService, [FromHeader] string currencyid) =>
@@ -150,7 +171,7 @@ app.MapGet("/payout/balance/main",
     .WithTags("PayOut")
     .WithSummary("Bakiye Kontrol (Ana Hesap)")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/2.-bakiye-ana-hesap\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/2.-bakiye-ana-hesap\">Dökümantasyon</a>");
 
 app.MapPost("/payout/send/iban",
         async ([FromServices] PayWallService payWallService, [FromBody] PayOutToIbanRequest request) =>
@@ -158,7 +179,7 @@ app.MapPost("/payout/send/iban",
     .WithTags("PayOut")
     .WithSummary("Iban'a Gönderme")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/3.-ibana\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/3.-ibana\">Dökümantasyon</a>");
 
 app.MapPost("/payout/send/member",
         async ([FromServices] PayWallService payWallService, [FromBody] PayOutToIbanWithMemberRequest request) =>
@@ -166,7 +187,7 @@ app.MapPost("/payout/send/member",
     .WithTags("PayOut")
     .WithSummary("Kayıtlı Üye Iban'ına")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/4.-kayitli-uye-iban-member\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/4.-kayitli-uye-iban-member\">Dökümantasyon</a>");
 
 app.MapPost("/payout/send/account",
         async ([FromServices] PayWallService payWallService, [FromBody] PayOutToAccountRequest request) =>
@@ -174,7 +195,7 @@ app.MapPost("/payout/send/account",
     .WithTags("PayOut")
     .WithSummary("Hesaba")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/5.-hesapa\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/5.-hesapa\">Dökümantasyon</a>");
 
 app.MapGet("/payout/query",
         async ([FromServices] PayWallService payWallService, [FromHeader] string merchantuniquecode) =>
@@ -182,7 +203,7 @@ app.MapGet("/payout/query",
     .WithTags("PayOut")
     .WithSummary("İşlem Sorgulama")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/6.-islem-sorgulama\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/6.-islem-sorgulama\">Dökümantasyon</a>");
 
 app.MapGet("/payout/verify/account/identity",
         async ([FromServices] PayWallService payWallService, [FromHeader] string providerkey,
@@ -191,9 +212,10 @@ app.MapGet("/payout/verify/account/identity",
     .WithTags("PayOut")
     .WithSummary("Hesap Sorgulama")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/7.-hesap-sorgulama\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/payout-servisi/7.-hesap-sorgulama\">Dökümantasyon</a>");
 
 #endregion
+
 
 #endregion
 
@@ -207,7 +229,7 @@ app.MapGet("/payment-private/query",
     .WithTags("PaymentPrivate")
     .WithSummary("Ödeme Sorgulama")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-odeme-sorgulama\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-odeme-sorgulama\">Dökümantasyon</a>");
 
 app.MapPost("/payment-private/refund",
         async ([FromServices] PayWallService payWallService, [FromBody] PaymentRefundRequest request) =>
@@ -215,7 +237,7 @@ app.MapPost("/payment-private/refund",
     .WithTags("PaymentPrivate")
     .WithSummary("İade Servisi")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/9.-iade\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/9.-iade\">Dökümantasyon</a>");
 
 app.MapPost("/payment-private/refund/partial",
         async ([FromServices] PayWallService payWallService, [FromBody] PaymentRefundPartialRequest request) =>
@@ -223,7 +245,7 @@ app.MapPost("/payment-private/refund/partial",
     .WithTags("PaymentPrivate")
     .WithSummary("Kısmi İade Servisi")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/10.-kismi-iade\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/10.-kismi-iade\">Dökümantasyon</a>");
 
 app.MapPost("/payment-private/refund/cancel",
         async ([FromServices] PayWallService payWallService, [FromBody] PaymentCancelRequest request) =>
@@ -231,7 +253,7 @@ app.MapPost("/payment-private/refund/cancel",
     .WithTags("PaymentPrivate")
     .WithSummary("İptal Servisi")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/11.-iptal\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/11.-iptal\">Dökümantasyon</a>");
 
 #endregion
 
@@ -243,7 +265,7 @@ app.MapPost("/payment-private/vpos/reconciliation/reconcile",
     .WithTags("PaymentPrivate")
     .WithSummary("Mutabakat Yap")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/mutabakat-servisi/sanal-pos/1.-mutabakat-yap\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/mutabakat-servisi/sanal-pos/1.-mutabakat-yap\">Dökümantasyon</a>");
 
 app.MapGet("/payment-private/vpos/reconciliation",
         async ([FromServices] PayWallService payWallService, [FromHeader] string reconciliationdate) =>
@@ -251,7 +273,7 @@ app.MapGet("/payment-private/vpos/reconciliation",
     .WithTags("PaymentPrivate")
     .WithSummary("Mutabakat Getir")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/mutabakat-servisi/sanal-pos/2.-mutabakat-getir\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/mutabakat-servisi/sanal-pos/2.-mutabakat-getir\">Dökümantasyon</a>");
 
 app.MapGet("/payment-private/vpos/reconciliation/endofday",
         async ([FromServices] PayWallService payWallService, [FromHeader] string endofdaydate) =>
@@ -259,7 +281,7 @@ app.MapGet("/payment-private/vpos/reconciliation/endofday",
     .WithTags("PaymentPrivate")
     .WithSummary("Gün Sonu Verileri")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/mutabakat-servisi/sanal-pos/3.-gun-sonu-verileri\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/mutabakat-servisi/sanal-pos/3.-gun-sonu-verileri\">Dökümantasyon</a>");
 
 app.MapGet("/payment-private/vpos/reconciliation/list",
         async ([FromServices] PayWallService payWallService, [FromHeader] string datefrom,
@@ -269,7 +291,7 @@ app.MapGet("/payment-private/vpos/reconciliation/list",
     .WithTags("PaymentPrivate")
     .WithSummary("Mutabakat Listesi")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/mutabakat-servisi/sanal-pos/4.-mutabakat-listesi\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/mutabakat-servisi/sanal-pos/4.-mutabakat-listesi\">Dökümantasyon</a>");
 
 #endregion
 
@@ -283,7 +305,7 @@ app.MapPost("/card",
     .WithTags("CardWall")
     .WithSummary("Yeni Kart Sakla")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-saklama-servisi/1.-yeni-kart\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-saklama-servisi/1.-yeni-kart\">Dökümantasyon</a>");
 
 app.MapGet("/card",
         async ([FromServices] PayWallService payWallService, [FromQuery] string relationalIdOne,
@@ -293,7 +315,7 @@ app.MapGet("/card",
     .WithTags("CardWall")
     .WithSummary("Kayıtlı Kart Listesi")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-saklama-servisi/2.-kayitli-kartlar\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-saklama-servisi/2.-kayitli-kartlar\">Dökümantasyon</a>");
 
 app.MapDelete("/card",
         async ([FromServices] PayWallService payWallService, [FromBody] DeleteCardRequest request) =>
@@ -301,7 +323,7 @@ app.MapDelete("/card",
     .WithTags("CardWall")
     .WithSummary("Kayıtlı Kart Silme")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-saklama-servisi/3.-kart-sil\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-saklama-servisi/3.-kart-sil\">Dökümantasyon</a>");
 
 app.MapPut("/card",
         async ([FromServices] PayWallService payWallService, [FromBody] EditCardRequest request) =>
@@ -309,7 +331,7 @@ app.MapPut("/card",
     .WithTags("CardWall")
     .WithSummary("Kayıtlı Kart Güncelleme")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-saklama-servisi/4.-kart-guncelle\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-saklama-servisi/4.-kart-guncelle\">Dökümantasyon</a>");
 
 #endregion
 
@@ -321,7 +343,7 @@ app.MapPost("/member",
     .WithTags("Member")
     .WithSummary("Yeni Üye Oluştur")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-yonetimi/1.-uye-olustur\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-yonetimi/1.-uye-olustur\">Dökümantasyon</a>");
 
 app.MapPut("/member",
         async ([FromServices] PayWallService payWallService, [FromBody] UpdateMemberRequest request) =>
@@ -329,7 +351,7 @@ app.MapPut("/member",
     .WithTags("Member")
     .WithSummary("Üye Güncelleme")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-yonetimi/2.-uye-guncelle\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-yonetimi/2.-uye-guncelle\">Dökümantasyon</a>");
 
 app.MapDelete("/member",
         async ([FromServices] PayWallService payWallService, [FromBody] DeleteMemberRequest request) =>
@@ -337,7 +359,7 @@ app.MapDelete("/member",
     .WithTags("Member")
     .WithSummary("Üye Silme")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-yonetimi/3.-uye-sil\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-yonetimi/3.-uye-sil\">Dökümantasyon</a>");
 
 app.MapGet("/member",
         async ([FromServices] PayWallService payWallService, [FromQuery] string start,
@@ -346,7 +368,7 @@ app.MapGet("/member",
     .WithTags("Member")
     .WithSummary("Üye Listeleme")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-yonetimi/4.-uyeler\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-yonetimi/4.-uyeler\">Dökümantasyon</a>");
 
 app.MapGet("/member/search",
         async ([FromServices] PayWallService payWallService, [FromQuery] string? memberid,
@@ -355,7 +377,7 @@ app.MapGet("/member/search",
     .WithTags("Member")
     .WithSummary("Üye Arama")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-yonetimi/5.-uye-ara\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-yonetimi/5.-uye-ara\">Dökümantasyon</a>");
 
 #region MemberBankAccount
 
@@ -365,28 +387,28 @@ app.MapPost("/member/bankaccount",
     .WithTags("MemberBankAccount")
     .WithSummary("Yeni Banka Hesabı Oluştur")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-banka-yonetimi/1.-banka-yontemi-ekle\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-banka-yonetimi/1.-banka-yontemi-ekle\">Dökümantasyon</a>");
 app.MapPut("/member/bankaccount",
         async ([FromServices] PayWallService payWallService, [FromBody] UpdateBankAccountRequest request) =>
         await payWallService.MemberClient.UpdateBankAccountAsync(request))
     .WithTags("MemberBankAccount")
     .WithSummary("Banka Hesabı Güncelleme")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-banka-yonetimi/2.-banka-yontemi-duzenle\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-banka-yonetimi/2.-banka-yontemi-duzenle\">Dökümantasyon</a>");
 app.MapDelete("/member/bankaccount",
         async ([FromServices] PayWallService payWallService, [FromBody] DeleteBankAccountRequest request) =>
         await payWallService.MemberClient.DeleteBankAccountAsync(request))
     .WithTags("MemberBankAccount")
     .WithSummary("Banka Hesabı Silme")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-banka-yonetimi/3.-banka-yontemi-sil\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-banka-yonetimi/3.-banka-yontemi-sil\">Dökümantasyon</a>");
 app.MapGet("/member/bankaccount",
         async ([FromServices] PayWallService payWallService, [FromQuery] string memberid) =>
         await payWallService.MemberClient.GetBankAccountAsync(memberid))
     .WithTags("MemberBankAccount")
     .WithSummary("Banka Hesabı Arama")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-banka-yonetimi/4.-banka-yontemleri\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-banka-yonetimi/4.-banka-yontemleri\">Dökümantasyon</a>");
 
 #endregion
 
@@ -398,7 +420,7 @@ app.MapPost("/member/valuedate",
     .WithTags("MemberValueDate")
     .WithSummary("Valör/Komisyon Ayarını Ekle (Var olanı da günceller)")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-valor-komisyon/2.-valor-komisyon-ekle\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-valor-komisyon/2.-valor-komisyon-ekle\">Dökümantasyon</a>");
 
 app.MapGet("/member/valuedate",
         async ([FromServices] PayWallService payWallService, [FromQuery] string memberid) =>
@@ -406,7 +428,7 @@ app.MapGet("/member/valuedate",
     .WithTags("MemberValueDate")
     .WithSummary("Valör/Komisyon Sorgula")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-valor-komisyon/1.-valor-komisyon-getir\">Dökümanyasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/uye-servisi/uye-valor-komisyon/1.-valor-komisyon-getir\">Dökümantasyon</a>");
 
 #endregion
 

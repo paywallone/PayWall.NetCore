@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 using PayWall.NetCore.Extensions;
 using PayWall.NetCore.Models.Abstraction;
 using PayWall.NetCore.Models.Common.Payment;
+using PayWall.NetCore.Models.Request.Checkout;
 using PayWall.NetCore.Models.Request.LinkQr;
 using PayWall.NetCore.Models.Request.Payment;
 using PayWall.NetCore.Models.Request.PayOut;
+using PayWall.NetCore.Models.Response.Checkout;
 using PayWall.NetCore.Models.Response.LinkQr;
 using PayWall.NetCore.Models.Response.Payment;
 using PayWall.NetCore.Models.Response.PayOut;
@@ -185,6 +187,30 @@ namespace PayWall.NetCore.Implementations
 
         #endregion
 
+        #region Checkout
+
+        /// <summary>
+        /// Ortak Ödeme Sayfası Oluştur.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<CheckoutResponse>> CheckoutGenerateAsync(CheckoutRequest request) =>
+            PostRequestAsync<CheckoutRequest, CheckoutResponse>("checkout/generate", request);
+        
+        /// <summary>
+        /// Ortak Ödeme Sayfası Sorgulama.
+        /// </summary>
+        /// <param name="Id"> Ortak ödeme sayfasına ait kimlik (Id) bilgisidir. Oluşturma anında dönmektedir. </param>
+        /// <returns></returns>
+        public Task<Response<CheckoutInQuiryResponse>> GetCheckoutInquiry(string Id)
+        {
+            _httpClient.SetHeader("Id", Id);
+
+            return GetRequestAsync<CheckoutInQuiryResponse>("checkout/inquiry");
+        }
+
+        #endregion
+
         #endregion
 
         #region Provision
@@ -206,7 +232,7 @@ namespace PayWall.NetCore.Implementations
             PostRequestAsync<PaymentProvisionCancelRequest, PaymentEmptyResult>("payment/provision/cancel", request);
 
         #endregion
-
+    
         #region Installment
 
         /// <summary>
