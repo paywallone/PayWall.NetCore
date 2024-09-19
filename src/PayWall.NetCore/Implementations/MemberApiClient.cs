@@ -82,8 +82,8 @@ namespace PayWall.NetCore.Implementations
         /// <summary>
         /// Üye sorgulama.
         /// </summary>
-        /// <param name="memberid">Liste'nin hangi kayıttan itibaren üye getireceğini belirler.</param>
-        /// <param name="memberexternalid">Liste'nin hangi kayıttan itibaren kaç tane üye getireceğini belirler.</param>
+        /// <param name="memberid">Üye'nin Paywall'daki Id bilgisi.</param>
+        /// <param name="memberexternalid">Üye'nin sizin sisteminizdeki Id bilgisi.</param>
         /// <returns></returns>
         public Task<Response<MemberResponse>> GetMemberAsync(string? memberid, string? memberexternalid)
         {
