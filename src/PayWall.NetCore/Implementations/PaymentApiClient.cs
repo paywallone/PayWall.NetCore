@@ -508,7 +508,7 @@ namespace PayWall.NetCore.Implementations
         /// <summary>
         /// Tekrarlı Sorgula.
         /// </summary>
-        /// <param name="subscriptionmerchantcode"> Listelemeye başlanacak sayfa. </param>
+        /// <param name="subscriptionmerchantcode"> Tekrarlı ödemeye verdiğiniz tekil takip numarası. </param>
         /// <returns></returns>
         public Task<Response<RecurringQueryResponse>> GetRecurringQueryAsync(string subscriptionmerchantcode)
         {

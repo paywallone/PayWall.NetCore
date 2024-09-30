@@ -149,6 +149,10 @@ Aşağıdaki komutu kullanarak NuGet paketini yükleyebilirsiniz:
 ```bash
 dotnet add package PayWall.NetCore
 ```
+
+### Add PaywallService
+### `builder.Services.AddPaywallService(builder.Configuration);`
+
 ## Yapılandırma
 
 ### appsettings.json
@@ -171,6 +175,7 @@ Paketi yükledikten sonra `appsettings.json` içinde `PayWall` kısmının oldu�
 - **PublicKey:** Kimlik bilgisini panelden alabilirsiniz.
 - **PrivateClient:** Kimlik bilgisini panelden alabilirsiniz.
 - **PrivateKey:** Kimlik bilgisini panelden alabilirsiniz.
+
 
 ## Adresler 
 
