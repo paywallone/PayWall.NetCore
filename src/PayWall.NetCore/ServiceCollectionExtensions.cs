@@ -141,14 +141,14 @@ namespace PayWall.NetCore
         {
             if (handlerFactories == null)
             {
-                throw new ArgumentNullException(nameof(handlerFactories), "Handler factories cannot be null.");
+                return;
             }
             
             foreach (var handlerFactory in handlerFactories)
             {
                 if (handlerFactory == null)
                 {
-                    throw new ArgumentNullException(nameof(handlerFactory), "Handler factory cannot be null.");
+                    continue;
                 }
                 
                 httpClientBuilder.AddHttpMessageHandler(handlerFactory);
