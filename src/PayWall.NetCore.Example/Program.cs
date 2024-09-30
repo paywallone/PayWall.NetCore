@@ -50,7 +50,7 @@ builder.Services
 
 builder.Services.AddTransient<LoggingDelegatingHandler>();
 
-builder.Services.AddPaywallService(builder.Configuration,sp => sp.GetRequiredService<LoggingDelegatingHandler>());
+builder.Services.AddPaywallService(builder.Configuration, sp => sp.GetRequiredService<LoggingDelegatingHandler>());
 
 var app = builder.Build();
 
@@ -551,7 +551,7 @@ app.MapGet("/recurring/item/pool",
                 [FromHeader] string? itemtype, [FromHeader] string? itemname,
                 [FromHeader] string? amount) =>
             await payWallService.Payment.GetItemPoolListAsync(start, length, sortvalue, sortcolumn, itemtype, itemname,
-                amount,dateto, datefrom))
+                amount, dateto, datefrom))
     .WithTags("RecurringItemPool")
     .WithSummary("Tekrarlı Ödeme Ürün/İçerik Havuz Listesi")
     .WithDescription(
@@ -587,7 +587,6 @@ app.MapPost("/temp-card",
     .WithTags("TempCard");
 
 #endregion
-
 
 #endregion
 

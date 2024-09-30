@@ -151,11 +151,16 @@ dotnet add package PayWall.NetCore
 ```
 
 ### Program.cs dosyanızda Aşağıdaki gibi AddPaywallService çağrımı yapınız
-### `builder.Services.AddPaywallService(builder.Configuration);`
+
+```csharp
+builder.Services.AddPaywallService(builder.Configuration);
+```
 
 ### Http MessageHandler eklemek isterseniz aşağıdaki gibi params ile handler tanımlayabilirsiniz.
 
-### `builder.Services.AddPaywallService(builder.Configuration,sp => sp.GetRequiredService<LoggingDelegatingHandler>());`
+```csharp
+builder.Services.AddPaywallService(builder.Configuration, sp => sp.GetRequiredService<LoggingDelegatingHandler>());
+```
 
 ## Yapılandırma
 
