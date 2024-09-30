@@ -1,6 +1,7 @@
 ﻿#region Using Directives
 
 using System;
+using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PayWall.NetCore.Configuration;
@@ -37,17 +38,18 @@ namespace PayWall.NetCore
 
         #region Public Methods
 
-        public static void AddPaywallService(this IServiceCollection services, IConfiguration config)
+        public static void AddPaywallService(this IServiceCollection services, IConfiguration config,
+            params Func<IServiceProvider, DelegatingHandler>[] handlerFactories)
         {
             var payWallOptions = new PayWallOptions();
 
             config.GetSection("PayWall").Bind(payWallOptions);
 
             services
-                .AddPaymentApiClient(payWallOptions)
-                .AddPaymentPrivateApiClient(payWallOptions)
-                .AddCardWallApiClient(payWallOptions)
-                .AddMemberApiClient(payWallOptions)
+                .AddPaymentApiClient(payWallOptions, handlerFactories)
+                .AddPaymentPrivateApiClient(payWallOptions, handlerFactories)
+                .AddCardWallApiClient(payWallOptions, handlerFactories)
+                .AddMemberApiClient(payWallOptions, handlerFactories)
                 .AddTransient<PayWallService>();
         }
 
@@ -55,7 +57,8 @@ namespace PayWall.NetCore
 
         #region Private Methods
 
-        private static IServiceCollection AddPaymentApiClient(this IServiceCollection services, PayWallOptions payWallOptions)
+        private static IServiceCollection AddPaymentApiClient(this IServiceCollection services,
+            PayWallOptions payWallOptions, params Func<IServiceProvider, DelegatingHandler>[] handlerFactories)
         {
             if (payWallOptions == null) throw new ArgumentNullException(nameof(payWallOptions));
 
@@ -68,13 +71,15 @@ namespace PayWall.NetCore
                 httpClient.DefaultRequestHeaders.Add("apiclientpublic", payWallOptions.PublicClient);
                 httpClient.DefaultRequestHeaders.Add("apikeyprivate", payWallOptions.PrivateKey);
                 httpClient.DefaultRequestHeaders.Add("apiclientprivate", payWallOptions.PrivateClient);
-            });
+            }).AddMultipleHttpMessageHandlers(handlerFactories);
 
             services.AddTransient<PaymentApiClient>();
-            
-            return services; 
+
+            return services;
         }
-        private static IServiceCollection AddPaymentPrivateApiClient(this IServiceCollection services, PayWallOptions payWallOptions)
+
+        private static IServiceCollection AddPaymentPrivateApiClient(this IServiceCollection services,
+            PayWallOptions payWallOptions, params Func<IServiceProvider, DelegatingHandler>[] handlerFactories)
         {
             if (payWallOptions == null) throw new ArgumentNullException(nameof(payWallOptions));
 
@@ -85,13 +90,15 @@ namespace PayWall.NetCore
                 httpClient.BaseAddress = baseAddress;
                 httpClient.DefaultRequestHeaders.Add("apikeyprivate", payWallOptions.PrivateKey);
                 httpClient.DefaultRequestHeaders.Add("apiclientprivate", payWallOptions.PrivateClient);
-            });
+            }).AddMultipleHttpMessageHandlers(handlerFactories);
 
             services.AddTransient<PaymentPrivateApiClient>();
-            
-            return services; 
+
+            return services;
         }
-        private static IServiceCollection AddCardWallApiClient(this IServiceCollection services, PayWallOptions payWallOptions)
+
+        private static IServiceCollection AddCardWallApiClient(this IServiceCollection services,
+            PayWallOptions payWallOptions, params Func<IServiceProvider, DelegatingHandler>[] handlerFactories)
         {
             if (payWallOptions == null) throw new ArgumentNullException(nameof(payWallOptions));
 
@@ -102,28 +109,50 @@ namespace PayWall.NetCore
                 httpClient.BaseAddress = baseAddress;
                 httpClient.DefaultRequestHeaders.Add("apikeyprivate", payWallOptions.PrivateKey);
                 httpClient.DefaultRequestHeaders.Add("apiclientprivate", payWallOptions.PrivateClient);
-            });
+            }).AddMultipleHttpMessageHandlers(handlerFactories);
 
             services.AddTransient<CardWallApiClient>();
-            
-            return services; 
+
+            return services;
         }
-        private static IServiceCollection AddMemberApiClient(this IServiceCollection services, PayWallOptions payWallOptions)
+
+        private static IServiceCollection AddMemberApiClient(this IServiceCollection services,
+            PayWallOptions payWallOptions, params Func<IServiceProvider, DelegatingHandler>[] handlerFactories)
         {
             if (payWallOptions == null) throw new ArgumentNullException(nameof(payWallOptions));
 
             var baseAddress = payWallOptions.Prod ? ProdMemberApiUrl : TestMemberApiUrl;
 
             services.AddHttpClient(MemberClientName, httpClient =>
-            {
-                httpClient.BaseAddress = baseAddress;
-                httpClient.DefaultRequestHeaders.Add("apikeypublic", payWallOptions.PublicKey);
-                httpClient.DefaultRequestHeaders.Add("apiclientpublic", payWallOptions.PublicClient);
-            });
+                {
+                    httpClient.BaseAddress = baseAddress;
+                    httpClient.DefaultRequestHeaders.Add("apikeypublic", payWallOptions.PublicKey);
+                    httpClient.DefaultRequestHeaders.Add("apiclientpublic", payWallOptions.PublicClient);
+                })
+                .AddMultipleHttpMessageHandlers(handlerFactories);
 
             services.AddTransient<MemberApiClient>();
+
+            return services;
+        }
+
+        private static void AddMultipleHttpMessageHandlers(this IHttpClientBuilder httpClientBuilder,
+            params Func<IServiceProvider, DelegatingHandler>[] handlerFactories)
+        {
+            if (handlerFactories == null)
+            {
+                throw new ArgumentNullException(nameof(handlerFactories), "Handler factories cannot be null.");
+            }
             
-            return services; 
+            foreach (var handlerFactory in handlerFactories)
+            {
+                if (handlerFactory == null)
+                {
+                    throw new ArgumentNullException(nameof(handlerFactory), "Handler factory cannot be null.");
+                }
+                
+                httpClientBuilder.AddHttpMessageHandler(handlerFactory);
+            }
         }
 
         #endregion
