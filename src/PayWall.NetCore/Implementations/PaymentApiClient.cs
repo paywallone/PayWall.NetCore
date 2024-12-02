@@ -31,7 +31,6 @@ using PayWall.NetCore.Models.Response.Apm.CheckoutBasedResponse;
 using PayWall.NetCore.Models.Response.Apm.OtpResponse;
 using PayWall.NetCore.Models.Response.Apm.PayResponse;
 using PayWall.NetCore.Models.Response.Apm.QrResponse;
-using PayWall.NetCore.Models.Response.CardProduction;
 using PayWall.NetCore.Models.Response.CardProduction.CardOperations;
 using PayWall.NetCore.Models.Response.CardProduction.VirtualCard;
 using PayWall.NetCore.Models.Response.Checkout;
@@ -78,6 +77,32 @@ namespace PayWall.NetCore.Implementations
         public async Task<Response<NonSecureResult>> StartDirectAsync(PaymentRequest request)
         {
             var response = await PostRequestAsync<PaymentRequest, NonSecureResult>("payment/startdirect", request);
+
+            if (!response.Result && response.Body?.Error != null)
+            {
+                var error = response.Body.Error;
+
+                response.Body.Error.BankErrorCode = error.BankErrorCode.Base64Decode();
+                response.Body.Error.BankErrorMessage = error.BankErrorMessage.Base64Decode();
+                response.Body.Error.ProviderErrorCode = error.ProviderErrorCode.Base64Decode();
+                response.Body.Error.ProviderErrorMessage = error.ProviderErrorMessage.Base64Decode();
+            }
+
+            return response;
+        }
+
+        #endregion
+        
+        #region NonSecure Ödeme (Sigorta) (2D)
+
+        /// <summary>
+        /// Direkt ödeme servisi, istek gönderdiğiniz anda kart bilgilerinden ödemeyi tahsil etme işlemini başlatır ve işlem sonucunu cevap içerisinde döner (Sigorta).
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<Response<NonSecureResult>> StartDirectInsuranceAsync(PaymentInsuranceRequest request)
+        {
+            var response = await PostRequestAsync<PaymentInsuranceRequest, NonSecureResult>("payment/startdirect/insurance", request);
 
             if (!response.Result && response.Body?.Error != null)
             {

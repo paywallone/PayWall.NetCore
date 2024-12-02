@@ -72,6 +72,18 @@ app.MapPost("/payment/startDirect",
 
 #endregion
 
+#region NonSecure Ödeme (Sigorta) (2D)
+
+app.MapPost("/payment/startDirect/insurance",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentInsuranceRequest request) =>
+        await payWallService.Payment.StartDirectInsuranceAsync(request))
+    .WithTags("Payment")
+    .WithSummary("Direkt Ödeme (Non-Secure) (Sigorta)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/3.-direkt-odeme-sigorta\">Dökümantasyon</a>");
+
+#endregion
+
 #region Secure Ödeme (3D)
 
 app.MapPost("/payment/startThreeD",
