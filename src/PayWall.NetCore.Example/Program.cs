@@ -14,7 +14,8 @@ using PayWall.NetCore.Models.Request.Apm.QrBasedRequest;
 using PayWall.NetCore.Models.Request.CardProduction.CardOperations;
 using PayWall.NetCore.Models.Request.CardProduction.PhysicalCard;
 using PayWall.NetCore.Models.Request.CardProduction.VirtualCard;
-using PayWall.NetCore.Models.Request.CardWall;
+using PayWall.NetCore.Models.Request.CardWall.Card;
+using PayWall.NetCore.Models.Request.CardWall.CardInsurance;
 using PayWall.NetCore.Models.Request.Checkout;
 using PayWall.NetCore.Models.Request.LinkQr;
 using PayWall.NetCore.Models.Request.Member;
@@ -670,6 +671,8 @@ app.MapGet("/payment-private/vpos/reconciliation/list",
 
 #region CardWall
 
+#region Card
+
 app.MapPost("/card",
         async ([FromServices] PayWallService payWallService, [FromBody] AddCardRequest request) =>
         await payWallService.CardWall.AddAsync(request))
@@ -703,6 +706,46 @@ app.MapPut("/card",
     .WithSummary("Kayıtlı Kart Güncelleme")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-saklama-servisi/4.-kart-guncelle\">Dökümantasyon</a>");
+
+#endregion
+
+#region Card Insurance (Sigorta)
+
+app.MapPost("/card/insurance",
+        async ([FromServices] PayWallService payWallService, [FromBody] AddCardInsuranceRequest request) =>
+        await payWallService.CardWall.AddCardInsuranceAsync(request))
+    .WithTags("CardWall")
+    .WithSummary("Yeni Kart Sakla (Sigorta)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-saklama-servisi/kart-kaydetme-sigorta/1.-yeni-kart\">Dökümantasyon</a>");
+
+app.MapGet("/card/insurance",
+        async ([FromServices] PayWallService payWallService, [FromQuery] string relationalIdOne,
+                [FromQuery] string? relationalIdTwo, [FromQuery] string? relationalIdTree,
+                [FromQuery] bool? includeDetails) =>
+            await payWallService.CardWall.GetCardInsuranceAsync(relationalIdOne, relationalIdTwo, relationalIdTree, includeDetails))
+    .WithTags("CardWall")
+    .WithSummary("Kayıtlı Kart Listesi (Sigorta)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-saklama-servisi/kart-kaydetme-sigorta/2.-kayitli-kartlar\">Dökümantasyon</a>");
+
+app.MapDelete("/card/insurance",
+        async ([FromServices] PayWallService payWallService, [FromBody] DeleteCardInsuranceRequest request) =>
+        await payWallService.CardWall.DeleteCardInsuranceAsync(request))
+    .WithTags("CardWall")
+    .WithSummary("Kayıtlı Kart Silme (Sigorta)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-saklama-servisi/kart-kaydetme-sigorta/3.-kart-sil\">Dökümantasyon</a>");
+
+app.MapPut("/card/insurance",
+        async ([FromServices] PayWallService payWallService, [FromBody] EditCardInsuranceRequest request) =>
+        await payWallService.CardWall.PutCardInsuranceAsync(request))
+    .WithTags("CardWall")
+    .WithSummary("Kayıtlı Kart Güncelleme (Sigorta)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/kart-saklama-servisi/kart-kaydetme-sigorta/4.-kart-guncelle\">Dökümantasyon</a>");
+
+#endregion
 
 #endregion
 
