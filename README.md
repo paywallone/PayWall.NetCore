@@ -30,11 +30,16 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 ## Metotlar
 
 ### Kayıtlı Kart İşlemleri
-
-- **Kart Kayıt Etme**
-- **Kayıtlı Kart Listeleme**
-- **Kayıtlı Kart Silme**
-- **Kayıtlı Kart Güncelleme**
+- ### **Kart**
+  - **Kart Kayıt Etme**
+  - **Kayıtlı Kart Listeleme**
+  - **Kayıtlı Kart Silme**
+  - **Kayıtlı Kart Güncelleme**
+- ### **Kart (Sigortacılık)**
+  - **Kart Kayıt Etme**
+  - **Kayıtlı Kart Listeleme**
+  - **Kayıtlı Kart Silme**
+  - **Kayıtlı Kart Güncelleme**
 
 ### Üye Yönetimi
 - **Üye Oluştur**
@@ -55,6 +60,7 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 
 ### Ödeme İşlemleri
 - **Direkt Ödeme (2D)** 
+- **Direkt Ödeme (Sigortacılık) (2D)**
 - **Güvenli Ödeme (3D)** 
 - **Provizyon İşlemleri**
 - **Taksit Sorgulama** 
