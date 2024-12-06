@@ -130,7 +130,7 @@ namespace PayWall.NetCore.Implementations
         /// <param name="request"></param>
         /// <returns></returns>
         public Task<Response<PrivatePaymentEmptyResult>> CancelAsync(PaymentCancelRequest request) => 
-            PostRequestAsync<PaymentCancelRequest, PrivatePaymentEmptyResult>("private/refund/cancel",request);
+            PostRequestAsync<PaymentCancelRequest, PrivatePaymentEmptyResult>("private/cancel",request);
 
         
         #endregion

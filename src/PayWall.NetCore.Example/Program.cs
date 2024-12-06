@@ -631,7 +631,7 @@ app.MapPost("/payment-private/refund/partial",
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/10.-kismi-iade\">Dökümantasyon</a>");
 
-app.MapPost("/payment-private/refund/cancel",
+app.MapPost("/payment-private/cancel",
         async ([FromServices] PayWallService payWallService, [FromBody] PaymentCancelRequest request) =>
         await payWallService.PaymentPrivate.CancelAsync(request))
     .WithTags("PaymentPrivate")
