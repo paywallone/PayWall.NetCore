@@ -1,11 +1,9 @@
 using PayWall.NetCore.Models.Abstraction;
 
-namespace PayWall.NetCore.Models.Request.CardWall;
+namespace PayWall.NetCore.Models.Request.CardWall.CardInsurance;
 
-public class AddCardRequest : IRequestParams
+public class AddCardInsuranceRequest : IRequestParams
 {
-    public bool PartnerBased { get; set; }
-    public string PartnerIdentity { get; set; }
     /// <summary>
     /// Kart'ın ilişkilendirilmesi istenen unique bilgi.
     /// </summary>
@@ -22,5 +20,5 @@ public class AddCardRequest : IRequestParams
     /// Kartın detay bilgileri (Bin, Tip, Marka, Banka vs) dönsün istiyorsanız TRUEolarak göndermelisiniz.
     /// </summary>
     public bool IncludeDetails { get; set; }
-    public CardDetailRequest Card { get; set; }
+    public CardInsuranceDetailRequest Card { get; set; }
 }

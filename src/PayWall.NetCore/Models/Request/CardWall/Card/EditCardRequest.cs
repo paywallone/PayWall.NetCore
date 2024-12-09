@@ -1,6 +1,6 @@
 using PayWall.NetCore.Models.Abstraction;
 
-namespace PayWall.NetCore.Models.Request.CardWall;
+namespace PayWall.NetCore.Models.Request.CardWall.Card;
 
 public class EditCardRequest : IRequestParams
 {

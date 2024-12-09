@@ -1,11 +1,9 @@
 using PayWall.NetCore.Models.Abstraction;
 
-namespace PayWall.NetCore.Models.Request.CardWall;
+namespace PayWall.NetCore.Models.Request.CardWall.CardInsurance;
 
-public class DeleteCardRequest : IRequestParams
+public class DeleteCardInsuranceRequest : IRequestParams
 {
-    public bool PartnerBased { get; set; }
-    public string PartnerIdentity { get; set; }
     /// <summary>
     /// Kart'ın ilişkilendirildiği unique bilgi.
     /// </summary>

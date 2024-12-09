@@ -14,8 +14,20 @@ namespace PayWall.NetCore.Models.Request.Payment
         public Customer Customer { get; set; }
         public IList<Products> Products { get; set; } = new List<Products>();
     }
+    
+    public class BasePaymentInsuranceRequest
+    {
+        public CardInsurance Card { get; set; }
+        public Customer Customer { get; set; }
+        public IList<Products> Products { get; set; } = new List<Products>();
+    }
 
     public class PaymentRequest : BasePaymentRequest, IRequestParams
+    {
+        public PaymentDetail PaymentDetail { get; set; }
+    }
+    
+    public class PaymentInsuranceRequest : BasePaymentInsuranceRequest, IRequestParams
     {
         public PaymentDetail PaymentDetail { get; set; }
     }
@@ -177,6 +189,63 @@ namespace PayWall.NetCore.Models.Request.Payment
         [StringLength(20)]
         [Required]
         public string Number { get; set; }
+
+        /// <summary>
+        /// Ödemenin alınacağı  kartın son kullanma tarihi ayı.
+        /// </summary>
+        [Required]
+        public string ExpireMonth { get; set; }
+
+        /// <summary>
+        /// Ödemenin alınacağı  kartın son kullanma tarihi yılı.
+        /// </summary>
+        [Required]
+        public string ExpireYear { get; set; }
+
+        /// <summary>
+        /// Ödemenin alınacağı kartın güvenlik kodu.
+        /// </summary>
+        [Required]
+        public string Cvv { get; set; }
+
+        /// <summary>
+        /// Sağlayıcı tarafında saklanmış olan kart bilgisine karşılık gelen değer (X firmasında saklanmış Y kartının kimliği).
+        /// </summary>
+        [Required]
+        public string UniqueCode { get; set; }
+
+        public CardSave CardSave { get; set; }
+    }
+    
+    public class CardInsurance
+    {
+        /// <summary>
+        /// Ödemenin alınacağı kart sahibinin adı soyadı.
+        /// </summary>
+        [StringLength(60)]
+        [Required]
+        public string OwnerName { get; set; }
+
+        /// <summary>
+        /// Kart numarasının ilk 6 veya 8 hanesi BIN.
+        /// </summary>
+        [StringLength(20)]
+        [Required]
+        public string CardNoFirst { get; set; }
+        
+        /// <summary>
+        /// Kart numarasının son 4 hanesi.
+        /// </summary>
+        [StringLength(20)]
+        [Required]
+        public string CardNoLast { get; set; }
+        
+        /// <summary>
+        /// Kullanıcının TCKN numarası veya vergi kimlik numarası.
+        /// </summary>
+        [StringLength(20)]
+        [Required]
+        public string InquiryValue { get; set; }
 
         /// <summary>
         /// Ödemenin alınacağı  kartın son kullanma tarihi ayı.

@@ -1,13 +1,19 @@
 using PayWall.NetCore.Models.Abstraction;
+using PayWall.NetCore.Models.Response.CardWall.Card;
 
-namespace PayWall.NetCore.Models.Response.CardWall;
+namespace PayWall.NetCore.Models.Response.CardWall.CardInsurance;
 
-public class CardResponse : IResponseResult
+public class CardInsuranceResponse : IResponseResult
 {
     /// <summary>
     /// Kart sahibinin adı.
     /// </summary>
     public string Name { get; set; }
+    
+    /// <summary>
+    /// Kart sahibinin kimlik numarası veya vergi kimlik numarası.
+    /// </summary>
+    public string Identity { get; set; }
 
     /// <summary>
     /// Kartın başlangıç numarası (Bank Identification Number - BIN).
@@ -23,11 +29,6 @@ public class CardResponse : IResponseResult
     /// Kart sahibinin adı ve soyadı.
     /// </summary>
     public string CardHolderName { get; set; }
-
-    /// <summary>
-    /// Kart numarası (tam numara).
-    /// </summary>
-    public string CardNumber { get; set; }
 
     /// <summary>
     /// Kartın süresinin dolup dolmadığını belirten bir işaret (true: süresi dolmuş, false: geçerli).

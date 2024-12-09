@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 using PayWall.NetCore.Extensions;
 using PayWall.NetCore.Models.Abstraction;
 using PayWall.NetCore.Models.Common.CardWall;
-using PayWall.NetCore.Models.Request.CardWall;
-using PayWall.NetCore.Models.Response.CardWall;
+using PayWall.NetCore.Models.Request.CardWall.Card;
+using PayWall.NetCore.Models.Request.CardWall.CardInsurance;
+using PayWall.NetCore.Models.Response.CardWall.Card;
+using PayWall.NetCore.Models.Response.CardWall.CardInsurance;
 
 #endregion
 
@@ -35,6 +37,8 @@ namespace PayWall.NetCore.Implementations
 
         #region Public Methods
 
+        #region Card
+        
         /// <summary>
         /// Yeni Kart.
         /// </summary>
@@ -62,7 +66,6 @@ namespace PayWall.NetCore.Implementations
             {
                 _httpClient.SetHeader("includeDetails",includeDetails.Value.ToString());
             }
-            
             return GetRequestListAsync<CardResponse>("card");
         }
         
@@ -83,6 +86,60 @@ namespace PayWall.NetCore.Implementations
         /// <returns></returns>
         public Task<Response<CardWallEmptyResult>> PutAsync(EditCardRequest request) =>
             PutRequestAsync<EditCardRequest, CardWallEmptyResult>("card", request);
+
+        #endregion
+        
+        #region Card Insurance (Sigorta)
+
+        /// <summary>
+        /// Yeni Kart (Sigorta).
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<AddCardInsuranceResponse>> AddCardInsuranceAsync(AddCardInsuranceRequest request) =>
+            PostRequestAsync<AddCardInsuranceRequest, AddCardInsuranceResponse>("card/insurance", request);
+        
+        /// <summary>
+        /// Kayıtlı Kartlar (Sigorta).
+        /// </summary>
+        /// <param name="relationalIdOne">Kart'ın ilişkilendirildiği unique bilgi.</param>
+        /// <param name="relationalIdTwo">Kart'ın ilişkilendirildiği ikinci unique bilgi.</param>
+        /// <param name="relationalIdTree">Kart'ın ilişkilendirildiği üçüncü unique bilgi.</param>
+        /// <param name="includeDetails"></param>
+        /// <returns></returns>
+        public Task<ResponseList<CardInsuranceResponse>> GetCardInsuranceAsync(string relationalIdOne, string relationalIdTwo,
+            string relationalIdTree, bool? includeDetails)
+        {
+            _httpClient.SetHeader("relationalid1",relationalIdOne);
+            _httpClient.SetHeader("relationalid2",relationalIdTwo);
+            _httpClient.SetHeader("relationalid3",relationalIdTree);
+            
+            if (includeDetails.HasValue)
+            {
+                _httpClient.SetHeader("includeDetails",includeDetails.Value.ToString());
+            }
+            return GetRequestListAsync<CardInsuranceResponse>("card/insurance");
+        }
+        
+        /// <summary>
+        /// Kayıtlı Kart Silme (Sigorta).
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<CardInsuranceResponse>> DeleteCardInsuranceAsync(DeleteCardInsuranceRequest request)
+        {
+            return DeleteRequestAsync<DeleteCardInsuranceRequest,CardInsuranceResponse>("card/insurance",request);
+        }
+        
+        /// <summary>
+        /// Kayıtlı Kart Güncelleme (Sigorta).
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<CardWallEmptyResult>> PutCardInsuranceAsync(EditCardInsuranceRequest request) =>
+            PutRequestAsync<EditCardInsuranceRequest, CardWallEmptyResult>("card/insurance", request);
+
+        #endregion
         
         #endregion
 
