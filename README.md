@@ -178,7 +178,7 @@ Paketi yükledikten sonra `appsettings.json` içinde `PayWall` kısmının oldu�
 ```json
 "PayWall": {
   "Prod": false,
-  "Global"
+  "DataCenter": "Global",
   "PublicClient": "********************",
   "PublicKey": "***********************",
   "PrivateClient": "***********************",
