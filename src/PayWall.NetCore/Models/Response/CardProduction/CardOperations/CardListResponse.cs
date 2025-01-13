@@ -1,4 +1,3 @@
-using System;
 using PayWall.NetCore.Models.Abstraction;
 
 namespace PayWall.NetCore.Models.Response.CardProduction.CardOperations;

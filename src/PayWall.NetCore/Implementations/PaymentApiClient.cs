@@ -1,5 +1,4 @@
 ﻿#region Using Directives
-
 using System;
 using System.Globalization;
 using System.Net.Http;
@@ -43,7 +42,6 @@ using PayWall.NetCore.Models.Response.Recurring;
 using PayWall.NetCore.Models.Response.Recurring.Card;
 using PayWall.NetCore.Models.Response.Recurring.CustomerPool;
 using PayWall.NetCore.Models.Response.Recurring.ItemPool;
-
 #endregion
 
 namespace PayWall.NetCore.Implementations
@@ -51,22 +49,17 @@ namespace PayWall.NetCore.Implementations
     public class PaymentApiClient
     {
         #region Private Properties
-
         private readonly HttpClient _httpClient;
-
         #endregion
 
         #region Ctor
-
         public PaymentApiClient(IHttpClientFactory httpClientFactory)
         {
             _httpClient = httpClientFactory.CreateClient(ServiceCollectionExtensions.PaymentClientName);
         }
-
         #endregion
 
         #region Payments
-
         #region NonSecure Ödeme (2D)
 
         /// <summary>
@@ -727,11 +720,9 @@ namespace PayWall.NetCore.Implementations
         }
 
         #endregion
-
         #endregion
 
         #region Provision
-
         /// <summary>
         /// Provizyon Kapatma.
         /// </summary>
@@ -747,11 +738,9 @@ namespace PayWall.NetCore.Implementations
         /// <returns></returns>
         public Task<Response<PaymentEmptyResult>> ProvisionCancelAsync(PaymentProvisionCancelRequest request) =>
             PostRequestAsync<PaymentProvisionCancelRequest, PaymentEmptyResult>("payment/provision/cancel", request);
-
         #endregion
     
         #region Installment
-
         /// <summary>
         /// Taksit Sorgula.
         /// </summary>
@@ -767,11 +756,9 @@ namespace PayWall.NetCore.Implementations
 
             return GetRequestAsync<InstallmentResponse>("installment");
         }
-
         #endregion
 
         #region BIN
-
         /// <summary>
         /// Bin Sorgula.
         /// </summary>
@@ -783,11 +770,9 @@ namespace PayWall.NetCore.Implementations
 
             return GetRequestAsync<BinResponse>("bin/inquiry");
         }
-
         #endregion
 
         #region Private Methods
-
         private async Task<Response<TRes>> PostRequestAsync<TReq, TRes>(string requestUrl, TReq req)
             where TReq : IRequestParams, new()
             where TRes : IResponseResult
@@ -847,7 +832,6 @@ namespace PayWall.NetCore.Implementations
 
             return await result.Content.ReadFromJsonAsync<Response<TRes>>();
         }
-
         #endregion
     }
 }

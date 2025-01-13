@@ -1,5 +1,4 @@
 ﻿#region Using Directives
-
 using System;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -15,7 +14,6 @@ using PayWall.NetCore.Models.Request.Member.MemberValueDate;
 using PayWall.NetCore.Models.Response.Member;
 using PayWall.NetCore.Models.Response.Member.MemberBankAccount;
 using PayWall.NetCore.Models.Response.Member.MemberValueDate;
-
 #endregion
 
 namespace PayWall.NetCore.Implementations
@@ -23,22 +21,17 @@ namespace PayWall.NetCore.Implementations
     public class MemberApiClient
     {
         #region Private Properties
-
         private readonly HttpClient _httpClient;
-
         #endregion
 
         #region Ctor
-
         public MemberApiClient(IHttpClientFactory httpClientFactory)
         {
             _httpClient = httpClientFactory.CreateClient(ServiceCollectionExtensions.MemberClientName);
         }
-
         #endregion
 
         #region Public Methods
-
         #region Member
         
         /// <summary>
@@ -158,11 +151,9 @@ namespace PayWall.NetCore.Implementations
         }
 
         #endregion
-
         #endregion
 
         #region Private Methods
-
         private async Task<Response<TRes>> PostRequestAsync<TReq, TRes>(string requestUrl, TReq req)
             where TReq : IRequestParams, new()
             where TRes : IResponseResult
@@ -222,7 +213,6 @@ namespace PayWall.NetCore.Implementations
 
             return await result.Content.ReadFromJsonAsync<Response<TRes>>();
         }
-
         #endregion
     }
 }

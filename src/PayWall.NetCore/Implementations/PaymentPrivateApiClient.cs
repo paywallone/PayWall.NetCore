@@ -1,5 +1,4 @@
 ﻿#region Using Directives
-
 using System;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -13,7 +12,6 @@ using PayWall.NetCore.Models.Request.PrivatePayment;
 using PayWall.NetCore.Models.Request.Reconciliation.VPos;
 using PayWall.NetCore.Models.Response.PrivatePayment;
 using PayWall.NetCore.Models.Response.Reconcilliation.VPos;
-
 #endregion
 
 namespace PayWall.NetCore.Implementations
@@ -21,24 +19,18 @@ namespace PayWall.NetCore.Implementations
     public class PaymentPrivateApiClient
     {
         #region Private Properties
-
         private readonly HttpClient _httpClient;
-
         #endregion
 
         #region Ctor
-
         public PaymentPrivateApiClient(IHttpClientFactory httpClientFactory)
         {
             _httpClient = httpClientFactory.CreateClient(ServiceCollectionExtensions.PaymentPrivateClientName);
         }
-
         #endregion
 
         #region Public Methods
-
         #region VPosReconciliation
-        
         /// <summary>
         /// Mutabakat Yap.
         /// </summary>
@@ -91,7 +83,6 @@ namespace PayWall.NetCore.Implementations
 
             return GetRequestAsync<VPosReconcilationListDetailResponse>("private/vpos/reconciliation/list");
         }
-
         #endregion
         
         /// <summary>
@@ -105,7 +96,6 @@ namespace PayWall.NetCore.Implementations
             
             return GetRequestAsync<QueryResponse>("private/query");
         }
-
         #region Refund/Partial-Refund/Cancel
         
         /// <summary>
@@ -134,11 +124,9 @@ namespace PayWall.NetCore.Implementations
 
         
         #endregion
-        
         #endregion
     
         #region Private Methods
-
         private async Task<Response<TRes>> PostRequestAsync<TReq, TRes>(string requestUrl, TReq req)
             where TReq : IRequestParams, new()
             where TRes : IResponseResult
@@ -187,7 +175,6 @@ namespace PayWall.NetCore.Implementations
 
             return await result.Content.ReadFromJsonAsync<Response<TRes>>();
         }
-
         #endregion
     }
 }

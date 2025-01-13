@@ -21,8 +21,6 @@ namespace PayWall.NetCore.Configuration
         public string PrivateKey { get; set; }
         
         [Required(ErrorMessage = "DataCenter is required.")]
-        public DataCenter DataCenter { get; set; } = DataCenter.Gcp;
-
-        
+        public DataCenter DataCenter { get; set; } = DataCenter.Global;
     }
 }

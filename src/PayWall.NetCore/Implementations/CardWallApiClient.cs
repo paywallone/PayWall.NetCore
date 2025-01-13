@@ -1,5 +1,4 @@
 ﻿#region Using Directives
-
 using System;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -13,7 +12,6 @@ using PayWall.NetCore.Models.Request.CardWall.Card;
 using PayWall.NetCore.Models.Request.CardWall.CardInsurance;
 using PayWall.NetCore.Models.Response.CardWall.Card;
 using PayWall.NetCore.Models.Response.CardWall.CardInsurance;
-
 #endregion
 
 namespace PayWall.NetCore.Implementations
@@ -21,22 +19,17 @@ namespace PayWall.NetCore.Implementations
     public class CardWallApiClient
     {
         #region Private Properties
-
         private readonly HttpClient _httpClient;
-
         #endregion
 
         #region Ctor
-
         public CardWallApiClient(IHttpClientFactory httpClientFactory)
         {
             _httpClient = httpClientFactory.CreateClient(ServiceCollectionExtensions.CardWallClientName);
         }
-
         #endregion
 
         #region Public Methods
-
         #region Card
         
         /// <summary>
@@ -140,11 +133,9 @@ namespace PayWall.NetCore.Implementations
             PutRequestAsync<EditCardInsuranceRequest, CardWallEmptyResult>("card/insurance", request);
 
         #endregion
-        
         #endregion
 
         #region Private Methods
-
         private async Task<Response<TRes>> PostRequestAsync<TReq, TRes>(string requestUrl, TReq req)
             where TReq : IRequestParams, new()
             where TRes : IResponseResult
@@ -203,7 +194,6 @@ namespace PayWall.NetCore.Implementations
 
             return await result.Content.ReadFromJsonAsync<Response<TRes>>();
         }
-
         #endregion
     }
 }
