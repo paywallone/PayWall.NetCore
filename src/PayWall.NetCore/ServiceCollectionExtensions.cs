@@ -1,13 +1,12 @@
 ﻿#region Using Directives
-
 using System;
 using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PayWall.NetCore.Configuration;
 using PayWall.NetCore.Implementations;
+using PayWall.NetCore.Models.Common;
 using PayWall.NetCore.Services;
-
 #endregion
 
 namespace PayWall.NetCore
@@ -15,29 +14,32 @@ namespace PayWall.NetCore
     public static class ServiceCollectionExtensions
     {
         #region Public Properties
-
         public static string PaymentClientName => "PaymentApiClient";
         public static string PaymentPrivateClientName => "PaymentPrivateApiClient";
         public static string CardWallClientName => "CardWallApiClient";
         public static string MemberClientName => "MemberApiClient";
-
         #endregion
 
         #region Private Properties
+        // Global
+        private static Uri ProdPaymentApiUrlGCP => new("https://payment-api.itspaywall.com/api/paywall/");
+        private static Uri TestPaymentApiUrlGCP => new("https://dev-payment-api.itspaywall.com/api/paywall/");
+        private static Uri ProdPaymentPrivateApiUrlGCP => new("https://payment-private-api.itspaywall.com/api/paywall/");
+        private static Uri TestPaymentPrivateApiUrlGCP => new("https://dev-payment-private-api.itspaywall.com/api/paywall/");
+        private static Uri ProdCardWallApiUrlGCP => new("https://card-api.itspaywall.com/paywall/");
+        private static Uri TestCardWallApiUrlGCP => new("https://dev-card-api.itspaywall.com/paywall/");
+        private static Uri ProdMemberApiUrlGCP => new("https://member-api.itspaywall.com/api/paywall/");
+        private static Uri TestMemberApiUrlGCP => new("https://dev-member-api.itspaywall.com/api/paywall/");
 
-        private static Uri ProdPaymentApiUrl => new("https://payment-api.itspaywall.com/api/paywall/");
-        private static Uri TestPaymentApiUrl => new("https://dev-payment-api.itspaywall.com/api/paywall/");
-        private static Uri ProdPaymentPrivateApiUrl => new("https://payment-private-api.itspaywall.com/api/paywall/");
-        private static Uri TestPaymentPrivateApiUrl => new("https://dev-payment-private-api.itspaywall.com/api/paywall/");
-        private static Uri ProdCardWallApiUrl => new("https://card-api.itspaywall.com/paywall/");
-        private static Uri TestCardWallApiUrl => new("https://dev-card-api.itspaywall.com/paywall/");
-        private static Uri ProdMemberApiUrl => new("https://member-api.itspaywall.com/api/paywall/");
-        private static Uri TestMemberApiUrl => new("https://dev-member-api.itspaywall.com/api/paywall/");
-
+        
+        // Turkey
+        private static Uri ProdPaymentApiUrlHuawei => new("https://payment-api.paywall.com.tr/api/paywall/");
+        private static Uri ProdPaymentPrivateApiUrlHuawei => new("https://payment-private-api.paywall.com.tr/api/paywall/");
+        private static Uri ProdCardWallApiUrlHuawei => new("https://card-api.paywall.com.tr/paywall/");
+        private static Uri ProdMemberApiUrlHuawei => new("https://member-api.paywall.com.tr/api/paywall/");
         #endregion
 
         #region Public Methods
-
         public static void AddPaywallService(this IServiceCollection services, IConfiguration config,
             params Func<IServiceProvider, DelegatingHandler>[] handlerFactories)
         {
@@ -52,17 +54,20 @@ namespace PayWall.NetCore
                 .AddMemberApiClient(payWallOptions, handlerFactories)
                 .AddTransient<PayWallService>();
         }
-
         #endregion
 
         #region Private Methods
-
         private static IServiceCollection AddPaymentApiClient(this IServiceCollection services,
             PayWallOptions payWallOptions, params Func<IServiceProvider, DelegatingHandler>[] handlerFactories)
         {
             if (payWallOptions == null) throw new ArgumentNullException(nameof(payWallOptions));
 
-            var baseAddress = payWallOptions.Prod ? ProdPaymentApiUrl : TestPaymentApiUrl;
+            var baseAddress = payWallOptions.DataCenter switch
+            {
+                DataCenter.Global => payWallOptions.Prod ? ProdPaymentApiUrlGCP : TestPaymentApiUrlGCP,
+                DataCenter.Turkey => payWallOptions.Prod ? ProdPaymentApiUrlHuawei : throw new NotSupportedException("Huawei does not support test."),
+                _ => throw new NotSupportedException($"'{payWallOptions.DataCenter}' is not supported.")
+            };
 
             services.AddHttpClient(PaymentClientName, httpClient =>
             {
@@ -83,7 +88,12 @@ namespace PayWall.NetCore
         {
             if (payWallOptions == null) throw new ArgumentNullException(nameof(payWallOptions));
 
-            var baseAddress = payWallOptions.Prod ? ProdPaymentPrivateApiUrl : TestPaymentPrivateApiUrl;
+            var baseAddress = payWallOptions.DataCenter switch
+            {
+                DataCenter.Global => payWallOptions.Prod ? ProdPaymentPrivateApiUrlGCP : TestPaymentPrivateApiUrlGCP,
+                DataCenter.Turkey => payWallOptions.Prod ? ProdPaymentPrivateApiUrlHuawei : throw new NotSupportedException("Huawei does not support test."),
+                _ => throw new NotSupportedException($"'{payWallOptions.DataCenter}' is not supported.")
+            };
 
             services.AddHttpClient(PaymentPrivateClientName, httpClient =>
             {
@@ -102,7 +112,12 @@ namespace PayWall.NetCore
         {
             if (payWallOptions == null) throw new ArgumentNullException(nameof(payWallOptions));
 
-            var baseAddress = payWallOptions.Prod ? ProdCardWallApiUrl : TestCardWallApiUrl;
+            var baseAddress = payWallOptions.DataCenter switch
+            {
+                DataCenter.Global => payWallOptions.Prod ? ProdCardWallApiUrlGCP : TestCardWallApiUrlGCP,
+                DataCenter.Turkey => payWallOptions.Prod ? ProdCardWallApiUrlHuawei : throw new NotSupportedException("Huawei does not support test."),
+                _ => throw new NotSupportedException($"'{payWallOptions.DataCenter}' is not supported.")
+            };
 
             services.AddHttpClient(CardWallClientName, httpClient =>
             {
@@ -121,7 +136,12 @@ namespace PayWall.NetCore
         {
             if (payWallOptions == null) throw new ArgumentNullException(nameof(payWallOptions));
 
-            var baseAddress = payWallOptions.Prod ? ProdMemberApiUrl : TestMemberApiUrl;
+            var baseAddress = payWallOptions.DataCenter switch
+            {
+                DataCenter.Global => payWallOptions.Prod ? ProdMemberApiUrlGCP : TestMemberApiUrlGCP,
+                DataCenter.Turkey => payWallOptions.Prod ? ProdMemberApiUrlHuawei : throw new NotSupportedException("Huawei does not support test."),
+                    _ => throw new NotSupportedException($"'{payWallOptions.DataCenter}' is not supported.")
+            };
 
             services.AddHttpClient(MemberClientName, httpClient =>
                 {
@@ -154,7 +174,6 @@ namespace PayWall.NetCore
                 httpClientBuilder.AddHttpMessageHandler(handlerFactory);
             }
         }
-
         #endregion
     }
 }

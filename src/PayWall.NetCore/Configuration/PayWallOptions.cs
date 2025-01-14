@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using PayWall.NetCore.Models.Common;
 
 namespace PayWall.NetCore.Configuration
 {
@@ -18,5 +19,8 @@ namespace PayWall.NetCore.Configuration
         
         [Required(ErrorMessage = "PrivateKey is required.")]
         public string PrivateKey { get; set; }
+        
+        [Required(ErrorMessage = "DataCenter is required.")]
+        public DataCenter DataCenter { get; set; } = DataCenter.Global;
     }
 }

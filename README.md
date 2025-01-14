@@ -178,6 +178,7 @@ Paketi yükledikten sonra `appsettings.json` içinde `PayWall` kısmının oldu�
 ```json
 "PayWall": {
   "Prod": false,
+  "DataCenter": "Global",
   "PublicClient": "********************",
   "PublicKey": "***********************",
   "PrivateClient": "***********************",
@@ -185,7 +186,8 @@ Paketi yükledikten sonra `appsettings.json` içinde `PayWall` kısmının oldu�
 }
 ```
 
-- **Prod:** Test ortamında işlem yapmak istediğiniz zaman `Prod:` `false` olmalı. Prod ortamda yapmak isterseniz `Prod:` `true` olmalı.
+- **Prod:** Test ortamında işlem yapmak istediğiniz zaman `Prod:` `false` olmalı (Test ortamı sadece Global DataCenter ortamında çalışır). Prod ortamda yapmak isterseniz `Prod:` `true` olmalı.
+- **DataCenter:** Hangi ortamında işlem yapmak istediğinizi seçiniz `Global` veya  `Turkey`
 - **PublicClient:** Kimlik bilgisini panelden alabilirsiniz.
 - **PublicKey:** Kimlik bilgisini panelden alabilirsiniz.
 - **PrivateClient:** Kimlik bilgisini panelden alabilirsiniz.
@@ -197,4 +199,5 @@ Paketi yükledikten sonra `appsettings.json` içinde `PayWall` kısmının oldu�
 - **PayWall Entegrasyon Dökümanı:** [https://developer.paywall.one/](https://developer.paywall.one/)                                                        
 - **Website:** [https://paywall.one/](https://paywall.one/)
 - **Test Paneli:** [https://dev-panel.itspaywall.com/](https://dev-panel.itspaywall.com/)
-- **Canlı Panel:** [https://panel.itspaywall.com/](https://panel.itspaywall.com/)
+- **Canlı Panel(Global):** [https://panel.itspaywall.com/](https://panel.itspaywall.com/)
+- **Canlı Panel(Turkey):** [https://panel.paywall.com.tr/](https://panel.paywall.com.tr/)
