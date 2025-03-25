@@ -30,7 +30,7 @@ jobs:
     - name: Get current version
       id: get_version
       run: |
-        VERSION=$(grep -oP '(?<=<Version>).*?(?=</Version>)' *.csproj)
+        VERSION=$(find . -name "*.csproj" -exec grep -oP '(?<=<Version>).*?(?=</Version>)' {} + | head -n 1)
         echo "version=$VERSION" >> $GITHUB_OUTPUT
     
     - name: Restore dependencies
