@@ -245,7 +245,7 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// </summary>
         [StringLength(20)]
         [Required]
-        public string InquiryValue { get; set; }
+        public string IdentityNumber { get; set; }
 
         /// <summary>
         /// Ödemenin alınacağı  kartın son kullanma tarihi ayı.

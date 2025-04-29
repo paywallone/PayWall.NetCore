@@ -23,13 +23,13 @@ namespace PayWall.NetCore
         #region Private Properties
         // Global
         private static Uri ProdPaymentApiUrlGCP => new("https://payment-api.itspaywall.com/api/paywall/");
-        private static Uri TestPaymentApiUrlGCP => new("https://dev-payment-api.itspaywall.com/api/paywall/");
+        private static Uri TestPaymentApiUrlGCP => new("https://test-payment-api.itspaywall.com/api/paywall/");
         private static Uri ProdPaymentPrivateApiUrlGCP => new("https://payment-private-api.itspaywall.com/api/paywall/");
-        private static Uri TestPaymentPrivateApiUrlGCP => new("https://dev-payment-private-api.itspaywall.com/api/paywall/");
+        private static Uri TestPaymentPrivateApiUrlGCP => new("https://test-payment-private-api.itspaywall.com/api/paywall/");
         private static Uri ProdCardWallApiUrlGCP => new("https://card-api.itspaywall.com/paywall/");
-        private static Uri TestCardWallApiUrlGCP => new("https://dev-card-api.itspaywall.com/paywall/");
+        private static Uri TestCardWallApiUrlGCP => new("https://test-card-api.itspaywall.com/paywall/");
         private static Uri ProdMemberApiUrlGCP => new("https://member-api.itspaywall.com/api/paywall/");
-        private static Uri TestMemberApiUrlGCP => new("https://dev-member-api.itspaywall.com/api/paywall/");
+        private static Uri TestMemberApiUrlGCP => new("https://test-member-api.itspaywall.com/api/paywall/");
 
         
         // Turkey
