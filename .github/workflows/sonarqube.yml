@@ -1,0 +1,36 @@
+name: SonarQube Analysis
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Her Pazartesi saat 06:00'da çalıştır
+  workflow_dispatch: # Manuel çalıştırmak için
+env: 
+  ACCESS_TOKEN: ${{ secrets.AZURE_ARTIFACTS_ACCESSTOKEN }} 
+  ACCESS_TOKEN_HANGFIRE: ${{ secrets.ACCESS_TOKEN_HANGFIRE }} 
+
+jobs:
+  sonarqube:
+    name: SonarQube Code Analysis
+    runs-on: [self-hosted, pw-hc-runner]  # Runner etiketi burada doğru olmalı
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # SonarQube'un analiz için tüm geçmişe ihtiyacı olabilir
+
+      - name: Install .NET SDK
+        run: |
+          echo ${{ github.event.repository.name }}
+          sudo dnf install -y dotnet-sdk-8.0  # Versiyon ihtiyacına göre değiştir
+
+      - name: Install SonarScanner for .NET
+        run: |
+          dotnet tool update --global dotnet-sonarscanner
+
+      - name: Run SonarQube Analysis
+        run: |
+          export PATH="$HOME/.dotnet/tools:$PATH"
+          dotnet-sonarscanner begin /k:"${{ github.event.repository.name }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet build
+          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
