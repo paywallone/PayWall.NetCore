@@ -208,10 +208,6 @@ namespace PayWall.NetCore.Models.Request.Payment
         [Required]
         public string Cvv { get; set; }
 
-        /// <summary>
-        /// Sağlayıcı tarafında saklanmış olan kart bilgisine karşılık gelen değer (X firmasında saklanmış Y kartının kimliği).
-        /// </summary>
-        [Required]
         public string UniqueCode { get; set; }
 
         public CardSave CardSave { get; set; }
