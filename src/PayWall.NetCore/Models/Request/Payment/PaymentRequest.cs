@@ -35,20 +35,85 @@ namespace PayWall.NetCore.Models.Request.Payment
 
     public class Payment3DRequest : BasePaymentRequest, IRequestParams
     {
+        /// <summary>
+        /// 3D ödeme akışına ait ödeme detay bilgileridir.
+        /// </summary>
         public Payment3DRequestDetail PaymentDetail { get; set; }
-        public bool UseFraudParameters { get; set; }
-        public FraudParameters FraudParameters { get; set; }
+
+        /// <summary>
+        /// Fraud parametrelerinin manuel gönderilip gönderilmeyeceğini belirtir.
+        /// </summary>
+        public bool UseFraudParameters { get; set; } = false;
+
+        /// <summary>
+        /// UseFraudParameters true ise gönderilecek fraud değerlendirme parametreleridir.
+        /// </summary>
+        public FraudParameters? FraudParameters { get; set; }
     }
 
-    public class Payment3DRequestDetail
+    public class Payment3DModelRequest : BasePaymentRequest, IRequestParams
     {
+        /// <summary>
+        /// 3D Model ödeme akışına ait ödeme detay bilgileridir.
+        /// </summary>
+        public Payment3DModelRequestDetail PaymentDetail { get; set; }
+
+        /// <summary>
+        /// Fraud parametrelerinin manuel gönderilip gönderilmeyeceğini belirtir.
+        /// </summary>
+        public bool UseFraudParameters { get; set; } = false;
+
+        /// <summary>
+        /// UseFraudParameters true ise gönderilecek fraud değerlendirme parametreleridir.
+        /// </summary>
+        public FraudParameters? FraudParameters { get; set; }
+    }
+
+    public class PaymentCommonDetail
+    {
+        /// <summary>
+        /// Ödeme sepet tutarıdır.
+        /// </summary>
         public decimal Amount { get; set; }
+
+        /// <summary>
+        /// İşleme sizin sisteminizde verdiğiniz tekil takip kodudur.
+        /// </summary>
         public string MerchantUniqueCode { get; set; }
+
+        /// <summary>
+        /// Operasyonel amaçlı ek takip kodudur.
+        /// </summary>
         public string TrackingCode { get; set; }
+
+        /// <summary>
+        /// Ödeme para birimi kodudur.
+        /// </summary>
         public short CurrencyId { get; set; }
+
+        /// <summary>
+        /// Başarılı ödeme sonrası yönlendirilecek adres.
+        /// </summary>
         public string MerchantSuccessBackUrl { get; set; }
+
+        /// <summary>
+        /// Başarısız ödeme sonrası yönlendirilecek adres.
+        /// </summary>
         public string MerchantFailBackUrl { get; set; }
+
+        /// <summary>
+        /// Son kullanıcının istemci IP bilgisidir.
+        /// </summary>
         public string ClientIP { get; set; }
+
+        /// <summary>
+        /// Geriye uyumluluk için desteklenen legacy taksit alanıdır.
+        /// </summary>
+        public byte? Installement { get; set; }
+
+        /// <summary>
+        /// Taksit bilgisidir, tek çekim için 1 gönderilmelidir.
+        /// </summary>
         public byte? Installment { get; set; }
 
         public int?
@@ -58,53 +123,130 @@ namespace PayWall.NetCore.Models.Request.Payment
             set;
         } // We use it to detect payment provider by looking at EndOfTheDay and sort it to lowest
 
+        /// <summary>
+        /// İsteğin geldiği kanal bilgisidir (Web, Mobile vb.).
+        /// </summary>
         public int ChannelId { get; set; }
+
+        /// <summary>
+        /// İşlemin raporlama/segment amaçlı etiket bilgisidir.
+        /// </summary>
         public int TagId { get; set; }
-        public bool Half3D { get; set; }
+
+        /// <summary>
+        /// 3D akışının yarım 3D modunda çalıştırılıp çalıştırılmayacağını belirtir.
+        /// </summary>
+        public bool Half3D { get; set; } 
 
         #region Region
 
+        /// <summary>
+        /// Bölgesel yönlendirme için kullanılan opsiyonel bölge bilgisidir.
+        /// </summary>
         public short? RegionId { get; set; }
 
         #endregion
 
         #region Provider
 
+        /// <summary>
+        /// Sağlayıcı bazlı yönlendirme yapılıp yapılmayacağını belirtir.
+        /// </summary>
         public bool ProviderBased { get; set; }
+
+        /// <summary>
+        /// ProviderBased true ise kullanılacak sağlayıcı anahtarıdır.
+        /// </summary>
         public string ProviderKey { get; set; }
 
         #endregion
 
         #region Pos
 
+        /// <summary>
+        /// POS bazlı yönlendirme yapılıp yapılmayacağını belirtir.
+        /// </summary>
         public bool PosBased { get; set; }
+
+        /// <summary>
+        /// PosBased true ise kullanılacak POS kimlik bilgisidir.
+        /// </summary>
         public int PosId { get; set; }
 
         #endregion
 
         #region Route
 
+        /// <summary>
+        /// Otomatik route mekanizmasının bypass edilip edilmeyeceğini belirtir.
+        /// </summary>
         public bool PayRouteByPass { get; set; }
-        public short PayRouteType { get; set; }
+
+        /// <summary>
+        /// Route seçim tipini belirler.
+        /// </summary>
+        public int PayRouteType { get; set; }
+
+        /// <summary>
+        /// Route grubu ile eşleştirme yapılacak grup anahtarıdır.
+        /// </summary>
         public string RouteGroupKey { get; set; }
 
         #endregion
+    }
+
+    public class Payment3DRequestDetail : PaymentCommonDetail
+    {
+        /// <summary>
+        /// 3D akışının yarım 3D modunda çalıştırılıp çalıştırılmayacağını belirtir.
+        /// </summary>
+        public bool Half3D { get; set; }
 
         #region PayWatch
 
+        /// <summary>
+        /// Tekil PayWatch izleme ayarlarını içerir.
+        /// </summary>
         public PayWatchRequest? PayWatch { get; set; }
 
         #endregion
 
         #region PayWatchMultiple
 
+        /// <summary>
+        /// Çoklu PayWatch iş kurallarının aktif olup olmadığını belirtir.
+        /// </summary>
         public bool PayWatchMultipleSupport { get; set; }
+
+        /// <summary>
+        /// Çoklu PayWatch izleme iş tanımlarını içerir.
+        /// </summary>
         public PayWatchMultipleRequest? PayWatchMultiple { get; set; }
 
         #endregion
 
         #region MarketPlace
 
+        /// <summary>
+        /// Pazaryeri akışında kullanılacak opsiyonel sepet seviyesindeki parametrelerdir.
+        /// </summary>
+        public MarketPlace? MarketPlace { get; set; }
+
+        #endregion
+    }
+
+    public class Payment3DModelRequestDetail : PaymentCommonDetail
+    {
+        /// <summary>
+        /// 3D akışının yarım 3D modunda çalıştırılıp çalıştırılmayacağını belirtir.
+        /// </summary>
+        public bool Half3D { get; set; }
+
+        #region MarketPlace
+
+        /// <summary>
+        /// Pazaryeri akışında kullanılacak opsiyonel sepet seviyesindeki parametrelerdir.
+        /// </summary>
         public MarketPlace? MarketPlace { get; set; }
 
         #endregion
@@ -190,7 +332,11 @@ namespace PayWall.NetCore.Models.Request.Payment
 
     public class MarketPlace
     {
-        public decimal BasketAmount { get; set; }
+        public decimal? BasketAmount { get; set; }
+        public short? BasketDiscountType { get; set; }
+        public decimal? BasketDiscountValue { get; set; }
+        public short? BasketCargoType { get; set; }
+        public decimal? BasketCargoValue { get; set; }
     }
 
     public class Card
@@ -226,23 +372,26 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// </summary>
         [Required]
         public string Cvv { get; set; }
-
         public bool ForceCvv { get; set; }
         public string UniqueCode { get; set; }
         public string TempCardToken { get; set; }
-        public Partner Partner { get; set; }
-
-        public CardSave CardSave { get; set; }
+        public Partner? Partner { get; set; }
+        public CardSave? CardSave { get; set; }
     }
     
     public class CardInsurance
     {
+        public string Number { get; set; }
         /// <summary>
         /// Ödemenin alınacağı kart sahibinin adı soyadı.
         /// </summary>
         [StringLength(60)]
         [Required]
         public string OwnerName { get; set; }
+        
+        public string? AdditionalIdentityNumber { get; set; }
+        
+        public bool? UseAdditionalIdentityNumber { get; set; }
 
         /// <summary>
         /// Kart numarasının ilk 6 veya 8 hanesi BIN.
@@ -264,25 +413,7 @@ namespace PayWall.NetCore.Models.Request.Payment
         [StringLength(20)]
         [Required]
         public string IdentityNumber { get; set; }
-
-        /// <summary>
-        /// Ödemenin alınacağı  kartın son kullanma tarihi ayı.
-        /// </summary>
-        [Required]
-        public string ExpireMonth { get; set; }
-
-        /// <summary>
-        /// Ödemenin alınacağı  kartın son kullanma tarihi yılı.
-        /// </summary>
-        [Required]
-        public string ExpireYear { get; set; }
-
-        /// <summary>
-        /// Ödemenin alınacağı kartın güvenlik kodu.
-        /// </summary>
-        [Required]
-        public string Cvv { get; set; }
-
+        
         /// <summary>
         /// Sağlayıcı tarafında saklanmış olan kart bilgisine karşılık gelen değer (X firmasında saklanmış Y kartının kimliği).
         /// </summary>
@@ -371,7 +502,7 @@ namespace PayWall.NetCore.Models.Request.Payment
         public string DeviceFingerprint { get; set; }
         public string UserAgent { get; set; }
         public DateTime? UserRegisteredAt { get; set; }
-        public PaymentRequestLocation Location { get; set; }
+        public Location? Location { get; set; }
     }
 
     public class Products
@@ -409,7 +540,7 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// <summary>
         /// MarketPlace modeli için zorunludur. Alt üye işyerinin PayWall sistemindeki MemberId bilgisiyle doldurulmalıdır.
         /// </summary>
-        public int MemberId { get; set; }
+        public int? MemberId { get; set; }
 
         /// <summary>
         /// Ürüne indirim uygulayan taraf.
@@ -424,7 +555,7 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// <summary>
         /// Ürüne uygulanan indirim değer. Eğer Type 1 ve değer 10 ise 10(TL/USD/EURO) uygular ancak Type 2 ise %10 uygular.
         /// </summary>
-        public int DiscountValue { get; set; }
+        public decimal DiscountValue { get; set; }
 
         /// <summary>
         /// Ürünün kargo maliyeti olması durumunda, kimin ödeyeceğini belirtir.
@@ -449,17 +580,17 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// <summary>
         /// "MemberCustomCommission" bu parametreye bağlı olarak, ürüne uygulamak istediğiniz komisyon değerini % bazında verebilirsiniz.
         /// </summary>
-        public decimal MemberCommission { get; set; }
+        public decimal? MemberCommission { get; set; }
 
         /// <summary>
         /// Üye hakedişini kendi tarafınızda hesapladığınızda True.
         /// </summary>
-        public bool MemberEarningCalculated { get; set; }
+        public bool? MemberEarningCalculated { get; set; }
 
         /// <summary>
         /// MemberEarningCalculated true ise üyenin alacağı/gönderilecek tutar.
         /// </summary>
-        public int MemberEarning { get; set; }
+        public decimal? MemberEarning { get; set; }
     }
 
     public class Partner
@@ -470,25 +601,24 @@ namespace PayWall.NetCore.Models.Request.Payment
 
     public class FraudParameters
     {
-        public bool BypassFraud { get; set; }
-        public bool OverrideActualParameters { get; set; }
+        public bool BypassFraud { get; set; } = false;
+        public bool OverrideActualParameters { get; set; } = false;
         public string DeviceFingerprint { get; set; }
-        public decimal? Amount { get; set; }
         public string ClientIP { get; set; }
         public string CountryCode { get; set; }
         public string UserAgent { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public DateTime? UserRegisteredAt { get; set; }
-        public PaymentRequestLocation Location { get; set; }
+        public Location? Location { get; set; }
     }
 
-    public class PaymentRequestLocation
+    public class Location
     {
-        public string Country { get; set; }
-        public string City { get; set; }
-        public string Region { get; set; }
-        public string Lat { get; set; }
-        public string Lon { get; set; }
+        public string? Country { get; set; }
+        public string? City { get; set; }
+        public string? Region { get; set; }
+        public string? Lat { get; set; }
+        public string? Lon { get; set; }
     }
 }

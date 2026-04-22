@@ -5,7 +5,7 @@ using PayWall.NetCore.Models.Abstraction;
 
 #endregion
 
-namespace PayWall.NetCore.Models.Request.PrivatePayment;
+namespace PayWall.NetCore.Models.Request.PrivatePayment.PaymentRefund;
 
 public class PaymentRefundByPaymentIdRequest : IRequestParams
 {
@@ -27,10 +27,10 @@ public class PaymentRefundByPaymentIdRequest : IRequestParams
     /// <summary>
     /// Marketplace iade davranışını yönetir.
     /// </summary>
-    public PaymentRefundMarketPlaceRequest MarketPlace { get; set; }
+    public MarketPlaceRefundRequest? MarketPlace { get; set; }
 }
 
-public class PaymentRefundMarketPlaceRequest
+public class MarketPlaceRefundRequest
 {
     public bool DeleteExistingRecords { get; set; }
 }

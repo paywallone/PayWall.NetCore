@@ -119,7 +119,7 @@ namespace PayWall.NetCore.Implementations
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<Response<Payment3DResponse>> StartThreeDAsync(Payment3DRequest request)
+        public async Task<Response<Payment3DResponse>> Start3DAsync(Payment3DRequest request)
         {
             var response = await PostRequestAsync<Payment3DRequest, Payment3DResponse>("payment/start3d", request);
 
@@ -141,9 +141,9 @@ namespace PayWall.NetCore.Implementations
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<Response<Payment3DResponse>> StartThreeDModelAsync(Payment3DRequest request)
+        public async Task<Response<Payment3DResponse>> Start3DModelAsync(Payment3DModelRequest request)
         {
-            var response = await PostRequestAsync<Payment3DRequest, Payment3DResponse>("payment/start3dmodel", request);
+            var response = await PostRequestAsync<Payment3DModelRequest, Payment3DResponse>("payment/start3dmodel", request);
 
             if (!response.Result && response.Body?.Error != null)
             {

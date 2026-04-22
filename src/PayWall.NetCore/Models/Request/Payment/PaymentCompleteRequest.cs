@@ -1,5 +1,6 @@
 #region Using Directives
 
+using System;
 using PayWall.NetCore.Models.Abstraction;
 
 #endregion
@@ -11,5 +12,5 @@ public class PaymentCompleteRequest : IRequestParams
     /// <summary>
     /// Ödeme'ye PayWall tarafından atanan tekil takip numarasıdır.
     /// </summary>
-    public string UniqueCode { get; set; }
+    public Guid UniqueCode { get; set; }
 }
