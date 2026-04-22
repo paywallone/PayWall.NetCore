@@ -1,5 +1,6 @@
 ﻿#region Using Directives
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using PayWall.NetCore.Models.Abstraction;
@@ -35,12 +36,15 @@ namespace PayWall.NetCore.Models.Request.Payment
     public class Payment3DRequest : BasePaymentRequest, IRequestParams
     {
         public Payment3DRequestDetail PaymentDetail { get; set; }
+        public bool UseFraudParameters { get; set; }
+        public FraudParameters FraudParameters { get; set; }
     }
 
     public class Payment3DRequestDetail
     {
         public decimal Amount { get; set; }
         public string MerchantUniqueCode { get; set; }
+        public string TrackingCode { get; set; }
         public short CurrencyId { get; set; }
         public string MerchantSuccessBackUrl { get; set; }
         public string MerchantFailBackUrl { get; set; }
@@ -68,6 +72,21 @@ namespace PayWall.NetCore.Models.Request.Payment
 
         public bool ProviderBased { get; set; }
         public string ProviderKey { get; set; }
+
+        #endregion
+
+        #region Pos
+
+        public bool PosBased { get; set; }
+        public int PosId { get; set; }
+
+        #endregion
+
+        #region Route
+
+        public bool PayRouteByPass { get; set; }
+        public short PayRouteType { get; set; }
+        public string RouteGroupKey { get; set; }
 
         #endregion
 
@@ -208,7 +227,10 @@ namespace PayWall.NetCore.Models.Request.Payment
         [Required]
         public string Cvv { get; set; }
 
+        public bool ForceCvv { get; set; }
         public string UniqueCode { get; set; }
+        public string TempCardToken { get; set; }
+        public Partner Partner { get; set; }
 
         public CardSave CardSave { get; set; }
     }
@@ -346,6 +368,10 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// Üye işyeri tarafındaki alıcıya ait vergi kimlik  numarası.
         /// </summary>
         public string TaxNumber { get; set; }
+        public string DeviceFingerprint { get; set; }
+        public string UserAgent { get; set; }
+        public DateTime? UserRegisteredAt { get; set; }
+        public PaymentRequestLocation Location { get; set; }
     }
 
     public class Products
@@ -434,5 +460,35 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// MemberEarningCalculated true ise üyenin alacağı/gönderilecek tutar.
         /// </summary>
         public int MemberEarning { get; set; }
+    }
+
+    public class Partner
+    {
+        public bool PartnerBased { get; set; }
+        public string PartnerIdentity { get; set; }
+    }
+
+    public class FraudParameters
+    {
+        public bool BypassFraud { get; set; }
+        public bool OverrideActualParameters { get; set; }
+        public string DeviceFingerprint { get; set; }
+        public decimal? Amount { get; set; }
+        public string ClientIP { get; set; }
+        public string CountryCode { get; set; }
+        public string UserAgent { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public DateTime? UserRegisteredAt { get; set; }
+        public PaymentRequestLocation Location { get; set; }
+    }
+
+    public class PaymentRequestLocation
+    {
+        public string Country { get; set; }
+        public string City { get; set; }
+        public string Region { get; set; }
+        public string Lat { get; set; }
+        public string Lon { get; set; }
     }
 }

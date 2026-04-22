@@ -136,6 +136,72 @@ namespace PayWall.NetCore.Implementations
             return response;
         }
 
+        /// <summary>
+        /// PayWall 3D Model ödeme servisine istek gönderdiğinizde, ilgili isteğin cevabında istek başarılıysa PayWall ödeme linki dönülmektedir.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<Response<Payment3DResponse>> StartThreeDModelAsync(Payment3DRequest request)
+        {
+            var response = await PostRequestAsync<Payment3DRequest, Payment3DResponse>("payment/start3dmodel", request);
+
+            if (!response.Result && response.Body?.Error != null)
+            {
+                var error = response.Body.Error;
+
+                response.Body.Error.BankErrorCode = error.BankErrorCode.Base64Decode();
+                response.Body.Error.BankErrorMessage = error.BankErrorMessage.Base64Decode();
+                response.Body.Error.ProviderErrorCode = error.ProviderErrorCode.Base64Decode();
+                response.Body.Error.ProviderErrorMessage = error.ProviderErrorMessage.Base64Decode();
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// 3D Model ödemelerinizi tamamlar.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<Response<PaymentCompleteResponse>> CompleteAsync(PaymentCompleteRequest request)
+        {
+            var response = await PostRequestAsync<PaymentCompleteRequest, PaymentCompleteResponse>("payment/complete", request);
+
+            if (response.Body?.Error != null)
+            {
+                var error = response.Body.Error;
+
+                response.Body.Error.BankErrorCode = error.BankErrorCode.Base64Decode();
+                response.Body.Error.BankErrorMessage = error.BankErrorMessage.Base64Decode();
+                response.Body.Error.ProviderErrorCode = error.ProviderErrorCode.Base64Decode();
+                response.Body.Error.ProviderErrorMessage = error.ProviderErrorMessage.Base64Decode();
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// 3D Model ödemelerinizi PaymentId bilgisi ile tamamlar.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<Response<PaymentCompleteResponse>> CompleteByPaymentIdAsync(PaymentCompleteByPaymentIdRequest request)
+        {
+            var response = await PostRequestAsync<PaymentCompleteByPaymentIdRequest, PaymentCompleteResponse>("payment/complete/by/paymentid", request);
+
+            if (response.Body?.Error != null)
+            {
+                var error = response.Body.Error;
+
+                response.Body.Error.BankErrorCode = error.BankErrorCode.Base64Decode();
+                response.Body.Error.BankErrorMessage = error.BankErrorMessage.Base64Decode();
+                response.Body.Error.ProviderErrorCode = error.ProviderErrorCode.Base64Decode();
+                response.Body.Error.ProviderErrorMessage = error.ProviderErrorMessage.Base64Decode();
+            }
+
+            return response;
+        }
+
         #endregion
 
         #region PayOut

@@ -94,6 +94,30 @@ app.MapPost("/payment/startThreeD",
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/3.-3d-odeme\">Dökümantasyon</a>");
 
+app.MapPost("/payment/startThreeDModel",
+        async ([FromServices] PayWallService payWallService, [FromBody] Payment3DRequest request) =>
+        await payWallService.Payment.StartThreeDModelAsync(request))
+    .WithTags("Payment")
+    .WithSummary("3D Model Başlat")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/4.-3d-odeme/2.-3d-model-baslat\">Dökümantasyon</a>");
+
+app.MapPost("/payment/complete",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentCompleteRequest request) =>
+        await payWallService.Payment.CompleteAsync(request))
+    .WithTags("Payment")
+    .WithSummary("3D Model Tamamla (UniqueCode)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/4.-3d-odeme/2.-3d-model-baslat/1.-tamamla-uniquecode\">Dökümantasyon</a>");
+
+app.MapPost("/payment/complete/by/paymentid",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentCompleteByPaymentIdRequest request) =>
+        await payWallService.Payment.CompleteByPaymentIdAsync(request))
+    .WithTags("Payment")
+    .WithSummary("3D Model Tamamla (PaymentId)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/4.-3d-odeme/2.-3d-model-baslat/2.-tamamla-paymentid\">Dökümantasyon</a>");
+
 #endregion
 
 #region Provizyon
@@ -622,6 +646,14 @@ app.MapPost("/payment-private/refund",
     .WithSummary("İade Servisi")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/9.-iade\">Dökümantasyon</a>");
+
+app.MapPost("/payment-private/refund/by/paymentid",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentRefundByPaymentIdRequest request) =>
+        await payWallService.PaymentPrivate.RefundByPaymentIdAsync(request))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Ödeme Kimlik (PaymentId) ile İade Servisi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/9.-iade/1.-odeme-kimlik\">Dökümantasyon</a>");
 
 app.MapPost("/payment-private/refund/partial",
         async ([FromServices] PayWallService payWallService, [FromBody] PaymentRefundPartialRequest request) =>

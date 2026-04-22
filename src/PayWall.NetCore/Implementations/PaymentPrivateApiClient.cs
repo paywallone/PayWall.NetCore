@@ -105,6 +105,14 @@ namespace PayWall.NetCore.Implementations
         /// <returns></returns>
         public Task<Response<PrivatePaymentEmptyResult>> RefundAsync(PaymentRefundRequest request) => 
             PostRequestAsync<PaymentRefundRequest, PrivatePaymentEmptyResult>("private/refund",request);
+
+        /// <summary>
+        /// Ödeme Kimlik (PaymentId) ile İade Servisi.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<PrivatePaymentEmptyResult>> RefundByPaymentIdAsync(PaymentRefundByPaymentIdRequest request) =>
+            PostRequestAsync<PaymentRefundByPaymentIdRequest, PrivatePaymentEmptyResult>("private/refund/by/paymentid", request);
         
         /// <summary>
         /// Kısmi İade Servisi.
