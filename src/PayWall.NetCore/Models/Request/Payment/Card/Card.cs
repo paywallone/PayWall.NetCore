@@ -7,33 +7,28 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// <summary>
         /// Ödemenin alınacağı kart sahibinin adı soyadı.
         /// </summary>
-        [StringLength(60)]
-        [Required]
+        [StringLength(150)]
         public string OwnerName { get; set; }
 
         /// <summary>
         /// Ödemenin alınacağı kart numarası.
         /// </summary>
-        [StringLength(20)]
-        [Required]
+        [StringLength(30)]
         public string Number { get; set; }
 
         /// <summary>
         /// Ödemenin alınacağı kartın son kullanma tarihi ayı.
         /// </summary>
-        [Required]
         public string ExpireMonth { get; set; }
 
         /// <summary>
         /// Ödemenin alınacağı kartın son kullanma tarihi yılı.
         /// </summary>
-        [Required]
         public string ExpireYear { get; set; }
 
         /// <summary>
         /// Ödemenin alınacağı kartın güvenlik kodu.
         /// </summary>
-        [Required]
         public string Cvv { get; set; }
 
         /// <summary>

@@ -12,8 +12,7 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// <summary>
         /// Ödemenin alınacağı kart sahibinin adı soyadı.
         /// </summary>
-        [StringLength(60)]
-        [Required]
+        [StringLength(150)]
         public string OwnerName { get; set; }
 
         /// <summary>
@@ -29,28 +28,24 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// <summary>
         /// Kart numarasının ilk 6 veya 8 hanesi (BIN).
         /// </summary>
-        [StringLength(20)]
-        [Required]
+        [StringLength(8)]
         public string CardNoFirst { get; set; }
 
         /// <summary>
         /// Kart numarasının son 4 hanesi.
         /// </summary>
-        [StringLength(20)]
-        [Required]
+        [StringLength(6)]
         public string CardNoLast { get; set; }
 
         /// <summary>
         /// Kullanıcının TCKN numarası veya vergi kimlik numarası.
         /// </summary>
         [StringLength(20)]
-        [Required]
         public string IdentityNumber { get; set; }
 
         /// <summary>
         /// Sağlayıcı tarafında saklanmış olan kart bilgisine karşılık gelen tekil değer.
         /// </summary>
-        [Required]
         public string UniqueCode { get; set; }
 
         /// <summary>

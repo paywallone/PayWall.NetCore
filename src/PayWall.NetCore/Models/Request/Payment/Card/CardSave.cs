@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 
 namespace PayWall.NetCore.Models.Request.Payment
 {
@@ -12,7 +11,6 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// <summary>
         /// Kart'ın ilişkilendirileceği değer.
         /// </summary>
-        [Required]
         public string RelationalId1 { get; set; }
 
         /// <summary>

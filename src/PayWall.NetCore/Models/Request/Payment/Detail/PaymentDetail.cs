@@ -23,20 +23,17 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// <summary>
         /// Ödeme sepet tutarı.
         /// </summary>
-        [Required]
         public decimal Amount { get; set; }
 
         /// <summary>
         /// İşleme sizin sisteminizde verdiğiniz tekil takip kodudur. İptal/İade/Sorgulama işlemlerinde ödemeyi tekilleştirmek için kullanılır.
         /// </summary>
         [StringLength(250)]
-        [Required]
         public string MerchantUniqueCode { get; set; }
 
         /// <summary>
         /// Para birimi.
         /// </summary>
-        [Required]
         public Currency CurrencyId { get; set; }
 
         /// <summary>
@@ -47,7 +44,6 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// <summary>
         /// WEB, MOBILE, API gibi isteklerin hangi kanaldan alındığını raporlar. Boş/0 gönderilirse panelde (Belirtilmemiş) görünür.
         /// </summary>
-        [Required]
         public Channel ChannelId { get; set; }
 
         /// <summary>

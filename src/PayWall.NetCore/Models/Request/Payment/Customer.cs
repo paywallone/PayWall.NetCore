@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace PayWall.NetCore.Models.Request.Payment
 {
@@ -8,37 +7,31 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// <summary>
         /// Üye işyeri tarafındaki alıcıya ait ad soyad.
         /// </summary>
-        [Required]
         public string FullName { get; set; }
 
         /// <summary>
         /// Üye işyeri tarafındaki alıcıya ait GSM numarası.
         /// </summary>
-        [Required]
         public string Phone { get; set; }
 
         /// <summary>
         /// İşyeri tarafındaki alıcıya ait e-posta bilgisi.
         /// </summary>
-        [Required]
         public string Email { get; set; }
 
         /// <summary>
         /// Üye işyeri tarafındaki alıcıya ait ülke bilgisi.
         /// </summary>
-        [Required]
         public string Country { get; set; }
 
         /// <summary>
         /// Üye işyeri tarafındaki alıcıya ait şehir bilgisi.
         /// </summary>
-        [Required]
         public string City { get; set; }
 
         /// <summary>
         /// Üye işyeri tarafındaki alıcıya ait kayıt adresi.
         /// </summary>
-        [Required]
         public string Address { get; set; }
 
         /// <summary>

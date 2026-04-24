@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using PayWall.NetCore.Models.Abstraction;
 
 namespace PayWall.NetCore.Models.Request.Payment
@@ -8,31 +7,26 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// <summary>
         /// Ürün Id.
         /// </summary>
-        [Required]
         public string ProductId { get; set; }
 
         /// <summary>
         /// Ürün adı.
         /// </summary>
-        [Required]
         public string ProductName { get; set; }
 
         /// <summary>
         /// Ürün kategorisi.
         /// </summary>
-        [Required]
         public string ProductCategory { get; set; }
 
         /// <summary>
         /// Ürün açıklama.
         /// </summary>
-        [Required]
         public string ProductDescription { get; set; }
 
         /// <summary>
         /// Ürün fiyat bilgisi.
         /// </summary>
-        [Required]
         public decimal ProductAmount { get; set; }
 
         /// <summary>
