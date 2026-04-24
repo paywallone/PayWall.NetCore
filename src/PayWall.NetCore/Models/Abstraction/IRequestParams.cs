@@ -122,4 +122,32 @@ namespace PayWall.NetCore.Models.Abstraction
         /// </summary>
         [Description("Aksiyon alma")] NoAction = 3
     }
+
+    public enum PayRouteTypeEnums
+    {
+        /// <summary>
+        /// En düşük komisyonlu sağlayıcıya yönlendirir.
+        /// </summary>
+        [Description("En düşük komisyon")] SmallCommission = 0,
+
+        /// <summary>
+        /// Kullanıcı tarafından tanımlanan sıralamaya göre yönlendirir.
+        /// </summary>
+        [Description("Özel sıralama")] CustomSort = 1,
+
+        /// <summary>
+        /// PayBalancer algoritmasıyla sağlayıcılar arasında dağıtım yapar.
+        /// </summary>
+        [Description("Yük dengeleme")] PayBalancer = 2,
+
+        /// <summary>
+        /// Tanımlı route tablosuna göre yönlendirir.
+        /// </summary>
+        [Description("Route tablosu")] RouteTable = 3,
+
+        /// <summary>
+        /// Tanımlı route grubuna göre yönlendirir. 
+        /// </summary>
+        [Description("Route grubu")] RouteGroup = 4
+    }
 }

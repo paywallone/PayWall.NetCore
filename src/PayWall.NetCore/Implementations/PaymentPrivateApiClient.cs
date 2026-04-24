@@ -9,6 +9,7 @@ using PayWall.NetCore.Extensions;
 using PayWall.NetCore.Models.Abstraction;
 using PayWall.NetCore.Models.Common.PaymentPrivate;
 using PayWall.NetCore.Models.Request.PrivatePayment.PaymentCancel;
+using PayWall.NetCore.Models.Request.PrivatePayment.PaymentRevert;
 using PayWall.NetCore.Models.Request.PrivatePayment.PaymentRefund;
 using PayWall.NetCore.Models.Request.PrivatePayment.PaymentRefundPartial;
 using PayWall.NetCore.Models.Request.Reconciliation.VPos;
@@ -171,6 +172,22 @@ namespace PayWall.NetCore.Implementations
         /// <returns></returns>
         public Task<Response<PrivatePaymentEmptyResult>> CancelByUniqueCodeAsync(PaymentCancelByUniqueCodeRequest request) =>
             PostRequestAsync<PaymentCancelByUniqueCodeRequest, PrivatePaymentEmptyResult>("private/cancel/by/uniquecode", request);
+
+        /// <summary>
+        /// İptal & İade Servisi.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<PrivatePaymentEmptyResult>> RevertAsync(PaymentRevertRequest request) =>
+            PostRequestAsync<PaymentRevertRequest, PrivatePaymentEmptyResult>("private/revert", request);
+
+        /// <summary>
+        /// Ödeme Kimlik (PaymentId) ile İptal & İade Servisi.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<PrivatePaymentEmptyResult>> RevertByPaymentIdAsync(PaymentRevertByPaymentIdRequest request) =>
+            PostRequestAsync<PaymentRevertByPaymentIdRequest, PrivatePaymentEmptyResult>("private/revert/by/paymentid", request);
 
         
         #endregion

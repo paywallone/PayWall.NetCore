@@ -7,6 +7,7 @@ public class NonSecureResult : IResponseResult
 {
     public BasePaymentResponse Payment { get; set; }
     public PaymentDirectPaymentErrorResponse Error { get; set; }
+    public PaymentFraudResponse Fraud { get; set; }
 }
 
 public class PaymentDirectPaymentErrorResponse
@@ -15,6 +16,16 @@ public class PaymentDirectPaymentErrorResponse
     public string ProviderErrorMessage { get; set; }
     public string BankErrorCode { get; set; }
     public string BankErrorMessage { get; set; }
+    public bool IsHttpError { get; set; }
+    public int HttpStatusCode { get; set; }
+    public bool HasPaywallUnifiedError { get; set; }
+    public UnifiedByPaywallError UnifiedByPaywall { get; set; }
+}
+
+public class UnifiedByPaywallError
+{
+    public string ErrorCode { get; set; }
+    public string ErrorMessage { get; set; }
 }
 
 public class BasePaymentResponse
@@ -28,7 +39,14 @@ public class BasePaymentResponse
     public string PaymentGatewayName { get; set; }
     public string PaymentGatewayProviderName { get; set; }
     public string PaymentGatewayProviderKey { get; set; }
+    public PaymentCardSavedResponse Card { get; set; }
     public List<PaymentMarketPlaceProductResponse> Products { get; set; }
+}
+
+public class PaymentCardSavedResponse
+{
+    public bool Saved { get; set; }
+    public string UniqueCode { get; set; }
 }
 
 public class PaymentFraudResponse

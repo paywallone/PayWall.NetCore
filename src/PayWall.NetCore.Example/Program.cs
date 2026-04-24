@@ -26,6 +26,7 @@ using PayWall.NetCore.Models.Request.Payment.TempCard;
 using PayWall.NetCore.Models.Request.Payment.TempToken;
 using PayWall.NetCore.Models.Request.PayOut;
 using PayWall.NetCore.Models.Request.PrivatePayment.PaymentCancel;
+using PayWall.NetCore.Models.Request.PrivatePayment.PaymentRevert;
 using PayWall.NetCore.Models.Request.PrivatePayment.PaymentRefund;
 using PayWall.NetCore.Models.Request.PrivatePayment.PaymentRefundPartial;
 using PayWall.NetCore.Models.Request.Reconciliation.VPos;
@@ -712,6 +713,22 @@ app.MapPost("/payment-private/cancel/by/uniquecode",
     .WithSummary("PayWall İşlem Numarası (UniqueCode) ile İptal Servisi")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/11.-iptal/2.-paywall-islem-numarasi\">Dökümantasyon</a>");
+
+app.MapPost("/payment-private/revert",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentRevertRequest request) =>
+        await payWallService.PaymentPrivate.RevertAsync(request))
+    .WithTags("PaymentPrivate")
+    .WithSummary("İptal & İade Servisi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-iptal-and-iade\">Dökümantasyon</a>");
+
+app.MapPost("/payment-private/revert/by/paymentid",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentRevertByPaymentIdRequest request) =>
+        await payWallService.PaymentPrivate.RevertByPaymentIdAsync(request))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Ödeme Kimlik (PaymentId) ile İptal & İade Servisi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-iptal-and-iade/1.-odeme-kimlik\">Dökümantasyon</a>");
 
 #endregion
 
