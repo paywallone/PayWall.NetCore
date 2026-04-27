@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 using PayWall.NetCore.Extensions;
 using PayWall.NetCore.Models.Abstraction;
 using PayWall.NetCore.Models.Common.PaymentPrivate;
-using PayWall.NetCore.Models.Request.PrivatePayment;
+using PayWall.NetCore.Models.Request.PrivatePayment.PaymentCancel;
+using PayWall.NetCore.Models.Request.PrivatePayment.PaymentRevert;
+using PayWall.NetCore.Models.Request.PrivatePayment.PaymentRefund;
+using PayWall.NetCore.Models.Request.PrivatePayment.PaymentRefundPartial;
 using PayWall.NetCore.Models.Request.Reconciliation.VPos;
 using PayWall.NetCore.Models.Response.PrivatePayment;
 using PayWall.NetCore.Models.Response.Reconcilliation.VPos;
@@ -105,6 +108,22 @@ namespace PayWall.NetCore.Implementations
         /// <returns></returns>
         public Task<Response<PrivatePaymentEmptyResult>> RefundAsync(PaymentRefundRequest request) => 
             PostRequestAsync<PaymentRefundRequest, PrivatePaymentEmptyResult>("private/refund",request);
+
+        /// <summary>
+        /// Ödeme Kimlik (PaymentId) ile İade Servisi.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<PrivatePaymentEmptyResult>> RefundByPaymentIdAsync(PaymentRefundByPaymentIdRequest request) =>
+            PostRequestAsync<PaymentRefundByPaymentIdRequest, PrivatePaymentEmptyResult>("private/refund/by/paymentid", request);
+
+        /// <summary>
+        /// Paywall İşlem Numarası (UniqueCode) ile İade Servisi.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<PrivatePaymentEmptyResult>> RefundByUniqueCodeAsync(PaymentRefundByUniqueCodeRequest request) =>
+            PostRequestAsync<PaymentRefundByUniqueCodeRequest, PrivatePaymentEmptyResult>("private/refund/by/uniquecode", request);
         
         /// <summary>
         /// Kısmi İade Servisi.
@@ -113,6 +132,22 @@ namespace PayWall.NetCore.Implementations
         /// <returns></returns>
         public Task<Response<PrivatePaymentEmptyResult>> RefundPartialAsync(PaymentRefundPartialRequest request) => 
             PostRequestAsync<PaymentRefundPartialRequest, PrivatePaymentEmptyResult>("private/refund/partial",request);
+
+        /// <summary>
+        /// Ödeme Kimlik (PaymentId) ile Kısmi İade Servisi.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<PrivatePaymentEmptyResult>> RefundPartialByPaymentIdAsync(PaymentRefundPartialByPaymentIdRequest request) =>
+            PostRequestAsync<PaymentRefundPartialByPaymentIdRequest, PrivatePaymentEmptyResult>("private/refund/partial/by/paymentid", request);
+
+        /// <summary>
+        /// Paywall İşlem Numarası (UniqueCode) ile Kısmi İade Servisi.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<PrivatePaymentEmptyResult>> RefundPartialByUniqueCodeAsync(PaymentRefundPartialByUniqueCodeRequest request) =>
+            PostRequestAsync<PaymentRefundPartialByUniqueCodeRequest, PrivatePaymentEmptyResult>("private/refund/partial/by/uniquecode", request);
         
         /// <summary>
         /// İade Servisi.
@@ -121,6 +156,38 @@ namespace PayWall.NetCore.Implementations
         /// <returns></returns>
         public Task<Response<PrivatePaymentEmptyResult>> CancelAsync(PaymentCancelRequest request) => 
             PostRequestAsync<PaymentCancelRequest, PrivatePaymentEmptyResult>("private/cancel",request);
+
+        /// <summary>
+        /// Ödeme Kimlik (PaymentId) ile İptal Servisi.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<PrivatePaymentEmptyResult>> CancelByPaymentIdAsync(PaymentCancelByPaymentIdRequest request) =>
+            PostRequestAsync<PaymentCancelByPaymentIdRequest, PrivatePaymentEmptyResult>("private/cancel/by/paymentid", request);
+
+        /// <summary>
+        /// Paywall İşlem Numarası (UniqueCode) ile İptal Servisi.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<PrivatePaymentEmptyResult>> CancelByUniqueCodeAsync(PaymentCancelByUniqueCodeRequest request) =>
+            PostRequestAsync<PaymentCancelByUniqueCodeRequest, PrivatePaymentEmptyResult>("private/cancel/by/uniquecode", request);
+
+        /// <summary>
+        /// İptal & İade Servisi.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<PrivatePaymentEmptyResult>> RevertAsync(PaymentRevertRequest request) =>
+            PostRequestAsync<PaymentRevertRequest, PrivatePaymentEmptyResult>("private/revert", request);
+
+        /// <summary>
+        /// Ödeme Kimlik (PaymentId) ile İptal & İade Servisi.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<PrivatePaymentEmptyResult>> RevertByPaymentIdAsync(PaymentRevertByPaymentIdRequest request) =>
+            PostRequestAsync<PaymentRevertByPaymentIdRequest, PrivatePaymentEmptyResult>("private/revert/by/paymentid", request);
 
         
         #endregion

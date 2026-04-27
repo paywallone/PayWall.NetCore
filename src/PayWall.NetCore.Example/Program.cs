@@ -25,7 +25,10 @@ using PayWall.NetCore.Models.Request.Payment;
 using PayWall.NetCore.Models.Request.Payment.TempCard;
 using PayWall.NetCore.Models.Request.Payment.TempToken;
 using PayWall.NetCore.Models.Request.PayOut;
-using PayWall.NetCore.Models.Request.PrivatePayment;
+using PayWall.NetCore.Models.Request.PrivatePayment.PaymentCancel;
+using PayWall.NetCore.Models.Request.PrivatePayment.PaymentRevert;
+using PayWall.NetCore.Models.Request.PrivatePayment.PaymentRefund;
+using PayWall.NetCore.Models.Request.PrivatePayment.PaymentRefundPartial;
 using PayWall.NetCore.Models.Request.Reconciliation.VPos;
 using PayWall.NetCore.Models.Request.Recurring;
 using PayWall.NetCore.Models.Request.Recurring.Card;
@@ -86,13 +89,37 @@ app.MapPost("/payment/startDirect/insurance",
 
 #region Secure Ödeme (3D)
 
-app.MapPost("/payment/startThreeD",
+app.MapPost("/payment/start3D",
         async ([FromServices] PayWallService payWallService, [FromBody] Payment3DRequest request) =>
-        await payWallService.Payment.StartThreeDAsync(request))
+        await payWallService.Payment.Start3DAsync(request))
     .WithTags("Payment")
     .WithSummary("3D Ödeme")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/3.-3d-odeme\">Dökümantasyon</a>");
+
+app.MapPost("/payment/start3DModel",
+        async ([FromServices] PayWallService payWallService, [FromBody] Payment3DModelRequest request) =>
+        await payWallService.Payment.Start3DModelAsync(request))
+    .WithTags("Payment")
+    .WithSummary("3D Model Başlat")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/4.-3d-odeme/2.-3d-model-baslat\">Dökümantasyon</a>");
+
+app.MapPost("/payment/complete",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentCompleteRequest request) =>
+        await payWallService.Payment.CompleteAsync(request))
+    .WithTags("Payment")
+    .WithSummary("3D Model Tamamla (UniqueCode)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/4.-3d-odeme/2.-3d-model-baslat/1.-tamamla-uniquecode\">Dökümantasyon</a>");
+
+app.MapPost("/payment/complete/by/paymentid",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentCompleteByPaymentIdRequest request) =>
+        await payWallService.Payment.CompleteByPaymentIdAsync(request))
+    .WithTags("Payment")
+    .WithSummary("3D Model Tamamla (PaymentId)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/4.-3d-odeme/2.-3d-model-baslat/2.-tamamla-paymentid\">Dökümantasyon</a>");
 
 #endregion
 
@@ -623,6 +650,22 @@ app.MapPost("/payment-private/refund",
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/9.-iade\">Dökümantasyon</a>");
 
+app.MapPost("/payment-private/refund/by/paymentid",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentRefundByPaymentIdRequest request) =>
+        await payWallService.PaymentPrivate.RefundByPaymentIdAsync(request))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Ödeme Kimlik (PaymentId) ile İade Servisi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/9.-iade/1.-odeme-kimlik\">Dökümantasyon</a>");
+
+app.MapPost("/payment-private/refund/by/uniquecode",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentRefundByUniqueCodeRequest request) =>
+        await payWallService.PaymentPrivate.RefundByUniqueCodeAsync(request))
+    .WithTags("PaymentPrivate")
+    .WithSummary("PayWall İşlem Numarası (UniqueCode) ile İade Servisi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/9.-iade/2.-paywall-islem-numarasi\">Dökümantasyon</a>");
+
 app.MapPost("/payment-private/refund/partial",
         async ([FromServices] PayWallService payWallService, [FromBody] PaymentRefundPartialRequest request) =>
         await payWallService.PaymentPrivate.RefundPartialAsync(request))
@@ -631,6 +674,22 @@ app.MapPost("/payment-private/refund/partial",
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/10.-kismi-iade\">Dökümantasyon</a>");
 
+app.MapPost("/payment-private/refund/partial/by/paymentid",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentRefundPartialByPaymentIdRequest request) =>
+        await payWallService.PaymentPrivate.RefundPartialByPaymentIdAsync(request))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Ödeme Kimlik (PaymentId) ile Kısmi İade Servisi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/10.-kismi-iade/1.-odeme-kimlik\">Dökümantasyon</a>");
+
+app.MapPost("/payment-private/refund/partial/by/uniquecode",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentRefundPartialByUniqueCodeRequest request) =>
+        await payWallService.PaymentPrivate.RefundPartialByUniqueCodeAsync(request))
+    .WithTags("PaymentPrivate")
+    .WithSummary("PayWall İşlem Numarası (UniqueCode) ile Kısmi İade Servisi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/10.-kismi-iade/2.-paywall-islem-numarasi\">Dökümantasyon</a>");
+
 app.MapPost("/payment-private/cancel",
         async ([FromServices] PayWallService payWallService, [FromBody] PaymentCancelRequest request) =>
         await payWallService.PaymentPrivate.CancelAsync(request))
@@ -638,6 +697,38 @@ app.MapPost("/payment-private/cancel",
     .WithSummary("İptal Servisi")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/11.-iptal\">Dökümantasyon</a>");
+
+app.MapPost("/payment-private/cancel/by/paymentid",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentCancelByPaymentIdRequest request) =>
+        await payWallService.PaymentPrivate.CancelByPaymentIdAsync(request))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Ödeme Kimlik (PaymentId) ile İptal Servisi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/11.-iptal/1.-odeme-kimlik\">Dökümantasyon</a>");
+
+app.MapPost("/payment-private/cancel/by/uniquecode",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentCancelByUniqueCodeRequest request) =>
+        await payWallService.PaymentPrivate.CancelByUniqueCodeAsync(request))
+    .WithTags("PaymentPrivate")
+    .WithSummary("PayWall İşlem Numarası (UniqueCode) ile İptal Servisi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/11.-iptal/2.-paywall-islem-numarasi\">Dökümantasyon</a>");
+
+app.MapPost("/payment-private/revert",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentRevertRequest request) =>
+        await payWallService.PaymentPrivate.RevertAsync(request))
+    .WithTags("PaymentPrivate")
+    .WithSummary("İptal & İade Servisi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-iptal-and-iade\">Dökümantasyon</a>");
+
+app.MapPost("/payment-private/revert/by/paymentid",
+        async ([FromServices] PayWallService payWallService, [FromBody] PaymentRevertByPaymentIdRequest request) =>
+        await payWallService.PaymentPrivate.RevertByPaymentIdAsync(request))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Ödeme Kimlik (PaymentId) ile İptal & İade Servisi")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-iptal-and-iade/1.-odeme-kimlik\">Dökümantasyon</a>");
 
 #endregion
 
