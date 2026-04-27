@@ -9,6 +9,11 @@ public class QueryResponse : IResponseResult
     public QueryPaywallResponse Paywall { get; set; }
 }
 
+public class QueryListResponse : IResponseResult
+{
+    public List<QueryPaywallResponse> List { get; set; }
+}
+
 public class QueryPaywallResponse
 {
     public int PaymentId { get; set; }
