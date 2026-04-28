@@ -167,6 +167,18 @@ app.MapGet("/payment/installment", async ([FromServices] PayWallService payWallS
 
 #endregion
 
+#region Campaign
+
+app.MapPost("/campaign/vpos/inquiry",
+        async ([FromServices] PayWallService payWallService, [FromBody] VPosCampaignInquiryRequest request) =>
+        await payWallService.Payment.VPosCampaignInquiryAsync(request))
+    .WithTags("Campaign")
+    .WithSummary("Kampanya Sorgulama")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/21.-kampanya-sorgulama\">Dökümantasyon</a>");
+
+#endregion
+
 #region BIN
 
 app.MapGet("/payment/bin/inquiry",
@@ -641,7 +653,7 @@ app.MapGet("/payment-private/query",
     .WithTags("PaymentPrivate")
     .WithSummary("Ödeme Sorgulama (MerchantUniqueCode)")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-odeme-sorgulama\">Dökümantasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/13.-odeme-sorgulama/1.-musteri-islem-numarasi\">Dökümantasyon</a>");
 
 app.MapGet("/payment-private/query/by/uniquecode",
         async ([FromServices] PayWallService payWallService,
@@ -650,7 +662,7 @@ app.MapGet("/payment-private/query/by/uniquecode",
     .WithTags("PaymentPrivate")
     .WithSummary("Ödeme Sorgulama (UniqueCode)")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-odeme-sorgulama/2.-paywall-islem-numarasi\">Dökümantasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/13.-odeme-sorgulama/2.-paywall-islem-numarasi\">Dökümantasyon</a>");
 
 app.MapGet("/payment-private/query/by/paymentid",
         async ([FromServices] PayWallService payWallService,
@@ -659,7 +671,7 @@ app.MapGet("/payment-private/query/by/paymentid",
     .WithTags("PaymentPrivate")
     .WithSummary("Ödeme Sorgulama (PaymentId)")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-odeme-sorgulama/3.-odeme-kimlik\">Dökümantasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/13.-odeme-sorgulama/3.-odeme-kimlik\">Dökümantasyon</a>");
 
 app.MapGet("/payment-private/query/by/productid",
         async ([FromServices] PayWallService payWallService,
@@ -669,7 +681,7 @@ app.MapGet("/payment-private/query/by/productid",
     .WithTags("PaymentPrivate")
     .WithSummary("Ödeme Sorgulama (ProductId)")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-odeme-sorgulama/4.-urun-kimlik\">Dökümantasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/13.-odeme-sorgulama/4.-urun-kimlik\">Dökümantasyon</a>");
 
 app.MapGet("/payment-private/query/by/trackingcode",
         async ([FromServices] PayWallService payWallService,
@@ -679,7 +691,7 @@ app.MapGet("/payment-private/query/by/trackingcode",
     .WithTags("PaymentPrivate")
     .WithSummary("Ödeme Sorgulama (TrackingCode)")
     .WithDescription(
-        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-odeme-sorgulama/5.-takip-kodu\">Dökümantasyon</a>");
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/13.-odeme-sorgulama/5.-takip-kodu\">Dökümantasyon</a>");
 #endregion
 
 #region Refund/Partial-Refund/Cancel
@@ -833,6 +845,17 @@ app.MapGet("/payment-private/vpos/transaction/list/activity",
     .WithSummary("Ödeme Listeleme (Hareket Bazlı)")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/20.-odeme-listeleme/1.-hareket-bazli\">Dökümantasyon</a>");
+
+app.MapGet("/payment-private/paymentgateway/connected",
+        async ([FromServices] PayWallService payWallService,
+                [FromHeader(Name = "start")] string start,
+                [FromHeader(Name = "length")] string length,
+                [FromHeader(Name = "regionId")] string? regionId) =>
+            await payWallService.PaymentPrivate.GetConnectedPaymentGatewayAsync(start, length, regionId))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Aktif Sanal Pos Listele")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/22.-aktif-sanal-pos-listele\">Dökümantasyon</a>");
 
 #endregion
 

@@ -13,7 +13,7 @@ public static class HttpClientExtensions
 
         if (!string.IsNullOrEmpty(headerValue))
         {
-            client.DefaultRequestHeaders.Add(headerName, headerValue);
+            client.DefaultRequestHeaders.TryAddWithoutValidation(headerName, headerValue);
         }        
     }
 }

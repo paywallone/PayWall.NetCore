@@ -68,6 +68,7 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
   - **3D Model Tamamla (PaymentId)**
 - **Provizyon İşlemleri**
 - **Taksit Sorgulama** 
+- **Kampanya Sorgulama**
 - **BIN Sorgulama**
 
 - ### **Ödeme Sorgulama**
@@ -79,6 +80,8 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 - ### **Ödeme Listeleme**
   - **İşlem bazlı liste** 
   - **Hareket bazlı liste** 
+- ### **Aktif Sanal Pos Listele**
+  - **Bağlı sağlayıcıları listele**
 - ### **İade**
   - **MerchantUniqueCode ile**
   - **Ödeme Kimlik (PaymentId) ile**

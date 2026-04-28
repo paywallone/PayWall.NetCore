@@ -44,15 +44,15 @@ public class VPosTransactionListItem
 
 public class VPosTransactionListCard
 {
-    public int CardBankId { get; set; }
+    public int? CardBankId { get; set; }
     public string CardBank { get; set; }
-    public int CardBrandId { get; set; }
+    public int? CardBrandId { get; set; }
     public string CardBrand { get; set; }
-    public int CardFamilyId { get; set; }
+    public int? CardFamilyId { get; set; }
     public string CardFamily { get; set; }
-    public int CardKindId { get; set; }
+    public int? CardKindId { get; set; }
     public string CardKind { get; set; }
-    public int CardTypeId { get; set; }
+    public int? CardTypeId { get; set; }
     public string CardType { get; set; }
     public string Owner { get; set; }
     public string Number { get; set; }

@@ -824,6 +824,16 @@ namespace PayWall.NetCore.Implementations
         }
         #endregion
 
+        #region Campaign
+        /// <summary>
+        /// Kampanya Sorgulama.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<VPosCampaignInquiryResponse>> VPosCampaignInquiryAsync(VPosCampaignInquiryRequest request) =>
+            PostRequestAsync<VPosCampaignInquiryRequest, VPosCampaignInquiryResponse>("campaign/vpos/inquiry", request);
+        #endregion
+
         #region BIN
         /// <summary>
         /// Bin Sorgula.
