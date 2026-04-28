@@ -61,10 +61,39 @@ PayWall, ödeme almak isteyen işletmelere uçtan uca kontrol sağlayan bir alty
 ### Ödeme İşlemleri
 - **Direkt Ödeme (2D)** 
 - **Direkt Ödeme (Sigortacılık) (2D)**
-- **Güvenli Ödeme (3D)** 
+- ### **Güvenli Ödeme (3D)**
+  - **3D Ödeme Başlat**
+  - **3D Model Başlat**
+  - **3D Model Tamamla (UniqueCode)**
+  - **3D Model Tamamla (PaymentId)**
 - **Provizyon İşlemleri**
 - **Taksit Sorgulama** 
 - **BIN Sorgulama**
+
+- ### **Ödeme Sorgulama**
+  - **MerchantUniqueCode ile**
+  - **UniqueCode ile**
+  - **PaymentId ile**
+  - **ProductId ile**
+  - **TrackingCode ile**
+- ### **Ödeme Listeleme**
+  - **İşlem bazlı liste** 
+  - **Hareket bazlı liste** 
+- ### **İade**
+  - **MerchantUniqueCode ile**
+  - **Ödeme Kimlik (PaymentId) ile**
+  - **PayWall İşlem Numarası (UniqueCode) ile**
+- ### **Kısmi İade**
+  - **MerchantUniqueCode ile**
+  - **Ödeme Kimlik (PaymentId) ile**
+  - **PayWall İşlem Numarası (UniqueCode) ile**
+- ### **İptal**
+  - **MerchantUniqueCode ile**
+  - **Ödeme Kimlik (PaymentId) ile**
+  - **PayWall İşlem Numarası (UniqueCode) ile**
+- ### **Revert (İptal & İade)**
+  - **MerchantUniqueCode ile**
+  - **Ödeme Kimlik (PaymentId) ile**
 
 ### Mutabakat Servisi
 - ### **Sanal Pos**

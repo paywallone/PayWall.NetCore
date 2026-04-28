@@ -632,16 +632,57 @@ app.MapPost("/temp-card",
 
 #region PaymentPrivate
 
-#region Refund/Partial-Refund/Cancel
 
+#region Query
 app.MapGet("/payment-private/query",
-        async ([FromServices] PayWallService payWallService, [FromHeader] string merchantUniqueCode) =>
+        async ([FromServices] PayWallService payWallService,
+                [FromHeader(Name = "merchantuniquecode")] string merchantUniqueCode) =>
         await payWallService.PaymentPrivate.QueryAsync(merchantUniqueCode))
     .WithTags("PaymentPrivate")
-    .WithSummary("Ödeme Sorgulama")
+    .WithSummary("Ödeme Sorgulama (MerchantUniqueCode)")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-odeme-sorgulama\">Dökümantasyon</a>");
 
+app.MapGet("/payment-private/query/by/uniquecode",
+        async ([FromServices] PayWallService payWallService,
+                [FromHeader(Name = "uniquecode")] string uniqueCode) =>
+        await payWallService.PaymentPrivate.QueryByUniqueCodeAsync(uniqueCode))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Ödeme Sorgulama (UniqueCode)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-odeme-sorgulama/2.-paywall-islem-numarasi\">Dökümantasyon</a>");
+
+app.MapGet("/payment-private/query/by/paymentid",
+        async ([FromServices] PayWallService payWallService,
+                [FromHeader(Name = "paymentid")] string paymentId) =>
+        await payWallService.PaymentPrivate.QueryByPaymentIdAsync(paymentId))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Ödeme Sorgulama (PaymentId)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-odeme-sorgulama/3.-odeme-kimlik\">Dökümantasyon</a>");
+
+app.MapGet("/payment-private/query/by/productid",
+        async ([FromServices] PayWallService payWallService,
+                [FromHeader(Name = "productid")] string productId,
+                [FromHeader(Name = "merchantuniquecode")] string? merchantUniqueCode) =>
+            await payWallService.PaymentPrivate.QueryByProductIdAsync(productId, merchantUniqueCode))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Ödeme Sorgulama (ProductId)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-odeme-sorgulama/4.-urun-kimlik\">Dökümantasyon</a>");
+
+app.MapGet("/payment-private/query/by/trackingcode",
+        async ([FromServices] PayWallService payWallService,
+                [FromHeader(Name = "trackingcode")] string trackingCode,
+                [FromHeader(Name = "merchantuniquecode")] string? merchantUniqueCode) =>
+            await payWallService.PaymentPrivate.QueryByTrackingCodeAsync(trackingCode, merchantUniqueCode))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Ödeme Sorgulama (TrackingCode)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/12.-odeme-sorgulama/5.-takip-kodu\">Dökümantasyon</a>");
+#endregion
+
+#region Refund/Partial-Refund/Cancel
 app.MapPost("/payment-private/refund",
         async ([FromServices] PayWallService payWallService, [FromBody] PaymentRefundRequest request) =>
         await payWallService.PaymentPrivate.RefundAsync(request))
@@ -767,6 +808,31 @@ app.MapGet("/payment-private/vpos/reconciliation/list",
     .WithSummary("Mutabakat Listesi")
     .WithDescription(
         "<a target=\"_blank\" href=\"https://developer.paywall.one/mutabakat-servisi/sanal-pos/4.-mutabakat-listesi\">Dökümantasyon</a>");
+
+app.MapGet("/payment-private/vpos/transaction/list",
+        async ([FromServices] PayWallService payWallService,
+                [FromHeader(Name = "page")] string page,
+                [FromHeader(Name = "pageSize")] string pageSize,
+                [FromHeader(Name = "date")] string date) =>
+            await payWallService.PaymentPrivate.GetTransactionListAsync(page, pageSize, date))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Ödeme Listeleme")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/20.-odeme-listeleme\">Dökümantasyon</a>");
+
+app.MapGet("/payment-private/vpos/transaction/list/activity",
+        async ([FromServices] PayWallService payWallService,
+                [FromHeader(Name = "page")] string page,
+                [FromHeader(Name = "pageSize")] string pageSize,
+                [FromHeader(Name = "date")] string date,
+                [FromHeader(Name = "onlySuccess")] bool? onlySuccess,
+                [FromHeader(Name = "onlyDateSensitiveActivity")] bool? onlyDateSensitiveActivity) =>
+            await payWallService.PaymentPrivate.GetTransactionListByActivityAsync(page, pageSize, date, onlySuccess,
+                onlyDateSensitiveActivity))
+    .WithTags("PaymentPrivate")
+    .WithSummary("Ödeme Listeleme (Hareket Bazlı)")
+    .WithDescription(
+        "<a target=\"_blank\" href=\"https://developer.paywall.one/odeme-servisi/20.-odeme-listeleme/1.-hareket-bazli\">Dökümantasyon</a>");
 
 #endregion
 

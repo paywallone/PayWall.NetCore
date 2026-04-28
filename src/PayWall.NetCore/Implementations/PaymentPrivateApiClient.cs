@@ -33,7 +33,7 @@ namespace PayWall.NetCore.Implementations
         #endregion
 
         #region Public Methods
-        #region VPosReconciliation
+        #region VPosPrivate
         /// <summary>
         /// Mutabakat Yap.
         /// </summary>
@@ -86,6 +86,53 @@ namespace PayWall.NetCore.Implementations
 
             return GetRequestAsync<VPosReconcilationListDetailResponse>("private/vpos/reconciliation/list");
         }
+
+        /// <summary>
+        /// Ödeme listeleme (işlem bazlı — ilk tarih filtresi).
+        /// </summary>
+        /// <param name="page">Sayfa (min: 1).</param>
+        /// <param name="pageSize">Sayfa kayıt adedi (max: 1000).</param>
+        /// <param name="date">Tarih (yyyy-MM-dd). Bugün ve ileri tarih kullanılamaz.</param>
+        /// <returns></returns>
+        public Task<Response<VPosTransactionListResponse>> GetTransactionListAsync(string page, string pageSize,
+            string date)
+        {
+            _httpClient.SetHeader("page", page);
+            _httpClient.SetHeader("pageSize", pageSize);
+            _httpClient.SetHeader("date", date);
+
+            return GetRequestAsync<VPosTransactionListResponse>("private/vpos/transaction/list");
+        }
+
+        /// <summary>
+        /// Ödeme listeleme (hareket bazlı — işlem adımlarının tarihlerine göre).
+        /// </summary>
+        /// <param name="page">Sayfa (min: 1).</param>
+        /// <param name="pageSize">Sayfa kayıt adedi (max: 1000).</param>
+        /// <param name="date">Tarih (yyyy-MM-dd).</param>
+        /// <param name="onlySuccess">TRUE ise aktivitelerde yalnızca başarılı adımlar döner.</param>
+        /// <param name="onlyDateSensitiveActivity">TRUE ise yalnızca verilen tarihe ait aktivite adımları döner.</param>
+        /// <returns></returns>
+        public Task<Response<VPosTransactionListResponse>> GetTransactionListByActivityAsync(string page,
+            string pageSize, string date, bool? onlySuccess = null, bool? onlyDateSensitiveActivity = null)
+        {
+            _httpClient.SetHeader("page", page);
+            _httpClient.SetHeader("pageSize", pageSize);
+            _httpClient.SetHeader("date", date);
+
+            if (onlySuccess.HasValue)
+            {
+                _httpClient.SetHeader("onlySuccess", onlySuccess.Value ? "true" : "false");
+            }
+
+            if (onlyDateSensitiveActivity.HasValue)
+            {
+                _httpClient.SetHeader("onlyDateSensitiveActivity",
+                    onlyDateSensitiveActivity.Value ? "true" : "false");
+            }
+
+            return GetRequestAsync<VPosTransactionListResponse>("private/vpos/transaction/list/activity");
+        }
         #endregion
         
         /// <summary>
@@ -98,6 +145,58 @@ namespace PayWall.NetCore.Implementations
             _httpClient.SetHeader("merchantuniquecode",merchantUniqueCode);
             
             return GetRequestAsync<QueryResponse>("private/query");
+        }
+
+        /// <summary>
+        /// Ödeme Sorgulama (UniqueCode ile).
+        /// </summary>
+        /// <param name="uniqueCode">Ödeme'ye PayWall tarafından atanan tekil takip kodu.</param>
+        /// <returns></returns>
+        public Task<Response<QueryResponse>> QueryByUniqueCodeAsync(string uniqueCode)
+        {
+            _httpClient.SetHeader("uniquecode", uniqueCode);
+
+            return GetRequestAsync<QueryResponse>("private/query/by/uniquecode");
+        }
+
+        /// <summary>
+        /// Ödeme Sorgulama (PaymentId ile).
+        /// </summary>
+        /// <param name="paymentId">Ödeme'nin PayWall sistemindeki kimlik numarası.</param>
+        /// <returns></returns>
+        public Task<Response<QueryResponse>> QueryByPaymentIdAsync(string paymentId)
+        {
+            _httpClient.SetHeader("paymentid", paymentId);
+
+            return GetRequestAsync<QueryResponse>("private/query/by/paymentid");
+        }
+
+        /// <summary>
+        /// Ödeme Sorgulama (ProductId ile).
+        /// </summary>
+        /// <param name="productId">Ödeme'ye ait ProductId bilgisi.</param>
+        /// <param name="merchantUniqueCode">Ödeme'ye ait sizin tarafınızdan verilmiş tekil takip kodu (opsiyonel).</param>
+        /// <returns></returns>
+        public Task<Response<QueryListResponse>> QueryByProductIdAsync(string productId, string merchantUniqueCode = null)
+        {
+            _httpClient.SetHeader("merchantuniquecode", merchantUniqueCode);
+            _httpClient.SetHeader("productid", productId);
+
+            return GetRequestAsync<QueryListResponse>("private/query/by/productid");
+        }
+
+        /// <summary>
+        /// Ödeme Sorgulama (TrackingCode ile).
+        /// </summary>
+        /// <param name="trackingCode">Ödeme'ye ait TrackingCode bilgisi.</param>
+        /// <param name="merchantUniqueCode">Ödeme'ye ait sizin tarafınızdan verilmiş tekil takip kodu (opsiyonel).</param>
+        /// <returns></returns>
+        public Task<Response<QueryListResponse>> QueryByTrackingCodeAsync(string trackingCode, string merchantUniqueCode = null)
+        {
+            _httpClient.SetHeader("merchantuniquecode", merchantUniqueCode);
+            _httpClient.SetHeader("trackingcode", trackingCode);
+
+            return GetRequestAsync<QueryListResponse>("private/query/by/trackingcode");
         }
         #region Refund/Partial-Refund/Cancel
         
