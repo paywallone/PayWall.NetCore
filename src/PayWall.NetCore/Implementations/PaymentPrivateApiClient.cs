@@ -133,6 +133,23 @@ namespace PayWall.NetCore.Implementations
 
             return GetRequestAsync<VPosTransactionListResponse>("private/vpos/transaction/list/activity");
         }
+
+        /// <summary>
+        /// Aktif Sanal Pos Listele.
+        /// </summary>
+        /// <param name="start">Başlangıç.</param>
+        /// <param name="length">Bitiş.</param>
+        /// <param name="regionId">Bağlı sağlayıcının bölge bilgisi (opsiyonel).</param>
+        /// <returns></returns>
+        public Task<Response<PaymentGatewayConnectedResponse>> GetConnectedPaymentGatewayAsync(string start,
+            string length, string regionId = null)
+        {
+            _httpClient.SetHeader("regionId", regionId);
+            _httpClient.SetHeader("start", start);
+            _httpClient.SetHeader("length", length);
+
+            return GetRequestAsync<PaymentGatewayConnectedResponse>("private/paymentgateway/connected");
+        }
         #endregion
         
         /// <summary>
