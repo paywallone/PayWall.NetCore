@@ -115,15 +115,81 @@ namespace PayWall.NetCore.Implementations
         #region Güvenli Ödeme (3D)
 
         /// <summary>
-        /// PayWall 3D ödeme servisine istek gönderdiğinizde, ilgili isteğin cevabında istek başarılıysa PayWall ödeme agent linki dönülmektedir. Bu linki uygulamanızda açmalısınız. Link 3D ekranına yönlendirir.
+        /// Paywall 3D ödeme servisine istek gönderdiğinizde, ilgili isteğin cevabında istek başarılıysa Paywall ödeme agent linki dönülmektedir. Bu linki uygulamanızda açmalısınız. Link 3D ekranına yönlendirir.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<Response<Payment3DResponse>> StartThreeDAsync(Payment3DRequest request)
+        public async Task<Response<Payment3DResponse>> Start3DAsync(Payment3DRequest request)
         {
             var response = await PostRequestAsync<Payment3DRequest, Payment3DResponse>("payment/start3d", request);
 
             if (!response.Result && response.Body?.Error != null)
+            {
+                var error = response.Body.Error;
+
+                response.Body.Error.BankErrorCode = error.BankErrorCode.Base64Decode();
+                response.Body.Error.BankErrorMessage = error.BankErrorMessage.Base64Decode();
+                response.Body.Error.ProviderErrorCode = error.ProviderErrorCode.Base64Decode();
+                response.Body.Error.ProviderErrorMessage = error.ProviderErrorMessage.Base64Decode();
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Paywall 3D Model ödeme servisine istek gönderdiğinizde, ilgili isteğin cevabında istek başarılıysa Paywall ödeme linki dönülmektedir.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<Response<Payment3DResponse>> Start3DModelAsync(Payment3DModelRequest request)
+        {
+            var response = await PostRequestAsync<Payment3DModelRequest, Payment3DResponse>("payment/start3dmodel", request);
+
+            if (!response.Result && response.Body?.Error != null)
+            {
+                var error = response.Body.Error;
+
+                response.Body.Error.BankErrorCode = error.BankErrorCode.Base64Decode();
+                response.Body.Error.BankErrorMessage = error.BankErrorMessage.Base64Decode();
+                response.Body.Error.ProviderErrorCode = error.ProviderErrorCode.Base64Decode();
+                response.Body.Error.ProviderErrorMessage = error.ProviderErrorMessage.Base64Decode();
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// 3D Model ödemelerinizi tamamlar.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<Response<PaymentCompleteResponse>> CompleteAsync(PaymentCompleteRequest request)
+        {
+            var response = await PostRequestAsync<PaymentCompleteRequest, PaymentCompleteResponse>("payment/complete", request);
+
+            if (response.Body?.Error != null)
+            {
+                var error = response.Body.Error;
+
+                response.Body.Error.BankErrorCode = error.BankErrorCode.Base64Decode();
+                response.Body.Error.BankErrorMessage = error.BankErrorMessage.Base64Decode();
+                response.Body.Error.ProviderErrorCode = error.ProviderErrorCode.Base64Decode();
+                response.Body.Error.ProviderErrorMessage = error.ProviderErrorMessage.Base64Decode();
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// 3D Model ödemelerinizi PaymentId bilgisi ile tamamlar.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<Response<PaymentCompleteResponse>> CompleteByPaymentIdAsync(PaymentCompleteByPaymentIdRequest request)
+        {
+            var response = await PostRequestAsync<PaymentCompleteByPaymentIdRequest, PaymentCompleteResponse>("payment/complete/by/paymentid", request);
+
+            if (response.Body?.Error != null)
             {
                 var error = response.Body.Error;
 
@@ -278,7 +344,7 @@ namespace PayWall.NetCore.Implementations
         /// </summary>
         /// <param name="currencyid"> Ödeme'nin gerçekleştirilmek istendiği para birimi. </param>
         /// /// <param name="externalid"> APM bağlantı anında verilen Dış Kimlik (ExternalId) bilgisi. </param>
-        /// /// <param name="focusedfeature"> Ödeme akışının hangi özellikte gerçekleştirilmek istendiği bildirilir. Örnek: qr iletilirse PayWall hesabında QR'lı ödeme destekleyen sağlayıcı listesi paylaşılır. </param>
+        /// /// <param name="focusedfeature"> Ödeme akışının hangi özellikte gerçekleştirilmek istendiği bildirilir. Örnek: qr iletilirse Paywall hesabında QR'lı ödeme destekleyen sağlayıcı listesi paylaşılır. </param>
         /// /// <param name="distinctduplicates"> True olarak gönderilmesi durumunda liste içerisinde çoklanan aynı sağlayıcıya ait bağlantılar teke indirgenir. </param>
         /// <returns></returns>
         public Task<ResponseList<ApmListResponse>> GetApmListAsync(string currencyid, string? externalid,
@@ -405,7 +471,7 @@ namespace PayWall.NetCore.Implementations
         /// <summary>
         /// Kart - Detay.
         /// </summary>
-        /// <param name="cardid">Kart'ın PayWall'daki Id bilgisi. Oluşturma anında döner.</param>
+        /// <param name="cardid">Kart'ın Paywall'daki Id bilgisi. Oluşturma anında döner.</param>
         /// <returns></returns>
         public Task<Response<CardDetailResponse>> GetCardDetailAsync(string cardid)
         {
@@ -419,7 +485,7 @@ namespace PayWall.NetCore.Implementations
         /// </summary>
         /// <param name="start"> Listelemeye başlanacak yer. </param>
         /// <param name="length"> Listenin uzunluğu. </param>
-        /// <param name="cardid"> Kart'ın PayWall'daki Id bilgisi. Oluşturma anında döner. </param>
+        /// <param name="cardid"> Kart'ın Paywall'daki Id bilgisi. Oluşturma anında döner. </param>
         /// <param name="cardnumber"> Kart'ın içerisindeki bilinen veri. </param>
         /// <param name="phone"> Kart'ın tanımlı olduğu telefon numarası. </param>
         /// <param name="externalid"> Kart'ın oluşturulma anında verilen kimlik. </param>
@@ -460,7 +526,7 @@ namespace PayWall.NetCore.Implementations
         /// Kart - Liste.
         /// </summary>
         /// <param name="page"> Listelemeye başlanacak sayfa. </param>
-        /// <param name="cardid"> Kart'ın PayWall'daki Id bilgisi. Oluşturma anında döner. </param>
+        /// <param name="cardid"> Kart'ın Paywall'daki Id bilgisi. Oluşturma anında döner. </param>
         /// <param name="datefrom"> İşlem tarih aralığı. Başlangıç tarihi. </param>
         /// <param name="dateto"> İşlem tarih aralığı. Bitiş tarihi. </param>
         /// <returns></returns>
@@ -562,8 +628,8 @@ namespace PayWall.NetCore.Implementations
         /// <summary>
         /// Tekrarlı Ödeme Sorgula.
         /// </summary>
-        /// <param name="subscriptionid"> Üyelik oluşturma anında ve başarılı callback(geri bildirim)'lerde PayWall tarafından iletilir. </param>
-        /// <param name="paymentid"> Üyelik kapsamında iletilen gerçekleştirilen tekrarlı ödemeye ait PayWall'daki ödemenin kimlik bilgisi. Callback içerisinde iletilir ve iletilen kimlik ile bu servisten ödemeyi teyit edebilirsiniz. </param>
+        /// <param name="subscriptionid"> Üyelik oluşturma anında ve başarılı callback(geri bildirim)'lerde Paywall tarafından iletilir. </param>
+        /// <param name="paymentid"> Üyelik kapsamında iletilen gerçekleştirilen tekrarlı ödemeye ait Paywall'daki ödemenin kimlik bilgisi. Callback içerisinde iletilir ve iletilen kimlik ile bu servisten ödemeyi teyit edebilirsiniz. </param>
         /// <returns></returns>
         public Task<Response<RecurringQueryPaymentResponse>> GetRecurringQueryPaymentAsync(string subscriptionid,
             string paymentid)
@@ -577,7 +643,7 @@ namespace PayWall.NetCore.Implementations
         /// <summary>
         /// Tekrarlı Ödeme Kapsamındaki Kartlar.
         /// </summary>
-        /// <param name="subscriptionid"> Üyelik oluşturma anında ve başarılı callback(geri bildirim)'lerde PayWall tarafından iletilir. </param>
+        /// <param name="subscriptionid"> Üyelik oluşturma anında ve başarılı callback(geri bildirim)'lerde Paywall tarafından iletilir. </param>
         /// <returns></returns>
         public Task<ResponseList<RecurringCardResponse>> GetRecurringCardAsync(string subscriptionid)
         {
@@ -756,6 +822,16 @@ namespace PayWall.NetCore.Implementations
 
             return GetRequestAsync<InstallmentResponse>("installment");
         }
+        #endregion
+
+        #region Campaign
+        /// <summary>
+        /// Kampanya Sorgulama.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<Response<VPosCampaignInquiryResponse>> VPosCampaignInquiryAsync(VPosCampaignInquiryRequest request) =>
+            PostRequestAsync<VPosCampaignInquiryRequest, VPosCampaignInquiryResponse>("campaign/vpos/inquiry", request);
         #endregion
 
         #region BIN

@@ -16,12 +16,12 @@ public class ApmRefundResponse : IResponseResult
     public int ApmConnectionId { get; set; }
 
     /// <summary>
-    /// Ödeme'nin PayWall'daki kimlik bilgisi.
+    /// Ödeme'nin Paywall'daki kimlik bilgisi.
     /// </summary>
     public int ApmTransactionId { get; set; }
 
     /// <summary>
-    /// Ödemeye PayWall tarafından atanan tekil numara.
+    /// Ödemeye Paywall tarafından atanan tekil numara.
     /// </summary>
     public string UniqueCode { get; set; }
 

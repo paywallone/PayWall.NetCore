@@ -4,6 +4,7 @@ public class PaymentMarketPlaceProductResponse
 {
     public int Id { get; set; }
     public int MemberId { get; set; }
+    public bool IsMarketPlaceSales { get; set; }
     public bool MemberEarningCalculated { get; set; }
     public decimal MemberEarning { get; set; }
     public string ProductId { get; set; }

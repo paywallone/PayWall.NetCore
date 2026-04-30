@@ -35,7 +35,7 @@ public class ApmPayRequest : IRequestParams
     public string Description { get; set; }
 
     /// <summary>
-    /// Ödeme'nin gerçekleştirileceği ödeyici bilgilerinin barındığı nesnedir. Bu nesne altındaki parametrelerin zorunlulukları sağlayıcının beklediği parametreye göre farklılık gösterebilmektedir.Örnek: CardNumber bekleyen bir sağlayıcı için PayWall API'si CardNumber parametresini zorunlu tutar.
+    /// Ödeme'nin gerçekleştirileceği ödeyici bilgilerinin barındığı nesnedir. Bu nesne altındaki parametrelerin zorunlulukları sağlayıcının beklediği parametreye göre farklılık gösterebilmektedir.Örnek: CardNumber bekleyen bir sağlayıcı için Paywall API'si CardNumber parametresini zorunlu tutar.
     /// </summary>
     public Payer Payer { get; set; }
 
@@ -45,7 +45,7 @@ public class ApmPayRequest : IRequestParams
     public ApmProducts[] Products { get; set; }
 
     /// <summary>
-    /// Sağlayıcının ödemenin gerçekleşmesi anında beklediği dinamik bilgiler olması durumunda bu parametrelerle ilgili bilgiler dışardan alınır ve sağlayıcılarla paylaşılır. Örnek mağaza kodu, mağaza kimliği gibi bilgileri sağlayıcının beklemesi durumunda bu bilgiler PayWall API'si tarafından kontrol edilir ve zorunlu tutulur.
+    /// Sağlayıcının ödemenin gerçekleşmesi anında beklediği dinamik bilgiler olması durumunda bu parametrelerle ilgili bilgiler dışardan alınır ve sağlayıcılarla paylaşılır. Örnek mağaza kodu, mağaza kimliği gibi bilgileri sağlayıcının beklemesi durumunda bu bilgiler Paywall API'si tarafından kontrol edilir ve zorunlu tutulur.
     /// </summary>
     public Provider Provider { get; set; }
 }
