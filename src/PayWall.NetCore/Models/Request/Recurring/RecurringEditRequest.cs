@@ -50,7 +50,7 @@ public class RecurringEditRequest : IRequestParams
     public int FailAttempt { get; set; }
 
     /// <summary>
-    /// Başarısız ödeme tekrarlarının arasında PayWall'un bekleyeceği saat dilimi. Max: 24
+    /// Başarısız ödeme tekrarlarının arasında Paywall'un bekleyeceği saat dilimi. Max: 24
     /// </summary>
     public int FailAttemptPendingHour { get; set; }
 
