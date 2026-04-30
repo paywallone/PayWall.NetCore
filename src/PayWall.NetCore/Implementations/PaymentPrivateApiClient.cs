@@ -167,7 +167,7 @@ namespace PayWall.NetCore.Implementations
         /// <summary>
         /// Ödeme Sorgulama (UniqueCode ile).
         /// </summary>
-        /// <param name="uniqueCode">Ödeme'ye PayWall tarafından atanan tekil takip kodu.</param>
+        /// <param name="uniqueCode">Ödeme'ye Paywall tarafından atanan tekil takip kodu.</param>
         /// <returns></returns>
         public Task<Response<QueryResponse>> QueryByUniqueCodeAsync(string uniqueCode)
         {
@@ -179,7 +179,7 @@ namespace PayWall.NetCore.Implementations
         /// <summary>
         /// Ödeme Sorgulama (PaymentId ile).
         /// </summary>
-        /// <param name="paymentId">Ödeme'nin PayWall sistemindeki kimlik numarası.</param>
+        /// <param name="paymentId">Ödeme'nin Paywall sistemindeki kimlik numarası.</param>
         /// <returns></returns>
         public Task<Response<QueryResponse>> QueryByPaymentIdAsync(string paymentId)
         {

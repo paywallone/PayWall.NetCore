@@ -5,7 +5,7 @@ namespace PayWall.NetCore.Models.Request.Member.MemberBankAccount;
 public class AddBankAccountRequest : IRequestParams
 {
     /// <summary>
-    /// Üye'nin PayWall'daki Id bilgisi.
+    /// Üye'nin Paywall'daki Id bilgisi.
     /// </summary>
     public int MemberId { get; set; }
     /// <summary>

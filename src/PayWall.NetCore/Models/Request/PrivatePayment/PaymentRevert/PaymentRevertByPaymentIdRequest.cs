@@ -9,7 +9,7 @@ namespace PayWall.NetCore.Models.Request.PrivatePayment.PaymentRevert;
 public class PaymentRevertByPaymentIdRequest : IRequestParams
 {
     /// <summary>
-    /// Ödeme sonucunda PayWall tarafından dönen PaymentId bilgisidir.
+    /// Ödeme sonucunda Paywall tarafından dönen PaymentId bilgisidir.
     /// </summary>
     public int PaymentId { get; set; }
 

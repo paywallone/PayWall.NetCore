@@ -825,7 +825,7 @@ app.MapGet("/payment-private/vpos/transaction/list",
         async ([FromServices] PayWallService payWallService,
                 [FromHeader(Name = "page")] string page,
                 [FromHeader(Name = "pageSize")] string pageSize,
-                [FromHeader(Name = "date")] string date) =>
+                [FromHeader(Name = "transactiondate")] string date) =>
             await payWallService.PaymentPrivate.GetTransactionListAsync(page, pageSize, date))
     .WithTags("PaymentPrivate")
     .WithSummary("Ödeme Listeleme")
@@ -836,7 +836,7 @@ app.MapGet("/payment-private/vpos/transaction/list/activity",
         async ([FromServices] PayWallService payWallService,
                 [FromHeader(Name = "page")] string page,
                 [FromHeader(Name = "pageSize")] string pageSize,
-                [FromHeader(Name = "date")] string date,
+                [FromHeader(Name = "transactiondate")] string date,
                 [FromHeader(Name = "onlySuccess")] bool? onlySuccess,
                 [FromHeader(Name = "onlyDateSensitiveActivity")] bool? onlyDateSensitiveActivity) =>
             await payWallService.PaymentPrivate.GetTransactionListByActivityAsync(page, pageSize, date, onlySuccess,

@@ -5,7 +5,7 @@ namespace PayWall.NetCore.Models.Request.PayOut;
 public class PayOutToIbanRequest : IRequestParams
 {
     /// <summary>
-    /// PayOut sağlayıcısının PayWall'daki anahtar kelimesi.
+    /// PayOut sağlayıcısının Paywall'daki anahtar kelimesi.
     /// </summary>
     public string PayoutProviderKey { get; set; }
     /// <summary>

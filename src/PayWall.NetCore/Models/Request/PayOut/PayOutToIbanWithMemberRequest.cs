@@ -5,7 +5,7 @@ namespace PayWall.NetCore.Models.Request.PayOut;
 public class PayOutToIbanWithMemberRequest : IRequestParams
 {
     /// <summary>
-    /// PayOut sağlayıcısının PayWall'daki anahtar kelimesi.
+    /// PayOut sağlayıcısının Paywall'daki anahtar kelimesi.
     /// </summary>
     public string PayoutProviderKey { get; set; }
     /// <summary>
@@ -17,7 +17,7 @@ public class PayOutToIbanWithMemberRequest : IRequestParams
     /// </summary>
     public string MerchantUniqueCode { get; set; }
     /// <summary>
-    /// PayWall'da kayıtlı alt üye kimlik bilgisi. PayWall'a kayıt anında cevap içerisinde döner.
+    /// Paywall'da kayıtlı alt üye kimlik bilgisi. Paywall'a kayıt anında cevap içerisinde döner.
     /// </summary>
     public int MemberId { get; set; }
     /// <summary>

@@ -9,7 +9,7 @@ namespace PayWall.NetCore.Models.Request.Payment;
 public class PaymentCompleteByPaymentIdRequest : IRequestParams
 {
     /// <summary>
-    /// İlgili ödemenin PayWall sistemindeki kimlik bilgisidir.
+    /// İlgili ödemenin Paywall sistemindeki kimlik bilgisidir.
     /// </summary>
     public int PaymentId { get; set; }
 }

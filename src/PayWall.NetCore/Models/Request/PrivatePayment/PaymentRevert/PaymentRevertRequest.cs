@@ -10,7 +10,7 @@ namespace PayWall.NetCore.Models.Request.PrivatePayment.PaymentRevert;
 public class PaymentRevertRequest : IRequestParams
 {
     /// <summary>
-    /// Ödeme sonucunda PayWall tarafından dönen UniqueCode bilgisidir.
+    /// Ödeme sonucunda Paywall tarafından dönen UniqueCode bilgisidir.
     /// </summary>
     public Guid? UniqueCode { get; set; }
 
