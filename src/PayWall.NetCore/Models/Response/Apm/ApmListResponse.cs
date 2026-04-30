@@ -7,7 +7,7 @@ public class ApmListResponse : IResponseResult
     public int ProviderId { get; set; }
 
     /// <summary>
-    /// Sağlayıcının PayWall'daki anahtar kelimesi. Ödeme Key bilgisiyle başlatılmak istendiğinde kullanılmaktadır.
+    /// Sağlayıcının Paywall'daki anahtar kelimesi. Ödeme Key bilgisiyle başlatılmak istendiğinde kullanılmaktadır.
     /// </summary>
     public string ProviderKey { get; set; }
 

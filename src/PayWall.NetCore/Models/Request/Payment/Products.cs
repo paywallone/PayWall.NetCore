@@ -30,7 +30,7 @@ namespace PayWall.NetCore.Models.Request.Payment
         public decimal ProductAmount { get; set; }
 
         /// <summary>
-        /// MarketPlace modeli için zorunludur. Alt üye işyerinin PayWall sistemindeki MemberId bilgisiyle doldurulmalıdır.
+        /// MarketPlace modeli için zorunludur. Alt üye işyerinin Paywall sistemindeki MemberId bilgisiyle doldurulmalıdır.
         /// </summary>
         public int? MemberId { get; set; }
 

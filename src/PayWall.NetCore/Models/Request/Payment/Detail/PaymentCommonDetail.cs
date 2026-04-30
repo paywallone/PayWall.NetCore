@@ -40,7 +40,7 @@ namespace PayWall.NetCore.Models.Request.Payment
         /// <summary>
         /// Geriye uyumluluk için desteklenen legacy taksit alanıdır.
         /// </summary>
-        public byte? Installement { get; set; }
+        public byte? Installment { get; set; }
 
         /// <summary>
         /// Gün sonu değerine göre ödeme sağlayıcısını belirlemek için kullanılır. En düşük değere sahip sağlayıcı seçilir.

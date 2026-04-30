@@ -15,7 +15,7 @@ public class PaymentRefundByPaymentIdRequest : IRequestParams
     public DateTime? Date { get; set; }
 
     /// <summary>
-    /// İlgili ödemenin PayWall sistemindeki kimlik bilgisidir.
+    /// İlgili ödemenin Paywall sistemindeki kimlik bilgisidir.
     /// </summary>
     public int PaymentId { get; set; }
 

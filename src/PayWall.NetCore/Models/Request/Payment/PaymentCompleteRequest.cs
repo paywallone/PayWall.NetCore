@@ -10,7 +10,7 @@ namespace PayWall.NetCore.Models.Request.Payment;
 public class PaymentCompleteRequest : IRequestParams
 {
     /// <summary>
-    /// Ödeme'ye PayWall tarafından atanan tekil takip numarasıdır.
+    /// Ödeme'ye Paywall tarafından atanan tekil takip numarasıdır.
     /// </summary>
     public Guid UniqueCode { get; set; }
 }

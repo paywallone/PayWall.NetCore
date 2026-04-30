@@ -70,7 +70,7 @@ public class RecurringGenerateRequest : IRequestParams
     public int FailAttempt { get; set; }
 
     /// <summary>
-    /// Başarısız ödeme tekrarlarının arasında PayWall'un bekleyeceği saat dilimi. Max: 24
+    /// Başarısız ödeme tekrarlarının arasında Paywall'un bekleyeceği saat dilimi. Max: 24
     /// </summary>
     public int FailAttemptPendingHour { get; set; }
 
@@ -81,7 +81,7 @@ public class RecurringGenerateRequest : IRequestParams
 public class RecurringCard
 {
     /// <summary>
-    /// Ödemelerin alınacağı saklı kart UniqueCode bilgisi, kayıtlı kartlarda kaydetme anında ve listelemede cevap  olarak PayWall'dan döner.
+    /// Ödemelerin alınacağı saklı kart UniqueCode bilgisi, kayıtlı kartlarda kaydetme anında ve listelemede cevap  olarak Paywall'dan döner.
     /// </summary>
     public string UniqueCode { get; set; }
 }

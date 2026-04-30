@@ -15,7 +15,7 @@ public class ApmQueryResponse : IResponseResult
     public string ApmProviderKey { get; set; }
 
     /// <summary>
-    /// Ödeme'nin PayWall'daki kimlik bilgisi.
+    /// Ödeme'nin Paywall'daki kimlik bilgisi.
     /// </summary>
     public int ApmTransactionId { get; set; }
 
@@ -30,7 +30,7 @@ public class ApmQueryResponse : IResponseResult
     public string MerchantUniqueCode { get; set; }
 
     /// <summary>
-    /// Ödemeye PayWall tarafından atanan tekil numara.
+    /// Ödemeye Paywall tarafından atanan tekil numara.
     /// </summary>
     public string UniqueCode { get; set; }
 
