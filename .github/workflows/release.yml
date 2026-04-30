@@ -27,11 +27,23 @@ jobs:
           ORG_NAME: 'paywallone' 
         run: |
           ACTOR="${{ github.actor }}"
+
+          # Manuel izin verilen kullanıcı
+          EXTRA_USER="yelizozkan"
+          
+          if [ "$ACTOR" = "$EXTRA_USER" ]; then
+            echo "Actor $ACTOR is manually allowed."
+            echo "::set-output name=is_member::true"
+            exit 0
+          fi
+          
           TEAM_MEMBERSHIP_RESPONSE=$(curl -s \
             -H "Authorization: token $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
             "https://api.github.com/orgs/$ORG_NAME/teams/$TEAM_SLUG/memberships/$ACTOR")
-            echo "$TEAM_MEMBERSHIP_RESPONSE"
+          
+          echo "$TEAM_MEMBERSHIP_RESPONSE"
+          
           if echo "$TEAM_MEMBERSHIP_RESPONSE" | grep -q '"state": "active"'; then
             echo "Actor $ACTOR is a member of the team."
             echo "::set-output name=is_member::true"
