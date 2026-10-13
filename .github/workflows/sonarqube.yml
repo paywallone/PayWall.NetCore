@@ -1,8 +1,8 @@
 name: SonarQube Analysis
 
 on:
-  schedule:
-    - cron: '0 6 * * 1'  # Her Pazartesi saat 06:00'da çalıştır
+  #schedule:
+  #  - cron: '0 6 * * 1'  # Her Pazartesi saat 06:00'da çalıştır
   workflow_dispatch: # Manuel çalıştırmak için
 env: 
   ACCESS_TOKEN: ${{ secrets.AZURE_ARTIFACTS_ACCESSTOKEN }} 
