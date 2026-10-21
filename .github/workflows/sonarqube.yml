@@ -2,7 +2,7 @@ name: SonarQube Analysis
 
 on:
   schedule:
-    - cron: '0 6 * * 1'  # Her Pazartesi saat 06:00'da çalıştır
+    - cron: '30 1 1 * *'  # Her ayın 1'inde saat 04:30'da çalıştır
   workflow_dispatch: # Manuel çalıştırmak için
   push:
 env: 
