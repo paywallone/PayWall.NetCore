@@ -1,8 +1,8 @@
 name: SonarQube Analysis
 
 on:
-  #schedule:
-  #  - cron: '0 6 * * 1'  # Her Pazartesi saat 06:00'da çalıştır
+  schedule:
+    - cron: '0 6 * * 1'  # Her Pazartesi saat 06:00'da çalıştır
   workflow_dispatch: # Manuel çalıştırmak için
 env: 
   ACCESS_TOKEN: ${{ secrets.AZURE_ARTIFACTS_ACCESSTOKEN }} 
@@ -50,8 +50,277 @@ jobs:
           dotnet tool update --global dotnet-sonarscanner
 
       - name: Run SonarQube Analysis
+        id: analysis
+        env:
+          PROJECT_KEY: ${{ github.event.repository.name }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           export PATH="$HOME/.dotnet/tools:$PATH"
-          dotnet-sonarscanner begin /k:"${{ github.event.repository.name }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
+          # Prevent reporting an old scan from a reused workspace.
+          python3 - <<'PY'
+          from pathlib import Path
+          Path(".sonarqube/out/.sonar/report-task.txt").unlink(missing_ok=True)
+          PY
+
+          dotnet-sonarscanner begin \
+            /k:"$PROJECT_KEY" \
+            /d:sonar.host.url="$SONAR_HOST_URL" \
+            /d:sonar.token="$SONAR_TOKEN" \
+            /d:sonar.qualitygate.wait=true \
+            /d:sonar.qualitygate.timeout=600
+
           dotnet build
-          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
+          dotnet-sonarscanner end \
+            /d:sonar.token="$SONAR_TOKEN"
+
+      - name: Send SonarQube result to Slack
+        if: ${{ always() }}
+        timeout-minutes: 3
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_READ_TOKEN: ${{ secrets.SONAR_READ_TOKEN }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+          REPOSITORY: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+          ANALYSIS_OUTCOME: ${{ steps.analysis.outcome }}
+        run: |
+          python3 - <<'PY'
+          import html
+          import json
+          import os
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          import urllib.parse
+          import urllib.request
+          from pathlib import Path
+
+          def escape(value):
+              return html.escape(str(value), quote=False)
+
+          base = os.environ["SONAR_HOST_URL"].rstrip("/")
+          token = os.environ["SONAR_READ_TOKEN"]
+          slack_token = os.environ["SLACK_BOT_TOKEN"]
+          slack_channel = os.environ["SLACK_CHANNEL_ID"]
+          date = datetime.now(ZoneInfo("Europe/Istanbul")).strftime("%d/%m/%Y")
+          title = f'🚓 SonarQube Report — ⚙️ {escape(os.environ["REPOSITORY"])} — {date}'
+          outcome = os.environ["ANALYSIS_OUTCOME"]
+          run_url = (
+              f'{os.environ["GITHUB_SERVER_URL"]}/'
+              f'{os.environ["GITHUB_REPOSITORY"]}/actions/runs/'
+              f'{os.environ["GITHUB_RUN_ID"]}'
+          )
+          run_url2 = (
+              f'{os.environ["GITHUB_SERVER_URL"]}/'
+              f'{os.environ["GITHUB_REPOSITORY"]}/'    
+          )
+
+          def api(path, **params):
+              url = base + path + "?" + urllib.parse.urlencode(params)
+              request = urllib.request.Request(
+                  url,
+                  headers={
+                      "Authorization": f"Bearer {token}",
+                      "Accept": "application/json",
+                  },
+              )
+              with urllib.request.urlopen(request, timeout=20) as response:
+                  return json.load(response)
+
+          names = {
+              "new_coverage": "New code coverage",
+              "coverage": "Overall coverage",
+              "new_duplicated_lines_density": "New duplicated lines",
+              "duplicated_lines_density": "Overall duplicated lines",
+              "new_reliability_rating": "New code reliability rating",
+              "new_security_rating": "New code security rating",
+              "new_maintainability_rating": "New code maintainability rating",
+              "new_security_hotspots_reviewed": "New security hotspots reviewed",
+          }
+
+          # SonarQube comparators describe the failing condition.
+          required_operator = {
+              "GT": "≤",
+              "LT": "≥",
+              "EQ": "≠",
+              "NE": "=",
+          }
+
+          def display_value(metric, value):
+              if value is None:
+                  return "not available"
+              if metric.endswith("_rating"):
+                  try:
+                      number = float(value)
+                      if number.is_integer() and 1 <= number <= 5:
+                          return f"{chr(64 + int(number))} ({value})"
+                  except (TypeError, ValueError):
+                      pass
+              if (
+                  "coverage" in metric
+                  or metric.endswith("_density")
+                  or metric.endswith("hotspots_reviewed")
+              ):
+                  return f"{value}%"
+              return str(value)
+
+          lines = [
+                f'*🌿 Branch:* {escape(os.environ["BRANCH"])}',
+                "\n` ----------------------------------------------- `\n\n",
+            ]
+          lookup_failed = False
+          metadata = Path(".sonarqube/out/.sonar/report-task.txt")
+
+          if not metadata.exists():
+              lines.append(
+                  f"⚠️ No analysis report was produced "
+                  f"(scan step: {escape(outcome)}). "
+                  "Check the workflow for build or scanner errors."
+              )
+          else:
+              try:
+                  properties = dict(
+                      line.split("=", 1)
+                      for line in metadata.read_text().splitlines()
+                      if "=" in line
+                  )
+
+                  task = api(
+                      "/api/ce/task",
+                      id=properties["ceTaskId"],
+                  )["task"]
+                  task_status = task["status"]
+
+                  if task_status != "SUCCESS":
+                      lines.append(
+                          f"⚠️ Server processing: {escape(task_status)}."
+                      )
+                      if task_status in ("PENDING", "IN_PROGRESS"):
+                          lines.append(
+                              "Processing is still pending; "
+                              "this is not a quality-gate result."
+                          )
+                  else:
+                      # Use this scan's analysis ID, not the latest project result.
+                      gate = api(
+                          "/api/qualitygates/project_status",
+                          analysisId=task["analysisId"],
+                      )["projectStatus"]
+
+                      status = gate["status"]
+                      icon = "✅" if status == "OK" else (
+                          "❌" if status == "ERROR" else "⚠️"
+                      )
+
+                      label = {
+                          "OK": "PASSED",
+                          "ERROR": "FAILED",
+                      }.get(status, status)
+
+                      lines.append(f"{icon} *Quality Gate: {escape(label)}*\n")
+
+                      for condition in gate.get("conditions", []):
+                          if condition.get("status") != "ERROR":
+                              continue
+
+                          metric = condition["metricKey"]
+                          name = names.get(
+                              metric, metric.replace("_", " ").capitalize()
+                          )
+                          actual = display_value(
+                              metric, condition.get("actualValue")
+                          )
+                          threshold = display_value(
+                              metric, condition.get("errorThreshold")
+                          )
+                          operator = required_operator.get(
+                              condition.get("comparator")
+                          )
+
+                          requirement = (
+                              f"required {operator} {threshold}"
+                              if operator
+                              else f"gate threshold {threshold}"
+                          )
+                          lines.append(
+                              f"• *{escape(name)}*\n"
+                              f"  Actual: {escape(actual)} | {escape(requirement)}"
+                          )
+
+                  if properties.get("dashboardUrl"):
+                      lines.append(
+                            "\n\n` ----------------------------------------------- `\n\n"
+                          f'<{properties["dashboardUrl"]}|View in SonarQube>'
+                      )
+
+              except Exception as error:
+                  lookup_failed = True
+                  lines.append(
+                      "⚠️ Could not retrieve the analysis result "
+                      f"({type(error).__name__}). "
+                      "Check API permissions and connectivity."
+                  )
+
+          lines.append(f"<{run_url2}|View repository>")
+          lines.append(f"<{run_url}|View workflow>")
+          
+          def slack_post(text, thread_ts=None):
+              payload = {
+                  "channel": slack_channel,
+                  "text": text,
+                  "unfurl_links": False,
+                  "unfurl_media": False,
+              }
+
+              if thread_ts:
+                  payload["thread_ts"] = thread_ts
+                  payload["reply_broadcast"] = False
+
+              request = urllib.request.Request(
+                  "https://slack.com/api/chat.postMessage",
+                  data=json.dumps(payload).encode(),
+                  headers={
+                      "Authorization": f"Bearer {slack_token}",
+                      "Content-Type": "application/json; charset=utf-8",
+                  },
+                  method="POST",
+              )
+
+              with urllib.request.urlopen(request, timeout=20) as response:
+                  result = json.load(response)
+
+              if not result.get("ok"):
+                  raise RuntimeError(
+                      result.get("error", "unknown_slack_error")
+                  )
+
+              return result
+
+          if not slack_token or not slack_channel:
+              raise SystemExit(
+                  "SLACK_BOT_TOKEN and SLACK_CHANNEL_ID must be configured."
+              )
+
+          try:
+              parent = slack_post(title)
+
+              import time
+              time.sleep(1.1)
+
+              slack_post(
+                  "\n".join(lines),
+                  thread_ts=parent["ts"],
+              )
+          except RuntimeError as error:
+              raise SystemExit(f"Slack API error: {error}") from None
+          except Exception as error:
+              raise SystemExit(
+                  f"Slack notification failed ({type(error).__name__})."
+              ) from None
+
+          if lookup_failed:
+              raise SystemExit("SonarQube result retrieval failed.")
+          PY
