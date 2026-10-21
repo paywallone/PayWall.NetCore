@@ -4,7 +4,6 @@ on:
   schedule:
     - cron: '30 1 1 * *'  # Her ayın 1'inde saat 04:30'da çalıştır
   workflow_dispatch: # Manuel çalıştırmak için
-  push:
 env: 
   ACCESS_TOKEN: ${{ secrets.AZURE_ARTIFACTS_ACCESSTOKEN }} 
   ACCESS_TOKEN_HANGFIRE: ${{ secrets.ACCESS_TOKEN_HANGFIRE }} 
